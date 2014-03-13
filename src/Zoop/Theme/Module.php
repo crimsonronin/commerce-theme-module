@@ -1,10 +1,8 @@
 <?php
-
 /**
  * @package Zoop
  */
-
-namespace Zoop\SkeletonModule;
+namespace Zoop\Theme;
 
 /**
  *

@@ -1,6 +1,6 @@
 {
-    "name": "zoopcommerce/commerce-skeleton-module",
-    "description": "Commerce - Skeleton Module",
+    "name": "zoopcommerce/commerce-theme-module",
+    "description": "Commerce - Theme Module",
     "type": "library",
     "keywords": [
         "zoop",
@@ -23,9 +23,33 @@
         }
     ],
     "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/superdweebie/mongodb-odm"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-common-module.git"
+        }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.4",
+        "codeguy/upload"                            : "dev-master#ff376306aacbd1005c7739dc171fae4edd96d8b7",
+        "doctrine/annotations"                      : "dev-master#a11349d39d85bef75a71bd69bd604ac4fb993f03 as dev-master",
+        "doctrine/doctrine-mongo-odm-module"        : "1.0.x-dev",
+        "doctrine/doctrine-module"                  : "1.0.x-dev as 1.0",
+        "doctrine/mongodb-odm"                      : "dev-hotfix719 as 1.0.0-BETA9",
+        "doctrine/orm"                              : "2.4.0-RC2",
+        "dompdf/dompdf"                             : "dev-master#03ad3265797a338dce2d7064edd0cb4ebedb052b as dev-master",
+        "ezyang/htmlpurifier"                       : "v4.5.0",
+        "mashape/unirest-php"                       : "dev-master#e6682a5ad1e103606a6d9d44efdf6d9cb619410d as dev-master",
+        "melihucar/ftpclient"                       : "dev-master#faab472b1f3118d4926b3cbfc7d21c9cba255c0f as dev-master",
+        "sendgrid/sendgrid"                         : "2.0.*",
+        "willdurand/geocoder"                       : "2.4.*",
+        "zendframework/zendframework"               : "dev-develop#f92a07bc3f5cbd49a518ee880b1451f357c71376",
+        "zoopcommerce/commerce-common-module"       : "dev-master",
+        "zoopcommerce/commerce-store-module"        : "dev-master",
+        "zoopcommerce/shard-module"                 : "~3.0"
     },
     "require-dev": {
         "phpunit/phpunit"           : ">=3.7",
@@ -34,7 +58,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Zoop\\SkeletonModule": "src/"
+            "Zoop\\Theme": "src/"
         }
     }
 }

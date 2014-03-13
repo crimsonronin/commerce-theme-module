@@ -1,0 +1,152 @@
+{
+    "type": "PrivateTheme",
+    "assets": [
+        {
+            "type": "Folder",
+            "name": "assets",
+            "pathname": "assets",
+            "path": "",
+            "deletable": false,
+            "writable": false,
+            "assets": [
+                {
+                    "type": "Folder",
+                    "name": "css",
+                    "pathname": "assets/css",
+                    "path": "assets",
+                    "deletable": false,
+                    "writable": true
+                },
+                {
+                    "type": "Folder",
+                    "name": "images",
+                    "pathname": "assets/images",
+                    "path": "assets",
+                    "deletable": false,
+                    "writable": true
+                },
+                {
+                    "type": "Folder",
+                    "name": "js",
+                    "pathname": "assets/js",
+                    "path": "assets",
+                    "deletable": false,
+                    "writable": true
+                }
+            ]
+        },
+        {
+            "type": "Folder",
+            "name": "layouts",
+            "pathname": "layouts",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Folder",
+            "name": "macros",
+            "pathname": "macros",
+            "path": "",
+            "pathname": "macros",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Folder",
+            "name": "pages",
+            "pathname": "pages",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Folder",
+            "name": "templates",
+            "pathname": "templates",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "cart.html",
+            "pathname": "cart.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "checkout.html",
+            "pathname": "checkout.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "collection.html",
+            "pathname": "collection.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "contact.html",
+            "pathname": "contact.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "download.html",
+            "pathname": "download.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "index.html",
+            "pathname": "index.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "maintenance.html",
+            "pathname": "maintenance.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "product.html",
+            "pathname": "product.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "search.html",
+            "pathname": "search.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        },
+        {
+            "type": "Template",
+            "name": "thankyou.html",
+            "pathname": "thankyou.html",
+            "path": "",
+            "deletable": false,
+            "writable": true
+        }
+    ]
+}
