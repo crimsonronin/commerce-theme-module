@@ -1,13 +1,30 @@
 <?php
 
-namespace Zoop\Theme\Parser;
+namespace Zoop\Theme\Parser\Content;
+
 use Zoop\Theme\DataModel\AssetInterface;
 
-abstract class AbstractParser
+abstract class AbstractContentParser
 {
-
     private $asset;
+    private $parser;
     private $parsedAssets = [];
+
+    /**
+     * @return ChainedParser
+     */
+    public function getParser()
+    {
+        return $this->parser;
+    }
+
+    /**
+     * @param ChainedParser $parser
+     */
+    public function setParser(ChainedParser $parser)
+    {
+        $this->parser = $parser;
+    }
 
     public function getAsset()
     {

@@ -30,6 +30,10 @@
         {
             "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-common-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-store-module.git"
         }
     ],
     "require": {
@@ -42,6 +46,7 @@
         "doctrine/orm"                              : "2.4.0-RC2",
         "dompdf/dompdf"                             : "dev-master#03ad3265797a338dce2d7064edd0cb4ebedb052b as dev-master",
         "ezyang/htmlpurifier"                       : "v4.5.0",
+        "imagine/imagine"                       : "dev-master#2ab2237f2445ea30fdf00fdd2ff4f2d8072e87ec as dev-master",
         "mashape/unirest-php"                       : "dev-master#e6682a5ad1e103606a6d9d44efdf6d9cb619410d as dev-master",
         "melihucar/ftpclient"                       : "dev-master#faab472b1f3118d4926b3cbfc7d21c9cba255c0f as dev-master",
         "sendgrid/sendgrid"                         : "2.0.*",

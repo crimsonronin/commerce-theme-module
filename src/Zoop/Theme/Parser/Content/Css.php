@@ -1,22 +1,39 @@
 <?php
 
-namespace Zoop\Theme\Parser;
+namespace Zoop\Theme\Parser\Content;
 
-class Css extends AbstractFileParser implements ParserInterface
+/**
+ * This class accepts a CSS model and parses it
+ * looking for additional CSS file references or Images.
+ * 
+ * We can then process those files separately to ensure
+ * that all content lives on our CDN
+ *
+ * @category   CategoryName
+ * @package    Zoop Commerce Theme
+ * @author     Josh Stuart <josh.stuart@zoopcommerce.com>
+ * 
+ * @copyright  Zoop Pty Ltd
+ */
+class Css extends AbstractContentParser implements ParserInterface
 {
 
     private $images = [];
     private $imports = [];
 
-    public function parse()
+    public function __construct()
     {
         $chainedParser = new ChainedParser();
-        $chainedParser->addParser('images', $this->getImageParser());
-        $chainedParser->setContent($this->getContent());
-        $chainedParser->parse();
 
-        $this->setParsedContent($chainedParser->getParsedContent());
-        $this->setParsedAssets($chainedParser->getParsedAssets());
+        $chainedParser->addParser($this->getImageParser());
+        $chainedParser->setContent($this->getContent());
+        
+        $this->setParser($chainedParser);
+    }
+
+    public function parse()
+    {
+        $this->getParser()->parse();
     }
 
     public function getImageParser()

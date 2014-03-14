@@ -8,7 +8,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
 
 abstract class AbstractFileAsset extends AbstractAsset
 {
-
     /**
      *
      * @ODM\String
@@ -24,5 +23,4 @@ abstract class AbstractFileAsset extends AbstractAsset
     {
         $this->mime = $mime;
     }
-
 }

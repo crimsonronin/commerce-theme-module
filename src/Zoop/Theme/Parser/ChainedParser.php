@@ -4,7 +4,6 @@ namespace Zoop\Theme\Parser;
 
 class ChainedParser extends AbstractParser implements ParserInterface
 {
-
     private $parsers = [];
     private $parsedAssets = [];
     private $parsedContent = [];
@@ -17,13 +16,11 @@ class ChainedParser extends AbstractParser implements ParserInterface
     public function setParsers($parsers)
     {
         $this->parsers = $parsers;
-        return $this;
     }
 
-    public function addParser($key, Parser $parser)
+    public function addParser(Parser $parser)
     {
-        $this->parsers[$key] = $parser;
-        return $this;
+        $this->parsers[] = $parser;
     }
 
     public function parse()
@@ -49,7 +46,6 @@ class ChainedParser extends AbstractParser implements ParserInterface
     public function setParsedAssets($parsedAssets)
     {
         $this->parsedAssets = $parsedAssets;
-        return $this;
     }
 
     public function addParsedAsset($key, $parsedAsset)
@@ -65,12 +61,5 @@ class ChainedParser extends AbstractParser implements ParserInterface
     public function setParsedContent($parsedContent)
     {
         $this->parsedContent = $parsedContent;
-        return $this;
     }
-
-//
-//    public function addParsedContent($key, $parsedContent)
-//    {
-//        $this->parsedContent[$key] = $parsedContent;
-//    }
 }

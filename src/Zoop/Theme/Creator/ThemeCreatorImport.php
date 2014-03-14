@@ -19,9 +19,9 @@ use Zoop\Theme\Serializer\Asset\Unserializer as AssetUnserializer;
  */
 class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImportInterface
 {
-    private $uploadedFile;
     private $tempDirectory;
     private $tempThemeDirectory;
+    //in bytes
     private $maxFileUploadSize = 20971520; //20MB
     private $additionalErrorMessages;
     private $assetUnserializer;
@@ -142,6 +142,11 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         return $this->tempDirectory;
     }
 
+    /**
+     * Sets the max upload size allowed in bytes
+     *
+     * @param integer $maxFileUploadSize
+     */
     public function setMaxFileUploadSize($maxFileUploadSize)
     {
         $this->maxFileUploadSize = (int) $maxFileUploadSize;

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "3a62fbfd7552deceb5152e690a2c4af9",
+    "hash": "11c4b11bffbe8f1b1ab8261a6caee761",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -83,7 +83,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/codeguy/Upload/zipball/ff376306aacbd1005c7739dc171fae4edd96d8b7",
+                "url": "https://api.github.com/repos/codeguy/Upload/zipball/27cb050eb083c50189af3991709e353e62e399ee",
                 "reference": "ff376306aacbd1005c7739dc171fae4edd96d8b7",
                 "shasum": ""
             },
@@ -1158,6 +1158,58 @@
             "time": "2014-01-28 22:29:15"
         },
         {
+            "name": "imagine/imagine",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/avalanche123/Imagine.git",
+                "reference": "2ab2237f2445ea30fdf00fdd2ff4f2d8072e87ec"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/f64ec666baaa800edcbf237db41121a569230709",
+                "reference": "2ab2237f2445ea30fdf00fdd2ff4f2d8072e87ec",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "sami/sami": "dev-master"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD implementation",
+                "ext-gmagick": "to use the Gmagick implementation",
+                "ext-imagick": "to use the Imagick implementation"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Imagine": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Bulat Shakirzyanov",
+                    "email": "mallluhuct@gmail.com",
+                    "homepage": "http://avalanche123.com"
+                }
+            ],
+            "description": "Image processing for PHP 5.3",
+            "homepage": "http://imagine.readthedocs.org/",
+            "keywords": [
+                "drawing",
+                "graphics",
+                "image manipulation",
+                "image processing"
+            ],
+            "time": "2014-03-07 15:00:25"
+        },
+        {
             "name": "mashape/unirest-php",
             "version": "dev-master",
             "source": {
@@ -1562,7 +1614,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf2/zipball/4050755850ee72e8a3c1685607b2495520e513b1",
+                "url": "https://api.github.com/repos/zendframework/zf2/zipball/dadcb763f8d07d93a88d23044cf2b52ab7fe2564",
                 "reference": "f92a07bc3f5cbd49a518ee880b1451f357c71376",
                 "shasum": ""
             },
@@ -1721,12 +1773,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:zoopcommerce/commerce-common-module.git",
-                "reference": "4ae2c71df217dcffa78c1bf2b3e892b3f5cf6993"
+                "reference": "d5655fd026f0d9e3bc4d642db51d264bae91a752"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoopcommerce/commerce-common-module/zipball/4ae2c71df217dcffa78c1bf2b3e892b3f5cf6993",
-                "reference": "4ae2c71df217dcffa78c1bf2b3e892b3f5cf6993",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-common-module/zipball/d5655fd026f0d9e3bc4d642db51d264bae91a752",
+                "reference": "d5655fd026f0d9e3bc4d642db51d264bae91a752",
                 "shasum": ""
             },
             "require": {
@@ -1739,6 +1791,7 @@
                 "doctrine/orm": "2.4.0-RC2",
                 "dompdf/dompdf": "dev-master#03ad3265797a338dce2d7064edd0cb4ebedb052b as dev-master",
                 "ezyang/htmlpurifier": "v4.5.0",
+                "imagine/imagine": "dev-master#2ab2237f2445ea30fdf00fdd2ff4f2d8072e87ec as dev-master",
                 "mashape/unirest-php": "dev-master#e6682a5ad1e103606a6d9d44efdf6d9cb619410d as dev-master",
                 "melihucar/ftpclient": "dev-master#faab472b1f3118d4926b3cbfc7d21c9cba255c0f as dev-master",
                 "php": ">=5.4",
@@ -1784,7 +1837,69 @@
                 "source": "https://github.com/zoopcommerce/commerce-common-module/tree/master",
                 "issues": "https://github.com/zoopcommerce/commerce-common-module/issues"
             },
-            "time": "2014-03-13 03:19:38"
+            "time": "2014-03-13 08:50:27"
+        },
+        {
+            "name": "zoopcommerce/commerce-store-module",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:zoopcommerce/commerce-store-module.git",
+                "reference": "774e7969980cb35bf29d50f7a3cbc3b7b180dae5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-store-module/zipball/774e7969980cb35bf29d50f7a3cbc3b7b180dae5",
+                "reference": "774e7969980cb35bf29d50f7a3cbc3b7b180dae5",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/annotations": "dev-master#a11349d39d85bef75a71bd69bd604ac4fb993f03 as dev-master",
+                "doctrine/doctrine-module": "1.0.x-dev as 1.0",
+                "doctrine/doctrine-mongo-odm-module": "1.0.x-dev",
+                "doctrine/mongodb-odm": "dev-hotfix719 as 1.0.0-BETA9",
+                "php": ">=5.4",
+                "zoopcommerce/commerce-common-module": "dev-master",
+                "zoopcommerce/shard": "~4.0"
+            },
+            "require-dev": {
+                "phpmd/phpmd": "1.4.*",
+                "phpunit/phpunit": ">=3.7",
+                "squizlabs/php_codesniffer": "1.4.*",
+                "zoopcommerce/slipstream": "~0.1"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Zoop\\Store": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Josh Stuart",
+                    "email": "josh.stuart@zoopcommerce.com"
+                },
+                {
+                    "name": "Tim Roediger",
+                    "email": "superdweebie@gmail.com"
+                }
+            ],
+            "description": "Commerce - Store Module",
+            "homepage": "http://zoopcommerce.com",
+            "keywords": [
+                "commerce",
+                "doctrine",
+                "mongo",
+                "shard",
+                "zf2",
+                "zoop",
+                "zoop"
+            ],
+            "support": {
+                "source": "https://github.com/zoopcommerce/commerce-store-module/tree/master",
+                "issues": "https://github.com/zoopcommerce/commerce-store-module/issues"
+            },
+            "time": "2014-03-12 05:03:59"
         },
         {
             "name": "zoopcommerce/common",
@@ -2951,6 +3066,12 @@
             "alias": "dev-master",
             "alias_normalized": "9999999-dev",
             "version": "9999999-dev",
+            "package": "imagine/imagine"
+        },
+        {
+            "alias": "dev-master",
+            "alias_normalized": "9999999-dev",
+            "version": "9999999-dev",
             "package": "mashape/unirest-php"
         },
         {
@@ -2969,10 +3090,12 @@
         "doctrine/mongodb-odm": 20,
         "doctrine/orm": 5,
         "dompdf/dompdf": 20,
+        "imagine/imagine": 20,
         "mashape/unirest-php": 20,
         "melihucar/ftpclient": 20,
         "zendframework/zendframework": 20,
-        "zoopcommerce/commerce-common-module": 20
+        "zoopcommerce/commerce-common-module": 20,
+        "zoopcommerce/commerce-store-module": 20
     },
     "platform": {
         "php": ">=5.4"

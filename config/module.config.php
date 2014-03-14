@@ -58,6 +58,7 @@ return [
     ],
     'service_manager' => [
         'invokables' => [
+            'zoop.commerce.theme.parser.css' => 'Zoop\Theme\Parser\Css',
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',
             'zoop.commerce.theme.zoop' => 'Zoop\Theme\DataModel\ZoopTheme',
@@ -67,16 +68,17 @@ return [
             'zoop.commerce.controller.admin.theme' => 'Zoop\Theme\Service\ThemeControllerFactory',
             'zoop.commerce.controller.admin.theme.asset' => 'Zoop\Theme\Service\AssetControllerFactory',
             'zoop.commerce.theme.active' => 'Zoop\Theme\Service\ActiveThemeFactory',
-            'zoop.commerce.theme.validator' => 'Zoop\Theme\Service\ValidatorFactory',
-            'zoop.commerce.theme.structure' => 'Zoop\Theme\Service\ThemeStructureFactory',
-            'zoop.commerce.theme.manager' => 'Zoop\Theme\Service\ThemeManagerFactory',
             'zoop.commerce.theme.assetmanager' => 'Zoop\Theme\Service\AssetManagerFactory',
             'zoop.commerce.theme.creator.import' => 'Zoop\Theme\Service\Creator\ThemeCreatorImportFactory',
+            'zoop.commerce.theme.manager' => 'Zoop\Theme\Service\ThemeManagerFactory',
+            'zoop.commerce.theme.serializer.asset.unserializer' => 'Zoop\Theme\Service\Serializer\AssetUnserializerFactory',
+            'zoop.commerce.theme.structure' => 'Zoop\Theme\Service\ThemeStructureFactory',
             'zoop.commerce.theme.template.admin' => 'Zoop\Theme\Service\AdminTemplateFactory',
             'zoop.commerce.theme.template.email' => 'Zoop\Theme\Service\EmailTemplateFactory',
             'zoop.commerce.theme.template.storefront' => 'Zoop\Theme\Service\StorefrontTemplateFactory',
             'zoop.commerce.theme.template.facebook' => 'Zoop\Theme\Service\FacebookTemplateFactory',
             'zoop.commerce.theme.template.legacy' => 'Zoop\Theme\Service\LegacyTemplateFactory',
+            'zoop.commerce.theme.validator' => 'Zoop\Theme\Service\ValidatorFactory',
         ],
     ],
 ];

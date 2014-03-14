@@ -2,22 +2,19 @@
 
 namespace Zoop\Theme\Parser;
 
+use Zoop\Theme\DataModel\AssetInterface;
+
 interface ParserInterface
 {
-
     public function parse();
 
-    public function setContent($content);
+    public function setAsset(AssetInterface $asset);
 
-    public function getContent();
+    public function getAsset();
 
     public function getParsedAssets();
 
-    public function setParsedAssets($parsedAssets);
+    public function setParsedAssets($parsedAssets = []);
 
-    public function addParsedAsset($key, $parsedAsset);
-
-    public function getParsedContent();
-
-    public function setParsedContent($parsedContent);
+    public function addParsedAsset($key, AssetInterface $parsedAsset);
 }

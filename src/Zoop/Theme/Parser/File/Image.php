@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme\Parser;
+namespace Zoop\Theme\Parser\File;
 
 use \SplFileInfo;
 

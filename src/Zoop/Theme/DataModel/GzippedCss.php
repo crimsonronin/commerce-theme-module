@@ -2,7 +2,6 @@
 
 namespace Zoop\Theme\DataModel;
 
-use Doctrine\Common\Collections\ArrayCollection;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -15,12 +14,17 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class GzippedCss extends AbstractFileAsset implements AssetInterface
 {
-
     /**
      *
      * @ODM\String
      */
     protected $href;
+    
+    /**
+     *
+     * @ODM\String
+     */
+    protected $mime = 'text/css';
 
     public function getHref()
     {
@@ -31,5 +35,4 @@ class GzippedCss extends AbstractFileAsset implements AssetInterface
     {
         $this->href = $href;
     }
-
 }

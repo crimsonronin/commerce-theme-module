@@ -2,6 +2,7 @@
 
 namespace Zoop\Theme\Serializer\Asset;
 
+use \Exception;
 use \SplFileInfo;
 use Zend\Validator\File;
 use Zoop\Theme\DataModel\AssetInterface;
@@ -20,6 +21,7 @@ use Zoop\Theme\DataModel\Template as TemplateModel;
  */
 class Unserializer
 {
+
     private $tempDirectory;
 
     /**
@@ -33,6 +35,8 @@ class Unserializer
             $asset = $this->unserializeModel($file);
         } elseif ($file->isDir()) {
             $asset = $this->unserializeFolder($file);
+        } else {
+            throw new Exception('The file: ' . $file->getFilename() . ' is not recognized');
         }
 
         return $asset;
@@ -70,6 +74,8 @@ class Unserializer
         } elseif ($lessValidator->isValid($pathname) && $lessExtensionValidator->isValid($pathname)) {
             //Less
             return $this->unserializeLess($file);
+        } else {
+            throw new Exception('The file "' . str_replace($this->getTempDirectory() . DIRECTORY_SEPARATOR, '', $file->getPathname()) . '" is not a supported file type');
         }
 
         return false;
@@ -129,7 +135,7 @@ class Unserializer
 
         $image->setName($file->getFilename());
         $image->setMime($mime);
-
+        $image->setExtension(pathinfo($file->getPathname(), PATHINFO_EXTENSION));
         $image->setHeight($height);
         $image->setWidth($width);
 
@@ -210,4 +216,5 @@ class Unserializer
     {
         $this->tempDirectory = $tempDirectory;
     }
+
 }
