@@ -56,6 +56,12 @@ return [
             ]
         ],
     ],
+    'controllers' => [
+        'invokables' => [
+            'zoop.commerce.theme.controller.admin.theme' => 'Zoop\Theme\Service\ThemeControllerFactory',
+            'zoop.commerce.theme.controller.admin.asset' => 'Zoop\Theme\Service\AssetControllerFactory',
+        ],
+    ],
     'service_manager' => [
         'invokables' => [
             'zoop.commerce.theme.parser.css' => 'Zoop\Theme\Parser\Css',
@@ -65,8 +71,6 @@ return [
         ],
         'factories' => [
             //controllers
-            'zoop.commerce.controller.admin.theme' => 'Zoop\Theme\Service\ThemeControllerFactory',
-            'zoop.commerce.controller.admin.theme.asset' => 'Zoop\Theme\Service\AssetControllerFactory',
             'zoop.commerce.theme.active' => 'Zoop\Theme\Service\ActiveThemeFactory',
             'zoop.commerce.theme.assetmanager' => 'Zoop\Theme\Service\AssetManagerFactory',
             'zoop.commerce.theme.creator.import' => 'Zoop\Theme\Service\Creator\ThemeCreatorImportFactory',

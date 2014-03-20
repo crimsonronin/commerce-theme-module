@@ -4,101 +4,36 @@ namespace Zoop\Theme\Controller;
 
 use \Exception;
 use \SplFileInfo;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Zoop\Store\DataModel\Store;
 use Zoop\Theme\DataModel\AssetInterface;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\AbstractTheme;
 use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
-use Zoop\Theme\DataModel\SharedTheme as SharedThemeModel;
-use Zoop\Theme\DataModel\ZoopTheme as ZoopThemeModel;
 use Zoop\Theme\Creator\ThemeCreatorImport;
-use Zoop\Shard\SoftDelete\SoftDeleter;
-use Zoop\Shard\Serializer\Serializer;
-use Zoop\Shard\Serializer\Unserializer;
-
 /**
  *
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
  */
-class ThemeController
+class ThemeController extends AbstractController
 {
     const CLASS_MODEL = 'Zoop\Theme\DataModel\AbstractTheme';
 
-    private $dm;
-    private $importer;
-    private $store;
-    private $softDelete;
-    private $serializer;
-    private $unserializer;
+    protected $importer;
 
-    /**
-     *
-     * @return SoftDeleter
-     */
-    public function getSoftDelete()
+    public function indexAction()
     {
-        return $this->softDelete;
+        
     }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->serializer;
-    }
-
-    /**
-     * @return Unserializer
-     */
-    public function getUnserializer()
-    {
-        return $this->unserializer;
-    }
-
-    /**
-     * @param SoftDeleter $softDelete
-     */
-    public function setSoftDelete(SoftDeleter $softDelete)
-    {
-        $this->softDelete = $softDelete;
-    }
-
-    /**
-     *
-     * @param Serializer $serializer
-     */
-    public function setSerializer(Serializer $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
-    /**
-     *
-     * @param Unserializer $unserializer
-     */
-    public function setUnserializer(Unserializer $unserializer)
-    {
-        $this->unserializer = $unserializer;
-    }
-
+    
     /**
      * @return ThemeCreatorImport
      */
     public function getImporter()
     {
+        if (!isset($this->importer)) {
+            $this->importer = $this->getServiceLocator()->get('zoop.commerce.theme.creator.import');
+        }
         return $this->importer;
-    }
-
-    /**
-     *
-     * @param ThemeCreatorImport $importer
-     */
-    public function setImporter(ThemeCreatorImport $importer)
-    {
-        $this->importer = $importer;
     }
 
     public function import(SplFileInfo $file, $active = false)
@@ -130,7 +65,7 @@ class ThemeController
 
     public function create($data)
     {
-
+        
     }
 
     public function remove($id)
@@ -227,51 +162,6 @@ class ThemeController
             }
         }
         return true;
-    }
-
-    /**
-     *
-     * @return strings
-     */
-    public function getStoreSubDomain()
-    {
-        return $this->getStore()->getSubDomain();
-    }
-
-    /**
-     *
-     * @return Store
-     */
-    public function getStore()
-    {
-        return $this->store;
-    }
-
-    /**
-     *
-     * @param Store $store
-     */
-    public function setStore(Store $store)
-    {
-        $this->store = $store;
-    }
-
-    /**
-     *
-     * @return DocumentManager
-     */
-    public function getDm()
-    {
-        return $this->dm;
-    }
-
-    /**
-     *
-     * @param DocumentManager $dm
-     */
-    public function setDm(DocumentManager $dm)
-    {
-        $this->dm = $dm;
     }
 
     private function saveTheme(ThemeInterface $theme)
