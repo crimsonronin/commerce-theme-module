@@ -4,7 +4,7 @@ namespace Zoop\Theme\Parser;
 
 use \SplFileInfo;
 
-class Image
+class Image_1
 {
 
     private $url;

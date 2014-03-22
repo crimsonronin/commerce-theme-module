@@ -19,7 +19,7 @@ class GzippedJavascript extends AbstractFileAsset implements AssetInterface
      * @ODM\String
      */
     protected $src;
-    
+
     /**
      *
      * @ODM\String

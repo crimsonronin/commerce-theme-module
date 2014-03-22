@@ -13,7 +13,7 @@ use Zoop\Shard\Serializer\Unserializer;
  *
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
  */
-class AssetController
+class AssetController extends AbstractController
 {
     const CLASS_MODEL = 'Zoop\Theme\DataModel\AbstractAsset';
 
@@ -33,7 +33,7 @@ class AssetController
         $this->getSerializer()->setMaxNestingDepth(0);
         /* @var $asset AbstractAsset */
         $asset = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->field('id')->equals($id)
                 ->getQuery()
                 ->getSingleResult();
@@ -66,7 +66,7 @@ class AssetController
     {
         $this->getSerializer()->setMaxNestingDepth(10);
         $asset = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->field('id')->equals($id)
                 ->getQuery()
                 ->getSingleResult();
@@ -81,7 +81,7 @@ class AssetController
     {
         $this->getSerializer()->setMaxNestingDepth(0);
         $assets = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->getQuery();
         if (!empty($assets)) {
             $assetArray = [];
@@ -92,102 +92,6 @@ class AssetController
         } else {
             return json_encode(['error' => true, 'message' => 'Could not find asset']);
         }
-    }
-
-    /**
-     *
-     * @return SoftDeleter
-     */
-    public function getSoftDelete()
-    {
-        return $this->softDelete;
-    }
-
-    /**
-     * @return Serializer
-     */
-    public function getSerializer()
-    {
-        return $this->serializer;
-    }
-
-    /**
-     * @return Unserializer
-     */
-    public function getUnserializer()
-    {
-        return $this->unserializer;
-    }
-
-    /**
-     * @param SoftDeleter $softDelete
-     */
-    public function setSoftDelete(SoftDeleter $softDelete)
-    {
-        $this->softDelete = $softDelete;
-    }
-
-    /**
-     *
-     * @param Serializer $serializer
-     */
-    public function setSerializer(Serializer $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
-    /**
-     *
-     * @param Unserializer $unserializer
-     */
-    public function setUnserializer(Unserializer $unserializer)
-    {
-        $this->unserializer = $unserializer;
-    }
-
-    /**
-     *
-     * @return strings
-     */
-    public function getStoreSubDomain()
-    {
-        return $this->getStore()->getSubDomain();
-    }
-
-    /**
-     *
-     * @return Store
-     */
-    public function getStore()
-    {
-        return $this->store;
-    }
-
-    /**
-     *
-     * @param Store $store
-     */
-    public function setStore(Store $store)
-    {
-        $this->store = $store;
-    }
-
-    /**
-     *
-     * @return DocumentManager
-     */
-    public function getDm()
-    {
-        return $this->dm;
-    }
-
-    /**
-     *
-     * @param DocumentManager $dm
-     */
-    public function setDm(DocumentManager $dm)
-    {
-        $this->dm = $dm;
     }
 
     private function save(AssetInterface $asset)

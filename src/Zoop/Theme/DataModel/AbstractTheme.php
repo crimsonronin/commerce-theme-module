@@ -75,7 +75,7 @@ abstract class AbstractTheme
      *      mappedBy="parent",
      *      sort={
      *          "sortBy"    =   "asc",
-     *          "name"      =   "asc",
+     *          "name"      =   "asc"
      *      }
      * )
      * @Shard\Serializer\Eager

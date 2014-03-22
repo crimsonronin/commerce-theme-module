@@ -10,6 +10,7 @@ use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\AbstractTheme;
 use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
 use Zoop\Theme\Creator\ThemeCreatorImport;
+
 /**
  *
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
@@ -22,9 +23,41 @@ class ThemeController extends AbstractController
 
     public function indexAction()
     {
-        
+
     }
-    
+
+    public function importAction()
+    {
+        $request = $this->getRequest();
+
+        $uploadedFile = $request->getFiles()->toArray();
+        if (!isset($uploadedFile['theme'])) {
+            throw new Exception('No file uploaded');
+        }
+        
+        $file = new SplFileInfo($uploadedFile['theme']['tmp_name']);
+       
+        if (empty($file)) {
+            throw new Exception('No file uploaded');
+        }
+        
+        $importer = $this->getImporter();
+        try {
+            $theme = $importer->create($file);
+            if ($theme instanceof ThemeInterface) {
+                //add the store to the private theme
+                if ($theme instanceof PrivateThemeModel) {
+                    $theme->addStore($this->getStoreSubdomain());
+                }
+                $this->save($theme);
+
+                return true;
+            }
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
     /**
      * @return ThemeCreatorImport
      */
@@ -34,33 +67,6 @@ class ThemeController extends AbstractController
             $this->importer = $this->getServiceLocator()->get('zoop.commerce.theme.creator.import');
         }
         return $this->importer;
-    }
-
-    public function import(SplFileInfo $file, $active = false)
-    {
-        $importer = $this->getImporter();
-        try {
-            $theme = $importer->create($file);
-            if ($theme instanceof ThemeInterface) {
-                //add the store to the private theme
-                if ($theme instanceof PrivateThemeModel) {
-                    $theme->addStore($this->getStoreSubDomain());
-                }
-                if ($active === true) {
-                    //set all other themes inactive
-                    $this->setAllInactive();
-
-                    $theme->setActive($active);
-                }
-                $this->save($theme);
-
-                //return theme
-                $this->getSerializer()->setMaxNestingDepth(0);
-                return $this->getSerializer()->toArray($theme);
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
     }
 
     public function create($data)
@@ -73,10 +79,11 @@ class ThemeController extends AbstractController
         $this->getSerializer()->setMaxNestingDepth(0);
         /* @var $theme AbstractTheme */
         $theme = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->field('id')->equals($id)
                 ->getQuery()
                 ->getSingleResult();
+
         if ($theme) {
             $this->getSoftDelete()->softDelete($theme, $this->getDm()->getClassMetadata(get_class($theme)));
             $this->getDm()->flush();
@@ -106,7 +113,7 @@ class ThemeController extends AbstractController
     {
         $this->getSerializer()->setMaxNestingDepth(10);
         $theme = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->field('id')->equals($id)
                 ->getQuery()
                 ->getSingleResult();
@@ -121,7 +128,7 @@ class ThemeController extends AbstractController
     {
         $this->getSerializer()->setMaxNestingDepth(0);
         $themes = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->getQuery();
         if (!empty($themes)) {
             $themeArray = [];
@@ -138,7 +145,7 @@ class ThemeController extends AbstractController
     {
         $this->getSerializer()->setMaxNestingDepth(10);
         $theme = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->field('active')->equals(true)
                 ->getQuery()
                 ->getSingleResult();
@@ -152,7 +159,7 @@ class ThemeController extends AbstractController
     private function setAllInactive()
     {
         $themes = $this->getDm()->createQueryBuilder(self::CLASS_MODEL)
-                ->field('stores')->in([$this->getStoreSubDomain()])
+                ->field('stores')->in([$this->getStoreSubdomain()])
                 ->field('active')->equals(true)
                 ->getQuery();
         if (!empty($themes)) {
@@ -164,48 +171,4 @@ class ThemeController extends AbstractController
         return true;
     }
 
-    private function saveTheme(ThemeInterface $theme)
-    {
-        $this->getDm()->persist($theme);
-        $this->getDm()->flush();
-    }
-
-    private function save(ThemeInterface $theme)
-    {
-        $this->saveTheme($theme);
-
-        $this->saveRecursively($theme, $theme->getAssets());
-    }
-
-    /**
-     *
-     * @param ThemeInterface $theme
-     * @param array $assets
-     */
-    private function saveRecursively(ThemeInterface $theme, $assets)
-    {
-        if (!empty($assets)) {
-            /* @var $asset AssetInterface */
-            foreach ($assets as $asset) {
-                $parent = $asset->getParent();
-                if (empty($parent)) {
-                    $asset->setParent($theme);
-                }
-                $asset->setTheme($theme);
-
-                $this->getDm()->persist($asset);
-                $this->getDm()->flush();
-            }
-
-            //look for folders and recurse
-            foreach ($assets as $asset) {
-                if ($asset instanceof FolderModel) {
-                    $childAssets = $asset->getAssets();
-                    if (!empty($childAssets)) {
-                        $this->saveRecursively($theme, $childAssets);
-                    }
-                }
-            }
-        }
-    }
 }

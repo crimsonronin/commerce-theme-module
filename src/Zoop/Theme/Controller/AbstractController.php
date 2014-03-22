@@ -75,7 +75,7 @@ abstract class AbstractController extends AbstractActionController
     public function getStore()
     {
         if (!isset($this->store)) {
-            $this->store = $this->getServiceLocator()->get('zoop.commerce.store.model.active');
+            $this->store = $this->getServiceLocator()->get('zoop.commerce.store.active');
         }
         return $this->store;
     }
@@ -96,8 +96,8 @@ abstract class AbstractController extends AbstractActionController
      *
      * @return strings
      */
-    public function getStoreSubDomain()
+    public function getStoreSubdomain()
     {
-        return $this->getStore()->getSubDomain();
+        return $this->getStore()->getSubdomain();
     }
 }

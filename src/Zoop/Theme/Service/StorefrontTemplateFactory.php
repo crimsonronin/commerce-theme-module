@@ -26,7 +26,7 @@ class StorefrontTemplateFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('config')['zoop'];
-        $store = $serviceLocator->get('zoop.commerce.store.legacy.active');
+        $store = $serviceLocator->get('zoop.commerce.store.active');
 
         //check for a set of legacy custom templates
         $templates = $config['theme']['storefront']['templates'];

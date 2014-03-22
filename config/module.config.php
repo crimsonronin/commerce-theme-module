@@ -10,6 +10,40 @@ return [
                     ],
                 ],
             ],
+            'rest' => [
+                'manifest' => 'commerce',
+                'cache_control' => [
+                    'no_cache' => true
+                ],
+                'rest' => [
+                    'themes' => [
+                        'property' => 'id',
+                        'class' => 'Zoop\Theme\DataModel\AbstractTheme',
+                        'listeners' => [
+                            'create' => [
+                                'zoop.commerce.theme.listener.theme.create',
+                            ],
+                            'delete' => [],
+                            'deleteList' => [],
+                            'get' => [
+                                'zoop.shardmodule.listener.get',
+                                'zoop.shardmodule.listener.serialize',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'getList' => [
+                                'zoop.shardmodule.listener.getlist',
+                                'zoop.shardmodule.listener.serialize',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'options' => [],
+                            'patch' => [],
+                            'patchList' => [],
+                            'update' => [],
+                            'replaceList' => [],
+                        ],
+                    ],
+                ],
+            ],
         ],
         'theme' => [
             'temp_dir' => __DIR__ . '/../data/temp',
@@ -56,14 +90,34 @@ return [
             ]
         ],
     ],
+    'router' => [
+        'routes' => [
+            'rest' => [
+                //this route will look to load a controller
+                //service called `shard.rest.<endpoint>`
+                'type' => 'Zend\Mvc\Router\Http\Segment',
+                'options' => [
+                    'route' => '/[:endpoint][/:id]',
+                    'constraints' => [
+                        'endpoint' => '[a-zA-Z][a-zA-Z0-9_-]+',
+                        'id' => '[a-zA-Z][a-zA-Z0-9/_-]+',
+                    ],
+                ],
+                'chain_routes' => [
+                    'zoop/commerce/store'
+                ]
+            ]
+        ],
+    ],
     'controllers' => [
         'invokables' => [
-            'zoop.commerce.theme.controller.admin.theme' => 'Zoop\Theme\Service\ThemeControllerFactory',
-            'zoop.commerce.theme.controller.admin.asset' => 'Zoop\Theme\Service\AssetControllerFactory',
+            'zoop.commerce.theme.controller.admin.theme' => 'Zoop\Theme\Controller\ThemeController',
+            'zoop.commerce.theme.controller.admin.asset' => 'Zoop\Theme\Controller\AssetController',
         ],
     ],
     'service_manager' => [
         'invokables' => [
+            'zoop.commerce.theme.listener.theme.create' => 'Zoop\Theme\Controller\ThemeCreateListener',
             'zoop.commerce.theme.parser.css' => 'Zoop\Theme\Parser\Css',
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',

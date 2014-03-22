@@ -28,7 +28,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
 
     /**
      *
-     * @return ThemeInterface|boolean
+     * @return boolean
      * @throws Exception
      */
     public function create(SplFileInfo $uploadedFile)
@@ -46,7 +46,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
                     $assets = $this->getAssetsFromDirectory($tempDir);
 
                     $this->setAssets($assets, true);
-
+                    
                     return $this->getTheme();
                 } else {
                     throw new Exception('Could not unzip the file "' . $uploadedFile->getFilename() . '" into "' . $tempDir . '"');

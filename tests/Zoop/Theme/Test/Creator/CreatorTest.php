@@ -5,10 +5,10 @@ namespace Zoop\Theme\Test\Creator;
 use \Exception;
 use \SplFileInfo;
 use Zoop\Theme\Test\BaseTest;
+use Zoop\Theme\Creator\ThemeCreatorImport;
 
 class CreatorTest extends BaseTest
 {
-
     private $creator;
 
     public function testInvalidFileImport()
@@ -22,7 +22,7 @@ class CreatorTest extends BaseTest
     public function testInvalidFileSizeImport()
     {
         $creator = $this->getThemeCreatorImport();
-        
+
         //set lower file limit to 1kb
         $creator->setMaxFileUploadSize(1024);
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
@@ -56,7 +56,7 @@ class CreatorTest extends BaseTest
     public function testValidComplexThemeImport()
     {
         $creator = $this->getApplicationServiceLocator()
-            ->get('zoop.commerce.theme.creator.import');
+                ->get('zoop.commerce.theme.creator.import');
         /* @var $creator \Zoop\Theme\Creator\ThemeCreatorImport */
 
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
@@ -68,7 +68,7 @@ class CreatorTest extends BaseTest
         $this->assertEquals('complex-theme', $theme->getName());
         $this->assertCount(15, $assets);
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractAsset', $assets[0]);
-        
+
         //maybe need some more tests to traverse the child assets
     }
 
@@ -83,5 +83,4 @@ class CreatorTest extends BaseTest
         }
         return $this->creator;
     }
-
 }

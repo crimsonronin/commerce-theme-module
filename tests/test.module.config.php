@@ -16,6 +16,9 @@ return [
                 'commerce' => [
                     'metadata_cache' => 'doctrine.cache.array',
                     'default_db' => 'zoop_test',
+                    'metadata_cache' => 'doctrine.cache.array',
+                    'generate_proxies' => true,
+                    'generate_hydrators' => true,
                 ]
             ],
         ],

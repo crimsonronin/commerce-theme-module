@@ -7,14 +7,14 @@ use \SplFileInfo;
 /**
  * This class accepts a CSS model and parses it
  * looking for additional CSS file references or Images.
- * 
+ *
  * We can then process those files separately to ensure
  * that all content lives on our CDN
  *
  * @category   CategoryName
  * @package    Zoop Commerce Theme
  * @author     Josh Stuart <josh.stuart@zoopcommerce.com>
- * 
+ *
  * @copyright  Zoop Pty Ltd
  */
 class Image extends AbstractFileParser implements ParserInterface

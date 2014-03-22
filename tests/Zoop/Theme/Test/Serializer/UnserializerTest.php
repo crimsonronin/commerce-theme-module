@@ -95,7 +95,7 @@ class UnserializerTest extends BaseTest
     public function testInvalidFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/zoop.pdf');
-        
+
         $this->setExpectedException('Exception');
         $asset = $this->getUnserializer()->fromFile($file);
     }
@@ -111,5 +111,4 @@ class UnserializerTest extends BaseTest
         }
         return $this->unserializer;
     }
-
 }

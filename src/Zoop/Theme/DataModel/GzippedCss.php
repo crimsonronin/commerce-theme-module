@@ -19,7 +19,7 @@ class GzippedCss extends AbstractFileAsset implements AssetInterface
      * @ODM\String
      */
     protected $href;
-    
+
     /**
      *
      * @ODM\String
