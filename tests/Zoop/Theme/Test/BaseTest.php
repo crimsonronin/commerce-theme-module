@@ -6,31 +6,41 @@ use Zoop\Store\DataModel\Store;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Shard\Core\Events;
+use Zend\ServiceManager\ServiceManager;
 
 abstract class BaseTest extends AbstractHttpControllerTestCase
 {
-
-    protected $documentManager;
-    protected $clearData = true;
+    protected static $documentManager;
+    protected static $serviceManager;
+    protected static $dbName;
     public $calls;
 
     public function setUp()
     {
         $this->setApplicationConfig(
-                require __DIR__ . '/../../../test.application.config.php'
+            require __DIR__ . '/../../../test.application.config.php'
         );
-        $dm = $this->getApplicationServiceLocator()->get('doctrine.odm.documentmanager.commerce');
-        $this->setDocumentManager($dm);
 
-        $eventManager = $dm->getEventManager();
-        $eventManager->addEventListener(Events::EXCEPTION, $this);
+        //create db connection and store requests
+        if (!isset(self::$documentManager)) {
+            self::$documentManager = $this->getApplicationServiceLocator()->get('doctrine.odm.documentmanager.commerce');
+            self::$dbName = $this->getApplicationServiceLocator()->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
 
-        //create a demo store
-        $this->createStore();
-        //set the Request host so that active store works correctly.
-        $request = $this->getApplicationServiceLocator()->get('request');
-        /* @var $request Request */
-        $request->getUri()->setHost('demo.zoopcommerce.local');
+            $eventManager = self::$documentManager->getEventManager();
+            $eventManager->addEventListener(Events::EXCEPTION, $this);
+
+            //create a demo store
+            $this->createStore();
+            //set the Request host so that active store works correctly.
+            $request = $this->getApplicationServiceLocator()->get('request');
+            /* @var $request Request */
+            $request->getUri()->setHost('demo.zoopcommerce.local');
+        }
+    }
+
+    public static function tearDownAfterClass()
+    {
+        self::clearDatabase();
     }
 
     /**
@@ -38,7 +48,7 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
      */
     public function getDocumentManager()
     {
-        return $this->documentManager;
+        return self::$documentManager;
     }
 
     /**
@@ -46,11 +56,44 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
      */
     public function setDocumentManager(DocumentManager $documentManager)
     {
-        $this->documentManager = $documentManager;
+        self::$documentManager = $documentManager;
     }
 
-    protected function createStore($data = [])
+    /**
+     * @return ServiceManager
+     */
+    public static function getServiceManager()
     {
+        return self::$serviceManager;
+    }
+
+    /**
+     * @param ServiceManager $serviceManager
+     */
+    public static function setServiceManager(ServiceManager $serviceManager)
+    {
+        self::$serviceManager = $serviceManager;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getDbName()
+    {
+        return self::$dbName;
+    }
+
+    /**
+     * @param string $dbName
+     */
+    public static function setDbName($dbName)
+    {
+        self::$dbName = $dbName;
+    }
+
+    protected static function createStore($data = [])
+    {
+        $db = self::getDocumentManager();
         if (!empty($data)) {
             //serialize
         } else {
@@ -61,25 +104,17 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
             $store->setEmail('josh@zoopcommerce.com');
         }
 
-        $this->getDocumentManager()->persist($store);
-        $this->getDocumentManager()->flush($store);
-        $this->getDocumentManager()->clear();
+        $db->persist($store);
+        $db->flush($store);
+        $db->clear();
     }
 
-    public function tearDown()
+    public static function clearDatabase()
     {
-        $this->clearDatabase();
-    }
-
-    public function clearDatabase()
-    {
-        if ($this->documentManager && $this->getClearData() === true) {
-            $db = $this->getApplicationServiceLocator()
-                            ->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
-
-            $collections = $this->getDocumentManager()
-                            ->getConnection()
-                            ->selectDatabase($db)->listCollections();
+        if (self::$documentManager) {
+            $collections = self::getDocumentManager()
+                ->getConnection()
+                ->selectDatabase(self::getDbName())->listCollections();
 
             foreach ($collections as $collection) {
                 /* @var $collection \MongoCollection */
@@ -88,20 +123,9 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
         }
     }
 
-    public function getClearData()
-    {
-        return $this->clearData;
-    }
-
-    public function setClearData($clearData)
-    {
-        $this->clearData = $clearData;
-    }
-
     public function __call($name, $arguments)
     {
         var_dump($name, $arguments);
         $this->calls[$name] = $arguments;
     }
-
 }
