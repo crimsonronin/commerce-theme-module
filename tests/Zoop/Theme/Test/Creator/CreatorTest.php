@@ -16,7 +16,7 @@ class CreatorTest extends BaseTest
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/zoop.jpg');
 
         $this->setExpectedException('Exception');
-        $theme = $this->getThemeCreatorImport()->create($uploadedFile);
+        $theme = $this->getThemeCreatorImport()->import($uploadedFile);
     }
 
     public function testInvalidFileSizeImport()
@@ -28,14 +28,14 @@ class CreatorTest extends BaseTest
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
 
         $this->setExpectedException('Exception');
-        $theme = $creator->create($uploadedFile);
+        $theme = $creator->import($uploadedFile);
     }
 
     public function testValidSimpleThemeImport()
     {
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
 
-        $theme = $this->getThemeCreatorImport()->create($uploadedFile);
+        $theme = $this->getThemeCreatorImport()->import($uploadedFile);
         $assets = $theme->getAssets();
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);
@@ -61,7 +61,7 @@ class CreatorTest extends BaseTest
 
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
 
-        $theme = $creator->create($uploadedFile);
+        $theme = $creator->import($uploadedFile);
         $assets = $theme->getAssets();
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);

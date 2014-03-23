@@ -21,9 +21,17 @@ return [
                         'class' => 'Zoop\Theme\DataModel\AbstractTheme',
                         'listeners' => [
                             'create' => [
-                                'zoop.commerce.theme.listener.theme.create',
+                                'zoop.commerce.theme.listener.theme.unserialize',
+                                'zoop.shardmodule.listener.create',
+                                'zoop.shardmodule.listener.flush',
+                                'zoop.shardmodule.listener.location',
+                                'zoop.shardmodule.listener.prepareviewmodel'
                             ],
-                            'delete' => [],
+                            'delete' => [
+                                'zoop.commerce.theme.listener.theme.delete',
+                                'zoop.shardmodule.listener.flush',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
                             'deleteList' => [],
                             'get' => [
                                 'zoop.shardmodule.listener.get',
@@ -40,6 +48,19 @@ return [
                             'patchList' => [],
                             'update' => [],
                             'replaceList' => [],
+                        ],
+                    ],
+                    'themesimport' => [
+                        'property' => 'id',
+                        'class' => 'Zoop\Theme\DataModel\AbstractTheme',
+                        'listeners' => [
+                            'create' => [
+                                'zoop.commerce.theme.listener.theme.unserialize',
+                                'zoop.commerce.theme.listener.theme.create',
+                                'zoop.commerce.theme.listener.theme.flush',
+                                'zoop.shardmodule.listener.location',
+                                'zoop.shardmodule.listener.prepareviewmodel',
+                            ]
                         ],
                     ],
                 ],
@@ -97,10 +118,10 @@ return [
                 //service called `shard.rest.<endpoint>`
                 'type' => 'Zend\Mvc\Router\Http\Segment',
                 'options' => [
-                    'route' => '/[:endpoint][/:id]',
+                    'route' => '/admin/:endpoint[/:id]',
                     'constraints' => [
-                        'endpoint' => '[a-zA-Z][a-zA-Z0-9_-]+',
-                        'id' => '[a-zA-Z0-9/_-]+',
+                        'endpoint' => '(themes\/import|themes)',
+                        'id' => '[a-zA-Z0-9_\-]+',
                     ],
                 ],
                 'chain_routes' => [
@@ -118,6 +139,9 @@ return [
     'service_manager' => [
         'invokables' => [
             'zoop.commerce.theme.listener.theme.create' => 'Zoop\Theme\Controller\ThemeCreateListener',
+            'zoop.commerce.theme.listener.theme.delete' => 'Zoop\Theme\Controller\ThemeDeleteListener',
+            'zoop.commerce.theme.listener.theme.flush' => 'Zoop\Theme\Controller\ThemeFlushListener',
+            'zoop.commerce.theme.listener.theme.unserialize' => 'Zoop\Theme\Controller\ThemeUnserializeListener',
             'zoop.commerce.theme.parser.css' => 'Zoop\Theme\Parser\Css',
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',

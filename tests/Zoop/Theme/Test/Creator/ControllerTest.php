@@ -5,13 +5,45 @@ namespace Zoop\Theme\Test\Creator;
 use Zoop\Theme\Test\BaseTest;
 use Zoop\Theme\Test\FileMoc;
 use Zend\Http\Header\Accept;
-use Zend\Http\Header\Range;
+use Zend\Http\Header\ContentType;
+use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\PrivateTheme;
+use Zoop\Theme\DataModel\ThemeInterface;
 
 class ControllerTest extends BaseTest
 {
+    const DOCUMENT_PRIVATE_THEME = 'Zoop\Theme\DataModel\PrivateTheme';
 
-    const DOCUMENT_PRIVATE_THEME = '';
+    public function testThemeCreate()
+    {
+        $data = [
+            'type' => 'PrivateTheme',
+            'stores' => ['demo'],
+            'name' => 'Test'
+        ];
+
+        $accept = new Accept;
+        $accept->addMediaType('application/json');
+
+        $this->getRequest()
+            ->setMethod('POST')
+            ->setContent(json_encode($data))
+            ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
+
+        $this->dispatch('http://demo.zoopcommerce.local/admin/themes');
+        $this->assertResponseStatusCode(201);
+
+        $response = $this->getResponse();
+        $result = json_decode($response->getContent(), true);
+
+        $id = str_replace(['Location: ', '/admin/themes/'], '', $response->getHeaders()->get('Location')->toString());
+
+        $this->assertFalse(isset($result));
+
+        $theme = $this->getTheme($id);
+        $this->assertNotEmpty($theme);
+        $this->assertEquals('Test', $theme->getName());
+    }
 
     public function testSimpleThemeImport()
     {
@@ -30,17 +62,24 @@ class ControllerTest extends BaseTest
         $request = $this->getRequest();
 
         $request->setMethod('POST')
-                ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeader($accept);
 
         $request->setFiles($files);
 
-        $this->dispatch('http://demo.zoopcommerce.local/themes');
-        $this->assertResponseStatusCode(200);
+        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/import');
+        $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
-//        die(var_dump($response));
-//        $result = json_decode($response->getContent(), true);
-//        $response->getHeaders()->get('Location')->toString();
+
+        $result = json_decode($response->getContent(), true);
+
+        $id = str_replace(['Location: ', '/admin/themes/import/'], '', $response->getHeaders()->get('Location')->toString());
+
+        $this->assertFalse(isset($result));
+
+        $theme = $this->getTheme($id);
+        $this->assertNotEmpty($theme);
+        $this->assertEquals('simple-theme', $theme->getName());
     }
 
     public function testComplexThemeImport()
@@ -50,7 +89,7 @@ class ControllerTest extends BaseTest
                 'name' => 'complex-theme.zip',
                 'type' => 'application/zip',
                 'size' => 542,
-                'tmp_name' => __DIR__ . '/../Assets/simple-theme.zip',
+                'tmp_name' => __DIR__ . '/../Assets/complex-theme.zip',
                 'error' => 0
             ]
         ]);
@@ -64,13 +103,20 @@ class ControllerTest extends BaseTest
 
         $request->setFiles($files);
 
-        $this->dispatch('http://demo.zoopcommerce.local/themes');
-        $this->assertResponseStatusCode(200);
+        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/import');
+        $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
-//        die(var_dump($response));
-//        $result = json_decode($response->getContent(), true);
-//        $response->getHeaders()->get('Location')->toString();
+
+        $result = json_decode($response->getContent(), true);
+
+        $id = str_replace(['Location: ', '/admin/themes/import/'], '', $response->getHeaders()->get('Location')->toString());
+
+        $this->assertFalse(isset($result));
+
+        $theme = $this->getTheme($id);
+        $this->assertNotEmpty($theme);
+        $this->assertEquals('complex-theme', $theme->getName());
     }
 
     public function testGetListTheme()
@@ -82,18 +128,18 @@ class ControllerTest extends BaseTest
                 ->setMethod('GET')
                 ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://demo.zoopcommerce.local/themes');
+        $this->dispatch('http://demo.zoopcommerce.local/admin/themes');
 
         $result = json_decode($this->getResponse()->getContent(), true);
 
         $this->assertResponseStatusCode(200);
         $this->assertControllerName('shard.rest.themes');
-        $this->assertCount(2, $result);
+        $this->assertCount(3, $result);
     }
 
     public function testGetTheme()
     {
-        $private = $this->createTheme();
+        $private = $this->createSimpleTheme();
 
         $accept = new Accept;
         $accept->addMediaType('application/json');
@@ -102,17 +148,34 @@ class ControllerTest extends BaseTest
                 ->setMethod('GET')
                 ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://demo.zoopcommerce.local/themes/' . $private->getId());
+        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/' . $private->getId());
 
         $result = json_decode($this->getResponse()->getContent(), true);
         $this->assertResponseStatusCode(200);
         $this->assertEquals('Test', $result['name']);
     }
 
+    public function testDeleteSimpleTheme()
+    {
+        $private = $this->createComplexTheme();
+
+        $accept = new Accept;
+        $accept->addMediaType('application/json');
+
+        $this->getRequest()
+                ->setMethod('DELETE')
+                ->getHeaders()->addHeader($accept);
+
+        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/' . $private->getId());
+
+        $this->assertResponseStatusCode(204);
+        //need to ensure assets are soft deleted too
+    }
+
     /**
      * @return PrivateTheme
      */
-    protected function createTheme()
+    protected function createSimpleTheme()
     {
         $private = new PrivateTheme;
         $private->setName('Test');
@@ -125,10 +188,65 @@ class ControllerTest extends BaseTest
         return $private;
     }
 
+    /**
+     * @return PrivateTheme
+     */
+    protected function createComplexTheme()
+    {
+        $private = $this->getApplicationServiceLocator()->get('zoop.commerce.theme.structure');
+        $private->setName('Test');
+        $private->addStore('demo');
+
+        $this->getDocumentManager()->persist($private);
+        $this->getDocumentManager()->flush($private);
+
+        //persist assets
+        $this->saveRecursively($private, $private->getAssets());
+
+        $this->getDocumentManager()->clear();
+
+        return $private;
+    }
+
+    /**
+     * @param string $id
+     * @return PrivateTheme
+     */
     protected function getTheme($id)
     {
         return $this->getDocumentManager()
-                        ->getRepository(self::DOCUMENT_PRIVATE_THEME)->find($id);
+            ->getRepository(self::DOCUMENT_PRIVATE_THEME)->find($id);
     }
 
+    /**
+     *
+     * @param ThemeInterface $theme
+     * @param array $assets
+     */
+    protected function saveRecursively(ThemeInterface $theme, $assets)
+    {
+        if (!empty($assets)) {
+            /* @var $asset AssetInterface */
+            foreach ($assets as $asset) {
+                $parent = $asset->getParent();
+                if (empty($parent)) {
+                    $asset->setParent($theme);
+                }
+                $asset->setTheme($theme);
+
+                $this->getDocumentManager()->persist($asset);
+                $this->getDocumentManager()->flush($asset);
+            }
+
+            //look for folders and recurse
+            foreach ($assets as $asset) {
+                if ($asset instanceof FolderModel) {
+                    $childAssets = $asset->getAssets();
+                    if (!empty($childAssets)) {
+                        $this->saveRecursively($theme, $childAssets);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -46,7 +46,7 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
     /**
      * @return DocumentManager
      */
-    public function getDocumentManager()
+    public static function getDocumentManager()
     {
         return self::$documentManager;
     }
@@ -54,7 +54,7 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
     /**
      * @param DocumentManager $documentManager
      */
-    public function setDocumentManager(DocumentManager $documentManager)
+    public static function setDocumentManager(DocumentManager $documentManager)
     {
         self::$documentManager = $documentManager;
     }

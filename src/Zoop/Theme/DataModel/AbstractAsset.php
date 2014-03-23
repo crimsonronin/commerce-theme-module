@@ -2,9 +2,9 @@
 
 namespace Zoop\Theme\DataModel;
 
-use \DateTime;
 use Zoop\Shard\Stamp\DataModel\CreatedOnTrait;
 use Zoop\Shard\Stamp\DataModel\UpdatedOnTrait;
+use Zoop\Shard\SoftDelete\DataModel\SoftDeleteableTrait;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -31,6 +31,7 @@ abstract class AbstractAsset
 {
     use CreatedOnTrait;
     use UpdatedOnTrait;
+    use SoftDeleteableTrait;
 
     /**
      * @ODM\Id

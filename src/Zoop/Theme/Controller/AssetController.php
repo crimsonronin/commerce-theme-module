@@ -15,6 +15,7 @@ use Zoop\Shard\Serializer\Unserializer;
  */
 class AssetController extends AbstractController
 {
+
     const CLASS_MODEL = 'Zoop\Theme\DataModel\AbstractAsset';
 
     private $dm;
@@ -99,4 +100,5 @@ class AssetController extends AbstractController
         $this->getDm()->persist($asset);
         $this->getDm()->flush();
     }
+
 }

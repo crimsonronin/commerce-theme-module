@@ -6,5 +6,5 @@ use Zend\Stdlib\Parameters;
 
 class FileMoc extends Parameters
 {
-    
+
 }

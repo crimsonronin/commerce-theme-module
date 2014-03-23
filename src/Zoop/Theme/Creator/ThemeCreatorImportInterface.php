@@ -11,5 +11,5 @@ use \SplFileInfo;
  */
 interface ThemeCreatorImportInterface
 {
-    public function create(SplFileInfo $uploadedFile);
+    public function import(SplFileInfo $uploadedFile);
 }
