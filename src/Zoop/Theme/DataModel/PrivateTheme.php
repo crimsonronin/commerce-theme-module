@@ -2,6 +2,7 @@
 
 namespace Zoop\Theme\DataModel;
 
+use Doctrine\Common\Collections\ArrayCollection;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -14,7 +15,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class PrivateTheme extends AbstractTheme implements ThemeInterface
 {
-
     /**
      * Array. Stores that this product is part of.
      * The Zones annotation means this field is used by the Zones filter so
@@ -57,51 +57,66 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      */
     protected $active = false;
 
+    public function __construct()
+    {
+        $this->assets = new ArrayCollection;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
     public function getStores()
     {
         return $this->stores;
     }
 
-    public function setStores(array $stores)
+    /**
+     * @param ArrayCollection $stores
+     */
+    public function setStores(ArrayCollection $stores)
     {
         $this->stores = $stores;
     }
 
+    /**
+     * @param string $store
+     */
     public function addStore($store)
     {
-        if (!empty($store)) {
-            $this->stores[] = $store;
+        if (!empty($store) && $this->stores->contains($store) === false) {
+            $this->stores->add($store);
         }
     }
 
+    /**
+     * @return integer
+     */
     public function getLegacyStoreId()
     {
         return $this->legacyStoreId;
     }
 
+    /**
+     * @param integer $legacyStoreId
+     */
     public function setLegacyStoreId($legacyStoreId)
     {
         $this->legacyStoreId = (int) $legacyStoreId;
     }
 
-    public function getCreatedBy()
-    {
-        return $this->createdBy;
-    }
-
-    public function setCreatedBy($createdBy)
-    {
-        $this->createdBy = $createdBy;
-    }
-
+    /**
+     * @return boolean
+     */
     public function getActive()
     {
         return $this->active;
     }
 
+    /**
+     * @param boolean $active
+     */
     public function setActive($active)
     {
         $this->active = (bool) $active;
     }
-
 }

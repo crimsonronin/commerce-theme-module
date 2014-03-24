@@ -44,20 +44,33 @@ class Folder extends AbstractAsset implements AssetInterface
      * @ODM\Int
      */
     protected $sortBy = 0;
+    
+    public function __construct()
+    {
+        $this->assets = new ArrayCollection;
+    }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getAssets()
     {
         return $this->assets;
     }
 
-    public function setAssets(array $assets)
+    /**
+     * @param ArrayCollection $assets
+     */
+    public function setAssets(ArrayCollection $assets)
     {
         $this->assets = $assets;
     }
 
-    public function addAsset($asset)
+    /**
+     * @param AssetInterface $asset
+     */
+    public function addAsset(AssetInterface $asset)
     {
-        $this->assets[] = $asset;
+        $this->assets->add($asset);
     }
-
 }

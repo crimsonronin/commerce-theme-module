@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "11c4b11bffbe8f1b1ab8261a6caee761",
+    "hash": "7f4cf84ea36477531b2f4197e951a1c2",
     "packages": [
         {
             "name": "aws/aws-sdk-php",
@@ -989,7 +989,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/9e47d8c83ca6afe163f062bda787114595df2613",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/4c5b3c977579f45ec5cd815a32dea835e2416d6d",
                 "reference": "03ad3265797a338dce2d7064edd0cb4ebedb052b",
                 "shasum": ""
             },
@@ -1542,6 +1542,63 @@
             "time": "2014-02-11 13:52:09"
         },
         {
+            "name": "twig/twig",
+            "version": "v1.15.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fabpot/Twig.git",
+                "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/1fb5784662f438d7d96a541e305e28b812e2eeed",
+                "reference": "1fb5784662f438d7d96a541e305e28b812e2eeed",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.15-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "https://github.com/fabpot/Twig/graphs/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2014-02-13 10:19:29"
+        },
+        {
             "name": "willdurand/geocoder",
             "version": "2.4.2",
             "source": {
@@ -1614,7 +1671,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zendframework/zf2/zipball/3f0a668c2665d827288246f398c818912ee93a0f",
+                "url": "https://api.github.com/repos/zendframework/zf2/zipball/9be6423b4883814902ef80d2086f2c97bf1d9129",
                 "reference": "f92a07bc3f5cbd49a518ee880b1451f357c71376",
                 "shasum": ""
             },
@@ -1845,12 +1902,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:zoopcommerce/commerce-store-module.git",
-                "reference": "116cb6f86cab3d343d50154e6403cd54d3fd5d2a"
+                "reference": "703b4dc5a488ac98a50a9f1781b99ebf2681fe12"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoopcommerce/commerce-store-module/zipball/116cb6f86cab3d343d50154e6403cd54d3fd5d2a",
-                "reference": "116cb6f86cab3d343d50154e6403cd54d3fd5d2a",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-store-module/zipball/703b4dc5a488ac98a50a9f1781b99ebf2681fe12",
+                "reference": "703b4dc5a488ac98a50a9f1781b99ebf2681fe12",
                 "shasum": ""
             },
             "require": {
@@ -1910,7 +1967,7 @@
                 "source": "https://github.com/zoopcommerce/commerce-store-module/tree/master",
                 "issues": "https://github.com/zoopcommerce/commerce-store-module/issues"
             },
-            "time": "2014-03-21 01:42:22"
+            "time": "2014-03-22 03:47:15"
         },
         {
             "name": "zoopcommerce/common",
@@ -2272,7 +2329,7 @@
                 {
                     "name": "Tim Roediger",
                     "email": "superdweebie@gmail.com",
-                    "homepage": "http://superdweebie.com"
+                    "homepage": "http://github.com/superdweebie"
                 }
             ],
             "description": "Zend Framework 2 Module for Shard",

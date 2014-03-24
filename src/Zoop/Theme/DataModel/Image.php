@@ -2,7 +2,6 @@
 
 namespace Zoop\Theme\DataModel;
 
-use Doctrine\Common\Collections\ArrayCollection;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -15,7 +14,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class Image extends AbstractFileAsset implements AssetInterface
 {
-
     /**
      *
      * @ODM\String
@@ -46,54 +44,93 @@ class Image extends AbstractFileAsset implements AssetInterface
      */
     protected $mime;
 
+    /**
+     * 
+     * @return string
+     */
     public function getSrc()
     {
         return $this->src;
     }
 
+    /**
+     * 
+     * @param string $src
+     */
     public function setSrc($src)
     {
         $this->src = $src;
     }
 
+    /**
+     * 
+     * @return integer
+     */
     public function getHeight()
     {
         return $this->height;
     }
 
+    /**
+     * 
+     * @param integer $height
+     */
     public function setHeight($height)
     {
         $this->height = (int) $height;
     }
 
+    /**
+     * 
+     * @return integer
+     */
     public function getWidth()
     {
         return $this->width;
     }
 
+    /**
+     * 
+     * @param integer $width
+     */
     public function setWidth($width)
     {
         $this->width = (int) $width;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getExtension()
     {
         return $this->extension;
     }
 
+    /**
+     * 
+     * @param string $extension
+     */
     public function setExtension($extension)
     {
         $this->extension = $extension;
     }
 
+    /**
+     * 
+     * @return string
+     */
     public function getMime()
     {
         return $this->mime;
     }
 
+    /**
+     * 
+     * @param string $mime
+     */
     public function setMime($mime)
     {
         $this->mime = $mime;
     }
-
 }

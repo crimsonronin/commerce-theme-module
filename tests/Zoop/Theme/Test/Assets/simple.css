@@ -1,0 +1,14 @@
+@import "bootstrap1.css";
+@import url("bootstrap2.css");
+body {
+    background: #fff;
+}
+.header1 {
+    background: url('zoop1.jpg');
+}
+.header2 {
+    background: url(zoop2.jpg);
+}
+.header3 {
+    background: url("zoop3.jpg");
+}

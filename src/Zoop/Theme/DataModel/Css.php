@@ -2,7 +2,6 @@
 
 namespace Zoop\Theme\DataModel;
 
-use Doctrine\Common\Collections\ArrayCollection;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -15,7 +14,6 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class Css extends AbstractContentAsset implements AssetInterface
 {
-
     /**
      *
      * @ODM\String
@@ -31,5 +29,4 @@ class Css extends AbstractContentAsset implements AssetInterface
     {
         $this->href = $href;
     }
-
 }

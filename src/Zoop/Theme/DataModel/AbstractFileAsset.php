@@ -14,11 +14,17 @@ abstract class AbstractFileAsset extends AbstractAsset
      */
     protected $mime;
 
+    /**
+     * @return string
+     */
     public function getMime()
     {
         return $this->mime;
     }
 
+    /**
+     * @param string $mime
+     */
     public function setMime($mime)
     {
         $this->mime = $mime;

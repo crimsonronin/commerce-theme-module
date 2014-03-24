@@ -2,52 +2,35 @@
 
 namespace Zoop\Theme\Parser\Content;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Zoop\Theme\DataModel\AssetInterface;
 
 abstract class AbstractContentParser
 {
-    private $asset;
-    private $parser;
-    private $parsedAssets = [];
+    protected $assets;
+    protected $tokenizers;
 
     /**
-     * @return ChainedParser
+     * @return ArrayCollection
      */
-    public function getParser()
+    public function getAssets()
     {
-        return $this->parser;
+        return $this->assets;
     }
 
     /**
-     * @param ChainedParser $parser
+     * @param ArrayCollection $assets
      */
-    public function setParser(ChainedParser $parser)
+    public function setAssets(ArrayCollection $assets)
     {
-        $this->parser = $parser;
+        $this->assets = $assets;
     }
 
-    public function getAsset()
+    /**
+     * @param AssetInterface $asset
+     */
+    public function addAsset(AssetInterface $asset)
     {
-        return $this->asset;
-    }
-
-    public function setAsset(AssetInterface $content)
-    {
-        $this->asset = $content;
-    }
-
-    public function getParsedAssets()
-    {
-        return $this->parsedAssets;
-    }
-
-    public function setParsedAssets($parsedAssets = [])
-    {
-        $this->parsedAssets = $parsedAssets;
-    }
-
-    public function addParsedAsset($key, AssetInterface $parsedAsset)
-    {
-        $this->parsedAssets[$key] = $parsedAsset;
+        $this->assets->add($asset);
     }
 }

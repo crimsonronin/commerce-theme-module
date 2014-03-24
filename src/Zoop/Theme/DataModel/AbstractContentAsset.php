@@ -2,14 +2,11 @@
 
 namespace Zoop\Theme\DataModel;
 
-use \DateTime;
-use Zoop\Theme\DataModel\Folder;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 
 abstract class AbstractContentAsset extends AbstractFileAsset
 {
-
     /**
      *
      * @ODM\String
@@ -25,5 +22,4 @@ abstract class AbstractContentAsset extends AbstractFileAsset
     {
         $this->content = mb_convert_encoding($content, 'UTF-8');
     }
-
 }

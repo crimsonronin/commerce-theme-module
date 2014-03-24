@@ -2,7 +2,6 @@
 
 namespace Zoop\Theme\DataModel;
 
-use Doctrine\Common\Collections\ArrayCollection;
 //Annotation imports
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Zoop\Shard\Annotation\Annotations as Shard;
@@ -15,21 +14,27 @@ use Zoop\Shard\Annotation\Annotations as Shard;
  */
 class Javascript extends AbstractContentAsset implements AssetInterface
 {
-
     /**
      *
      * @ODM\String
      */
     protected $src;
 
+    /**
+     * 
+     * @return string
+     */
     public function getSrc()
     {
         return $this->src;
     }
 
+    /**
+     * 
+     * @param string $src
+     */
     public function setSrc($src)
     {
         $this->src = $src;
     }
-
 }

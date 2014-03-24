@@ -2,6 +2,7 @@
 
 namespace Zoop\Theme\DataModel;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Zoop\Common\DataModel\Image;
 use Zoop\Shard\Stamp\DataModel\CreatedOnTrait;
 use Zoop\Shard\Stamp\DataModel\UpdatedOnTrait;
@@ -88,64 +89,101 @@ abstract class AbstractTheme
      */
     protected $screenshot;
 
+    /**
+     * @return string
+     */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * @return boolean
+     */
     public function getWriteable()
     {
         return $this->writeable;
     }
 
+    /**
+     * @param boolean $writeable
+     */
     public function setWriteable($writeable)
     {
         $this->writeable = (bool) $writeable;
     }
 
+    /**
+     * @return boolean
+     */
     public function getDeleteable()
     {
         return $this->deleteable;
     }
 
+    /**
+     * @param boolean $deleteable
+     */
     public function setDeleteable($deleteable)
     {
         $this->deleteable = (bool) $deleteable;
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getAssets()
     {
         return $this->assets;
     }
 
-    public function setAssets(array $assets)
+    /**
+     * @param ArrayCollection $assets
+     */
+    public function setAssets(ArrayCollection $assets)
     {
         $this->assets = $assets;
     }
 
+    /**
+     * @param AssetInterface $asset
+     */
     public function addAsset(AssetInterface $asset)
     {
-        $this->assets[] = $asset;
+        $this->assets->add($asset);
     }
 
+    /**
+     * 
+     * @return Image
+     */
     public function getScreenshot()
     {
         return $this->screenshot;
     }
 
+    /**
+     * 
+     * @param Image $screenshot
+     */
     public function setScreenshot(Image $screenshot)
     {
         $this->screenshot = $screenshot;
     }
-
 }

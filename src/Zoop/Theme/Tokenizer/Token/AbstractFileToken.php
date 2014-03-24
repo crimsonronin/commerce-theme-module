@@ -1,18 +1,28 @@
 <?php
 
-namespace Zoop\Theme\Parser;
+namespace Zoop\Theme\Tokenizer\Token;
 
 use \SplFileInfo;
 
-class Image_1
+abstract class AbstractFileToken
 {
+    protected $url;
+    protected $tempDirectory;
+    
+    public function getUrl()
+    {
+        return $this->url;
+    }
 
-    private $url;
-    private $tempDirectory;
+    public function setUrl($url)
+    {
+        $this->url = $url;
+    }
 
-    /* @return \SplFileInfo */
-
-    public function createTempImage()
+    /**
+     * @return boolean|SplFileInfo
+     */
+    protected function createTempImage()
     {
         $url = $this->getUrl();
         if (!empty($url)) {
@@ -30,16 +40,6 @@ class Image_1
         return false;
     }
 
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-    public function setUrl($url)
-    {
-        $this->url = $url;
-    }
-
     public function getTempDirectory()
     {
         return $this->tempDirectory;
@@ -54,5 +54,4 @@ class Image_1
         }
         return $this;
     }
-
 }
