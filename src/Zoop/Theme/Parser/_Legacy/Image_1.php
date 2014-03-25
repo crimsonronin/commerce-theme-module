@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme\Parser\File;
+namespace Zoop\Theme\Parser\Node;
 
 use \SplFileInfo;
 
@@ -17,14 +17,14 @@ use \SplFileInfo;
  *
  * @copyright  Zoop Pty Ltd
  */
-class Image extends AbstractFileParser implements ParserInterface
+class Image extends AbstractFileNode
 {
-
     private $url;
     private $tempDirectory;
 
-    /* @return \SplFileInfo */
-
+    /**
+     * @return SplFileInfo 
+     */
     public function createTempImage()
     {
         $url = $this->getUrl();

@@ -129,7 +129,7 @@ class Unserializer
     private function unserializeImage(SplFileInfo $file)
     {
         $mime = mime_content_type($file->getPathname());
-        list($width, $height, $type, $attr) = getimagesize($file->getPathname());
+        list($width, $height) = getimagesize($file->getPathname());
 
         $image = new ImageModel;
 

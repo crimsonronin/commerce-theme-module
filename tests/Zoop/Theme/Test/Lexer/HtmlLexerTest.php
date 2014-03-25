@@ -6,17 +6,19 @@ use Zoop\Theme\Test\BaseTest;
 use Zoop\Theme\Lexer\Lexer;
 use Zoop\Theme\Lexer\Regex;
 use Zoop\Theme\Tokenizer\Token\TextToken;
-use Zoop\Theme\Tokenizer\Token\ImageToken;
-use Zoop\Theme\Tokenizer\Token\CssToken;
-use Zoop\Theme\Tokenizer\Token\JavascriptToken;
+use Zoop\Theme\Tokenizer\Token\ImageTokenInterface;
+use Zoop\Theme\Tokenizer\Token\CssTokenInterface;
+use Zoop\Theme\Tokenizer\Token\JavascriptTokenInterface;
 
 class HtmlLexerTest extends BaseTest
 {
     public function testTokenizeHtmlCssUrl()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.html');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.html');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\HtmlCssUrlRegex);
 
         $tokenStream = $lexer->tokenize($content);
@@ -28,7 +30,7 @@ class HtmlLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof CssToken) {
+            } elseif ($token instanceof CssTokenInterface) {
                 $cssTokens[] = $token;
             }
         }
@@ -41,9 +43,11 @@ class HtmlLexerTest extends BaseTest
 
     public function testTokenizeHtmlImageUrl()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.html');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.html');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\HtmlImageUrlRegex);
 
         $tokenStream = $lexer->tokenize($content);
@@ -55,7 +59,7 @@ class HtmlLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof ImageToken) {
+            } elseif ($token instanceof ImageTokenInterface) {
                 $imageTokens[] = $token;
             }
         }
@@ -67,9 +71,11 @@ class HtmlLexerTest extends BaseTest
 
     public function testTokenizeHtmlJavascriptUrl()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.html');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.html');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\HtmlJavascriptUrlRegex);
 
         $tokenStream = $lexer->tokenize($content);
@@ -81,7 +87,7 @@ class HtmlLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof JavascriptToken) {
+            } elseif ($token instanceof JavascriptTokenInterface) {
                 $jsTokens[] = $token;
             }
         }
@@ -93,9 +99,11 @@ class HtmlLexerTest extends BaseTest
 
     public function testTokenizeHtml()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.html');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.html');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\HtmlCssUrlRegex);
         $lexer->addRegex(new Regex\HtmlImageUrlRegex);
         $lexer->addRegex(new Regex\HtmlJavascriptUrlRegex);
@@ -111,11 +119,11 @@ class HtmlLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof ImageToken) {
+            } elseif ($token instanceof ImageTokenInterface) {
                 $imageTokens[] = $token;
-            } elseif ($token instanceof CssToken) {
+            } elseif ($token instanceof CssTokenInterface) {
                 $cssTokens[] = $token;
-            } elseif ($token instanceof JavascriptToken) {
+            } elseif ($token instanceof JavascriptTokenInterface) {
                 $jsTokens[] = $token;
             }
         }

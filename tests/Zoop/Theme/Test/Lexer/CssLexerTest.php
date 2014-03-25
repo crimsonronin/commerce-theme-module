@@ -6,17 +6,18 @@ use Zoop\Theme\Test\BaseTest;
 use Zoop\Theme\Lexer\Lexer;
 use Zoop\Theme\Lexer\Regex;
 use Zoop\Theme\Tokenizer\Token\TextToken;
-use Zoop\Theme\Tokenizer\Token\ImageToken;
-use Zoop\Theme\Tokenizer\Token\CssToken;
-use Zoop\Theme\Tokenizer\Token\JavascriptToken;
+use Zoop\Theme\Tokenizer\Token\ImageTokenInterface;
+use Zoop\Theme\Tokenizer\Token\CssTokenInterface;
 
 class CssLexerTest extends BaseTest
 {
     public function testTokenizeCssImageUrl()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.css');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.css');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\CssImageUrlRegex);
 
         $tokenStream = $lexer->tokenize($content);
@@ -28,7 +29,7 @@ class CssLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof ImageToken) {
+            } elseif ($token instanceof ImageTokenInterface) {
                 $imageTokens[] = $token;
             }
         }
@@ -42,9 +43,11 @@ class CssLexerTest extends BaseTest
 
     public function testTokenizeCssImportUrl()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.css');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.css');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\CssImportUrlRegex);
 
         $tokenStream = $lexer->tokenize($content);
@@ -56,7 +59,7 @@ class CssLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof CssToken) {
+            } elseif ($token instanceof CssTokenInterface) {
                 $importTokens[] = $token;
             }
         }
@@ -69,9 +72,11 @@ class CssLexerTest extends BaseTest
 
     public function testTokenizeCss()
     {
-        $content = file_get_contents(__DIR__ . '/../Assets/simple.css');
+        $relativePath = __DIR__ . '/../Assets';
+        $content = file_get_contents($relativePath . '/simple.css');
 
         $lexer = new Lexer;
+        $lexer->setRelativeFilePath($relativePath);
         $lexer->addRegex(new Regex\CssImportUrlRegex);
         $lexer->addRegex(new Regex\CssImageUrlRegex);
 
@@ -85,9 +90,9 @@ class CssLexerTest extends BaseTest
         foreach ($tokenStream->getTokens() as $token) {
             if ($token instanceof TextToken) {
                 $textTokens[] = $token;
-            } elseif ($token instanceof CssToken) {
+            } elseif ($token instanceof CssTokenInterface) {
                 $importTokens[] = $token;
-            } elseif ($token instanceof ImageToken) {
+            } elseif ($token instanceof ImageTokenInterface) {
                 $imageTokens[] = $token;
             }
         }

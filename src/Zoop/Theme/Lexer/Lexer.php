@@ -9,14 +9,17 @@ use Zoop\Theme\Lexer\Regex\ImageRegexInterface;
 use Zoop\Theme\Lexer\Regex\CssRegexInterface;
 use Zoop\Theme\Lexer\Regex\JavascriptRegexInterface;
 use Zoop\Theme\Tokenizer\TokenStream;
+use Zoop\Theme\Tokenizer\Token\AbstractRelativeFileToken;
 use Zoop\Theme\Tokenizer\Token\TextToken;
-use Zoop\Theme\Tokenizer\Token\ImageToken;
-use Zoop\Theme\Tokenizer\Token\CssToken;
-use Zoop\Theme\Tokenizer\Token\JavascriptToken;
+use Zoop\Theme\Tokenizer\Token\Relative;
+use Zoop\Theme\Tokenizer\Token\Absolute;
 
 class Lexer
 {
+
     protected $regexes;
+    protected $relativeFilePath;
+    protected $tempDirectory;
 
     public function __construct()
     {
@@ -48,6 +51,38 @@ class Lexer
     }
 
     /**
+     * @return string
+     */
+    public function getRelativeFilePath()
+    {
+        return $this->relativeFilePath;
+    }
+
+    /**
+     * @param string $relativeFilePath
+     */
+    public function setRelativeFilePath($relativeFilePath)
+    {
+        $this->relativeFilePath = $relativeFilePath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTempDirectory()
+    {
+        return $this->tempDirectory;
+    }
+
+    /**
+     * @param string $tempDirectory
+     */
+    public function setTempDirectory($tempDirectory)
+    {
+        $this->tempDirectory = $tempDirectory;
+    }
+
+    /**
      * @param string $content
      * @return TokenStream
      * @throws Exception
@@ -55,7 +90,7 @@ class Lexer
     public function tokenize($content)
     {
         $tokenStream = new TokenStream;
-        
+
         if (!empty($content)) {
             foreach ($this->getRegexes() as $regex) {
                 $lines = explode("\n", $content);
@@ -64,15 +99,38 @@ class Lexer
                         $tokens = explode($matches[1], $line);
                         $tokenStream->addToken(new TextToken($tokens[0]));
 
+                        $isRemote = isset(parse_url($matches[1])['scheme']);
+
                         //add asset token
                         if ($regex instanceof ImageRegexInterface) {
-                            $tokenStream->addToken(new ImageToken($matches[1]));
+                            if ($isRemote) {
+                                $token = new Absolute\ImageToken($matches[1]);
+                            } else {
+                                $token = new Relative\ImageToken($matches[1]);
+                            }
                         } elseif ($regex instanceof CssRegexInterface) {
-                            $tokenStream->addToken(new CssToken($matches[1]));
+                            if ($isRemote) {
+                                $token = new Absolute\CssToken($matches[1]);
+                            } else {
+                                $token = new Relative\CssToken($matches[1]);
+                            }
                         } elseif ($regex instanceof JavascriptRegexInterface) {
-                            $tokenStream->addToken(new JavascriptToken($matches[1]));
+                            if ($isRemote) {
+                                $token = new Absolute\JavascriptToken($matches[1]);
+                            } else {
+                                $token = new Relative\JavascriptToken($matches[1]);
+                            }
                         } else {
                             throw new Exception('Could not identify the token of: ' . $regex);
+                        }
+
+                        if (isset($token)) {
+                            if ($token instanceof AbstractRelativeFileToken) {
+                                $token->setFilePath($this->getRelativeFilePath());
+                            }
+                            $token->setTempDirectory($this->getTempDirectory());
+                            $tokenStream->addToken($token);
+                            unset($token);
                         }
 
                         $tokenStream->addToken(new TextToken($tokens[1]));
@@ -82,7 +140,8 @@ class Lexer
                 }
             }
         }
-        
+
         return $tokenStream;
     }
+
 }
