@@ -150,14 +150,20 @@ abstract class AbstractTheme
      */
     public function getAssets()
     {
+        if(empty($this->assets)) {
+            $this->assets = new ArrayCollection;
+        }
         return $this->assets;
     }
 
     /**
-     * @param array $assets
+     * @param ArrayCollection|array $stores $assets
      */
-    public function setAssets(array $assets)
+    public function setAssets($assets)
     {
+        if(is_array($assets)) {
+            $assets = new ArrayCollection($assets);
+        }
         $this->assets = $assets;
     }
 

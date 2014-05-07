@@ -59,10 +59,13 @@ class Folder extends AbstractAsset implements AssetInterface
     }
 
     /**
-     * @param ArrayCollection $assets
+     * @param ArrayCollection|array $assets
      */
-    public function setAssets(ArrayCollection $assets)
+    public function setAssets($assets)
     {
+        if(is_array($assets)) {
+            $assets = new ArrayCollection($assets);
+        }
         $this->assets = $assets;
     }
 
@@ -71,6 +74,6 @@ class Folder extends AbstractAsset implements AssetInterface
      */
     public function addAsset(AssetInterface $asset)
     {
-        $this->assets->add($asset);
+        $this->getAssets()->add($asset);
     }
 }

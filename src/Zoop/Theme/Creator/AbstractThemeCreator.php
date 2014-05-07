@@ -2,6 +2,7 @@
 
 namespace Zoop\Theme\Creator;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\AssetInterface;
@@ -14,7 +15,6 @@ use Zoop\Shard\Serializer\Unserializer;
  */
 abstract class AbstractThemeCreator
 {
-
     //put your code here
     private $theme;
     private $unserializer;
@@ -45,8 +45,14 @@ abstract class AbstractThemeCreator
         }
     }
 
-    //to do, recursive missing assets
-    private function addMissingAssets(array $structureAssets, array $assets, FolderModel $parent = null)
+    /**
+     * 
+     * @param ArrayCollection|array $structureAssets
+     * @param ArrayCollection|array $assets
+     * @param FolderModel $parent
+     * @return ArrayCollection
+     */
+    private function addMissingAssets($structureAssets, $assets, FolderModel $parent = null)
     {
         $completedAssets = [];
         for ($i = 0; $i < count($structureAssets); $i++) {
@@ -85,7 +91,7 @@ abstract class AbstractThemeCreator
 
             $completedAssets[] = $foundAsset;
         }
-        return $completedAssets;
+        return new ArrayCollection($completedAssets);
     }
 
     /**
@@ -93,11 +99,11 @@ abstract class AbstractThemeCreator
      * It also sets the correct permissions on assets according to the default
      * structure.
      *
-     * @param array $structureAssets
-     * @param array $assets
-     * @return array
+     * @param ArrayCollection|array $structureAssets
+     * @param ArrayCollection|array $assets
+     * @return ArrayCollection
      */
-    private function getValidAssets(array $structureAssets, array $assets)
+    private function getValidAssets($structureAssets, $assets)
     {
         $validAssets = [];
         /* @var $asset AssetInterface */
@@ -131,15 +137,21 @@ abstract class AbstractThemeCreator
             }
         }
 
-        return $validAssets;
+        return new ArrayCollection($validAssets);
     }
 
-    public function findAsset(array $assets, $pathname)
+    /**
+     * 
+     * @param ArrayCollection|array $assets
+     * @param string $pathname
+     * @return AssetInterface|boolean
+     */
+    public function findAsset($assets, $pathname)
     {
         $all = explode("/", $pathname);
         $current = $all[0];
 
-        if (!empty($assets) && is_array($assets)) {
+        if (!empty($assets)) {
             for ($i = 0; $i < count($assets); $i++) {
                 if ($assets[$i]->getName() == $current && count($all) == 1) {
                     return $assets[$i];

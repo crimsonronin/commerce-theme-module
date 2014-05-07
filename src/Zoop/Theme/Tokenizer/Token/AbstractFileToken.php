@@ -6,6 +6,7 @@ abstract class AbstractFileToken
 {
     protected $url;
     protected $tempDirectory;
+    protected $filePath;
 
     public function getUrl()
     {
@@ -25,5 +26,15 @@ abstract class AbstractFileToken
     public function setTempDirectory($tempDirectory)
     {
         $this->tempDirectory = $tempDirectory;
+    }
+    
+    public function getFilePath()
+    {
+        return $this->filePath;
+    }
+
+    public function setFilePath($filePath)
+    {
+        $this->filePath = $filePath;
     }
 }

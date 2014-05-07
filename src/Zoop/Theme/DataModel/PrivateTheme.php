@@ -23,7 +23,7 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      * @ODM\Collection
      * @ODM\Index
      */
-    protected $stores;
+    protected $stores = [];
 
     /**
      *
@@ -64,20 +64,20 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
     }
 
     /**
-     * @return ArrayCollection
+     * @return array
      */
     public function getStores()
     {
-        if(empty($this->stores)) {
-            $this->stores = new ArrayCollection;
+        if(!is_array($this->stores)) {
+            $this->stores = [];
         }
         return $this->stores;
     }
 
     /**
-     * @param ArrayCollection $stores
+     * @param array $stores
      */
-    public function setStores(ArrayCollection $stores)
+    public function setStores(array $stores)
     {
         $this->stores = $stores;
     }
@@ -87,8 +87,8 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      */
     public function addStore($store)
     {
-        if (!empty($store) && $this->getStores()->contains($store) === false) {
-            $this->getStores()->add($store);
+        if (!empty($store) && in_array($store, $this->getStores()) === false) {
+            $this->stores[] = $store;
         }
     }
 
