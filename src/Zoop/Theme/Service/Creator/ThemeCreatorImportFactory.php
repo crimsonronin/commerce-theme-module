@@ -21,11 +21,12 @@ class ThemeCreatorImportFactory implements FactoryInterface
         $unserializer = $manifest->getServiceManager()->get('unserializer');
         $themeStructure = $serviceLocator->get('zoop.commerce.theme.structure');
 
-        $creator = new ThemeCreatorImport();
-        $creator->setTempDirectory($config['temp_dir']);
-        $creator->setMaxFileUploadSize($config['max_file_upload_size']);
-        $creator->setUnserializer($unserializer);
-        $creator->setThemeStructure($themeStructure);
+        $creator = new ThemeCreatorImport(
+            $unserializer,
+            $themeStructure,
+            $config['temp_dir'],
+            $config['max_file_upload_size']
+        );
 
         return $creator;
     }

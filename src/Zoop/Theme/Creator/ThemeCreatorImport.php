@@ -19,12 +19,24 @@ use Zoop\Theme\Serializer\Asset\Unserializer as AssetUnserializer;
  */
 class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImportInterface
 {
-    private $tempDirectory;
-    private $tempThemeDirectory;
-    //in bytes
-    private $maxFileUploadSize = 20971520; //20MB
-    private $additionalErrorMessages;
-    private $assetUnserializer;
+    protected $tempDirectory;
+    protected $tempThemeDirectory;
+    protected $maxFileUploadSize = 20971520; //20MB
+    protected $additionalErrorMessages;
+    protected $assetUnserializer;
+    
+    public function __construct(
+        Unserializer $unserializer,
+        PrivateThemeModel $themeStructure,
+        $tempDirectory,
+        $maxFileUploadSize = 20971520
+    )
+    {
+        $this->setUnserializer($unserializer);
+        $this->setThemeStructure($themeStructure);
+        $this->setTempDirectory($tempDirectory);
+        $this->setMaxFileUploadSize($maxFileUploadSize);
+    }
 
     /**
      *

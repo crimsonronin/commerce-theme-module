@@ -60,6 +60,11 @@ abstract class AbstractTemplateManager
         $this->variables = $variables;
     }
 
+    public function clearVariables()
+    {
+        $this->variables = [];
+    }
+
     public function getCacheDirectory()
     {
         if (!empty($this->cacheDirectory)) {
