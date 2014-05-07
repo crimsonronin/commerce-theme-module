@@ -17,13 +17,13 @@ use \SplFileInfo;
  *
  * @copyright  Zoop Pty Ltd
  */
-class Image extends AbstractFileNode
+class Image_1 extends AbstractFileNode
 {
     private $url;
     private $tempDirectory;
 
     /**
-     * @return SplFileInfo 
+     * @return SplFileInfo
      */
     public function createTempImage()
     {

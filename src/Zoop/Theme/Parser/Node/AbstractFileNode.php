@@ -12,11 +12,11 @@ abstract class AbstractFileNode extends AbstractNode
     protected $filename;
     protected $pathname;
     protected $path;
-    
+
     protected function parseFileModel(AssetInterface $model)
     {
         $token = $this->getToken();
-        
+
         if ($token instanceof AbstractAbsoluteFileToken) {
             $url = $token->getUrl();
             $tempDir = $token->getTempDirectory();
@@ -52,7 +52,7 @@ abstract class AbstractFileNode extends AbstractNode
             if(!is_dir($path)) {
                 $this->createDirectory($path);
             }
-            
+
             if (!copy($url, $localPathname)) {
                 throw new Exception('Could not asset copy the asset from "' . $url . '" to "' . $localPathname . '"');
             } else {
@@ -64,7 +64,7 @@ abstract class AbstractFileNode extends AbstractNode
     }
 
     /**
-     * 
+     *
      * @param string $base
      * @param string $name
      * @return string
@@ -131,7 +131,7 @@ abstract class AbstractFileNode extends AbstractNode
         $finfo = new \finfo(FILEINFO_MIME);
         $mimetype = $finfo->file($pathname);
         $mimetypeParts = preg_split('/\s*[;,]\s*/', $mimetype);
-        
+
         return strtolower($mimetypeParts[0]);
     }
 

@@ -175,7 +175,7 @@ class FileParserTest extends BaseTest
                 unlink($file->getRealPath());
             }
         }
-        
+
         if ($deleteRoot === true) {
             rmdir($dir);
         }

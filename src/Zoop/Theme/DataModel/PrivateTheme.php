@@ -16,7 +16,7 @@ use Zoop\Shard\Annotation\Annotations as Shard;
 class PrivateTheme extends AbstractTheme implements ThemeInterface
 {
     /**
-     * Array. Stores that this product is part of.
+     * Array. Stores that this theme is part of.
      * The Zones annotation means this field is used by the Zones filter so
      * only products from the active store are available.
      *
@@ -60,6 +60,7 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
     public function __construct()
     {
         $this->assets = new ArrayCollection;
+        $this->stores = new ArrayCollection;
     }
 
     /**
@@ -67,6 +68,9 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      */
     public function getStores()
     {
+        if(empty($this->stores)) {
+            $this->stores = new ArrayCollection;
+        }
         return $this->stores;
     }
 
@@ -83,8 +87,8 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      */
     public function addStore($store)
     {
-        if (!empty($store) && $this->stores->contains($store) === false) {
-            $this->stores->add($store);
+        if (!empty($store) && $this->getStores()->contains($store) === false) {
+            $this->getStores()->add($store);
         }
     }
 

@@ -20,7 +20,7 @@ class TextToken implements TokenInterface
     {
         $this->content = $content;
     }
-    
+
     public function __toString()
     {
         return $this->getContent();

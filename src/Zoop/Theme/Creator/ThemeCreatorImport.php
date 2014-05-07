@@ -9,7 +9,9 @@ use \RecursiveIteratorIterator;
 use \SplFileInfo;
 use \ZipArchive;
 use Zend\Validator\File;
+use Zoop\Shard\Serializer\Unserializer;
 use Zoop\Theme\DataModel\AssetInterface;
+use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\Serializer\Asset\Unserializer as AssetUnserializer;
 
@@ -24,7 +26,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
     protected $maxFileUploadSize = 20971520; //20MB
     protected $additionalErrorMessages;
     protected $assetUnserializer;
-    
+
     public function __construct(
         Unserializer $unserializer,
         PrivateThemeModel $themeStructure,

@@ -154,9 +154,9 @@ abstract class AbstractTheme
     }
 
     /**
-     * @param ArrayCollection $assets
+     * @param array $assets
      */
-    public function setAssets(ArrayCollection $assets)
+    public function setAssets(array $assets)
     {
         $this->assets = $assets;
     }
@@ -166,11 +166,11 @@ abstract class AbstractTheme
      */
     public function addAsset(AssetInterface $asset)
     {
-        $this->assets->add($asset);
+        $this->getAssets()->add($asset);
     }
 
     /**
-     * 
+     *
      * @return Image
      */
     public function getScreenshot()
@@ -179,7 +179,7 @@ abstract class AbstractTheme
     }
 
     /**
-     * 
+     *
      * @param Image $screenshot
      */
     public function setScreenshot(Image $screenshot)

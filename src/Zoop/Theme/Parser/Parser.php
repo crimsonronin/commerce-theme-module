@@ -30,13 +30,13 @@ class Parser implements ParserInterface
                 $node = new Node\JavascriptNode;
                 $node->setToken($token);
             }
-            
+
             if ($node instanceof Node\NodeInterface) {
                 $nodeTree->addNode($node);
                 unset($node);
             }
         }
-        
+
         return $nodeTree;
     }
 }

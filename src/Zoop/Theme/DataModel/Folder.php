@@ -44,7 +44,7 @@ class Folder extends AbstractAsset implements AssetInterface
      * @ODM\Int
      */
     protected $sortBy = 0;
-    
+
     public function __construct()
     {
         $this->assets = new ArrayCollection;

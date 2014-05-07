@@ -44,7 +44,7 @@ class ImageNode extends AbstractFileNode implements NodeInterface, FileNodeInter
         $this->parseFileModel($image);
 
         $localPathname = $tempDir . '/' . $image->getPathname();
-        
+
         //set extension
         $image->setExtension($this->getExtension($localPathname));
 

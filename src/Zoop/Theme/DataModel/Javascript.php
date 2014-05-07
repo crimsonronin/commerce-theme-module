@@ -21,7 +21,7 @@ class Javascript extends AbstractContentAsset implements AssetInterface
     protected $src;
 
     /**
-     * 
+     *
      * @return string
      */
     public function getSrc()
@@ -30,7 +30,7 @@ class Javascript extends AbstractContentAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @param string $src
      */
     public function setSrc($src)

@@ -45,7 +45,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     protected $mime;
 
     /**
-     * 
+     *
      * @return string
      */
     public function getSrc()
@@ -54,7 +54,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @param string $src
      */
     public function setSrc($src)
@@ -63,7 +63,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @return integer
      */
     public function getHeight()
@@ -72,7 +72,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @param integer $height
      */
     public function setHeight($height)
@@ -81,7 +81,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @return integer
      */
     public function getWidth()
@@ -90,7 +90,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @param integer $width
      */
     public function setWidth($width)
@@ -99,7 +99,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getExtension()
@@ -108,7 +108,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @param string $extension
      */
     public function setExtension($extension)
@@ -117,7 +117,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @return string
      */
     public function getMime()
@@ -126,7 +126,7 @@ class Image extends AbstractFileAsset implements AssetInterface
     }
 
     /**
-     * 
+     *
      * @param string $mime
      */
     public function setMime($mime)

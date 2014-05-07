@@ -67,7 +67,7 @@ class CssLexerTest extends BaseTest
         $this->assertCount(16, $textTokens);
         $this->assertCount(2, $importTokens);
         $this->assertEquals('bootstrap1.css', (string) $importTokens[0]);
-        $this->assertEquals('bootstrap2.css', (string) $importTokens[1]); 
+        $this->assertEquals('bootstrap2.css', (string) $importTokens[1]);
     }
 
     public function testTokenizeCss()
@@ -96,12 +96,12 @@ class CssLexerTest extends BaseTest
                 $imageTokens[] = $token;
             }
         }
-        
+
         $this->assertCount(33, $textTokens);
         $this->assertCount(3, $imageTokens);
         $this->assertCount(2, $importTokens);
         $this->assertEquals('bootstrap1.css', (string) $importTokens[0]);
-        $this->assertEquals('bootstrap2.css', (string) $importTokens[1]); 
+        $this->assertEquals('bootstrap2.css', (string) $importTokens[1]);
         $this->assertEquals('zoop1.jpg', (string) $imageTokens[0]);
         $this->assertEquals('zoop2.jpg', (string) $imageTokens[1]);
         $this->assertEquals('zoop3.jpg', (string) $imageTokens[2]);
