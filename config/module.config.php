@@ -81,33 +81,16 @@ return [
                 ],
             ],
             'admin' => [
-                'templates' => [
-                    __DIR__ . '/../src/view/zoop-legacy/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/admin/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/admin/_default',
-                ]
+                'templates' => []
             ],
             'email' => [
-                'templates' => [
-                    __DIR__ . '/../src/view/zoop-legacy/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/zoop',
-                    __DIR__ . '/../src/view/zoop-legacy/storefront/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/storefront/_default',
-                ]
+                'templates' => []
             ],
             'facebook' => [
-                'templates' => [
-                    __DIR__ . '/../src/view/zoop-legacy/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/facebook/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/facebook/_default',
-                ]
+                'templates' => []
             ],
             'storefront' => [
-                'templates' => [
-                    __DIR__ . '/../src/view/zoop-legacy/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/storefront/_global',
-                    __DIR__ . '/../src/view/zoop-legacy/storefront/_default',
-                ]
+                'templates' => []
             ]
         ],
     ],

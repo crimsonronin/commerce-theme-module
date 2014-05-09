@@ -13,7 +13,6 @@ use Zoop\Theme\Creator\ThemeCreatorImport;
 
 class ThemeCreateListener extends CreateListener
 {
-
     protected $store;
     protected $documentManager;
     protected $serviceLocator;
@@ -23,8 +22,16 @@ class ThemeCreateListener extends CreateListener
         $request = $event->getRequest();
 
         $uploadedFile = $request->getFiles()->toArray();
-        if (!isset($uploadedFile['theme'])) {
-            throw new Exception('No file uploaded');
+        
+        if (isset($uploadedFile['theme'])) {
+            $uploadedFileName = $uploadedFile['theme']['tmp_name'];
+        } else {
+            $uploadedContent = $request->getContent();
+            if (!empty($uploadedContent)) {
+                $uploadedFileName = $this->saveLocal($uploadedContent);
+            } else {
+                throw new Exception('No file uploaded');
+            }
         }
 
         $result = $event->getResult();
@@ -33,7 +40,7 @@ class ThemeCreateListener extends CreateListener
         $sm = $event->getTarget()->getOptions()->getServiceLocator();
         $this->setServiceLocator($sm);
 
-        $file = new SplFileInfo($uploadedFile['theme']['tmp_name']);
+        $file = new SplFileInfo($uploadedFileName);
 
         if (empty($file)) {
             throw new Exception('No file uploaded');
@@ -49,7 +56,7 @@ class ThemeCreateListener extends CreateListener
         }
     }
 
-    private function import(SplFileInfo $file, ThemeInterface $theme)
+    protected function import(SplFileInfo $file, ThemeInterface $theme)
     {
         $importer = $this->getImporter();
         try {
@@ -65,12 +72,19 @@ class ThemeCreateListener extends CreateListener
         }
     }
 
-    public function getServiceLocator()
+    protected function saveLocal($content)
+    {
+        $name = tempnam(sys_get_temp_dir(), 'Zoop');
+        file_put_contents($name, $content);
+        return $name;
+    }
+
+    protected function getServiceLocator()
     {
         return $this->serviceLocator;
     }
 
-    public function setServiceLocator($serviceLocator)
+    protected function setServiceLocator($serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
     }
@@ -79,7 +93,7 @@ class ThemeCreateListener extends CreateListener
      * @param MvcEvent $event
      * @return string
      */
-    private function getStoreSubdomain()
+    protected function getStoreSubdomain()
     {
         return $this->getStore()->getSubdomain();
     }
@@ -88,7 +102,7 @@ class ThemeCreateListener extends CreateListener
      * @param MvcEvent $event
      * @return Store
      */
-    public function getStore()
+    protected function getStore()
     {
         if (!isset($this->store)) {
             $this->store = $this->getServiceLocator()->get('zoop.commerce.store.active');
@@ -100,7 +114,7 @@ class ThemeCreateListener extends CreateListener
      * @param MvcEvent $event
      * @return ThemeCreatorImport
      */
-    public function getImporter()
+    protected function getImporter()
     {
         if (!isset($this->importer)) {
             $this->importer = $this->getServiceLocator()->get('zoop.commerce.theme.creator.import');
