@@ -35,12 +35,12 @@ return [
                             'deleteList' => [],
                             'get' => [
                                 'zoop.shardmodule.listener.get',
-                                'zoop.shardmodule.listener.serialize',
+                                'zoop.commerce.theme.listener.theme.serialize',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'getList' => [
                                 'zoop.shardmodule.listener.getlist',
-                                'zoop.shardmodule.listener.serialize',
+                                'zoop.commerce.theme.listener.theme.serialize',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'options' => [],
@@ -59,7 +59,7 @@ return [
                                 'zoop.commerce.theme.listener.theme.create',
                                 'zoop.commerce.theme.listener.theme.flush',
                                 'zoop.shardmodule.listener.location',
-                                'zoop.shardmodule.listener.prepareviewmodel',
+                                'zoop.commerce.theme.listener.theme.import.prepareviewmodel',
                             ]
                         ],
                     ],
@@ -103,7 +103,7 @@ return [
                 'options' => [
                     'route' => '/admin/:endpoint[/:id]',
                     'constraints' => [
-                        'endpoint' => '(themes\/import|themes)',
+                        'endpoint' => '(themes\/import|themes|asset)',
                         'id' => '[a-zA-Z0-9_\-]+',
                     ],
                 ],
@@ -124,7 +124,9 @@ return [
             'zoop.commerce.theme.listener.theme.create' => 'Zoop\Theme\Controller\ThemeCreateListener',
             'zoop.commerce.theme.listener.theme.delete' => 'Zoop\Theme\Controller\ThemeDeleteListener',
             'zoop.commerce.theme.listener.theme.flush' => 'Zoop\Theme\Controller\ThemeFlushListener',
+            'zoop.commerce.theme.listener.theme.serialize' => 'Zoop\Theme\Controller\ThemeSerializeListener',
             'zoop.commerce.theme.listener.theme.unserialize' => 'Zoop\Theme\Controller\ThemeUnserializeListener',
+            'zoop.commerce.theme.listener.theme.import.prepareviewmodel' => 'Zoop\Theme\Controller\ThemeImportPrepareViewModelListener',
             'zoop.commerce.theme.parser.css' => 'Zoop\Theme\Parser\Css',
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',
