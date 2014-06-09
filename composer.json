@@ -25,19 +25,20 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/crimsonronin/mongodb-odm"
-        },
-        {
-            "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-common-module.git"
         },
         {
             "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-store-module.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/zoopcommerce/mongodb-odm"
         }
     ],
     "require": {
         "php"                                       : ">=5.4",
+        "zendframework/zendframework"               : "2.3.1",
         "aws/aws-sdk-php"                           : "2.*",
         "codeguy/upload"                            : "dev-master#ff376306aacbd1005c7739dc171fae4edd96d8b7",
         "doctrine/annotations"                      : "dev-master#a11349d39d85bef75a71bd69bd604ac4fb993f03 as dev-master",
@@ -52,15 +53,14 @@
         "melihucar/ftpclient"                       : "dev-master#faab472b1f3118d4926b3cbfc7d21c9cba255c0f as dev-master",
         "sendgrid/sendgrid"                         : "2.0.*",
         "willdurand/geocoder"                       : "2.4.*",
-        "zendframework/zendframework"               : "2.3.1 as dev-develop",
         "zoopcommerce/commerce-common-module"       : "dev-master",
         "zoopcommerce/commerce-store-module"        : "dev-master",
-        "zoopcommerce/shard-module"                 : "~3.0"
+        "zoopcommerce/shard-module"                 : "~3.1"
     },
     "require-dev": {
         "phpunit/phpunit"           : ">=3.7",
         "squizlabs/php_codesniffer" : "1.4.*",
-        "phpmd/phpmd"               : "1.4.*"
+        "phpmd/phpmd"               : "1.5.*"
     },
     "autoload": {
         "psr-0": {
