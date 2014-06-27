@@ -10,3 +10,4 @@ vendor
 Thumbs.db
 *.log
 *.tar.gz
+/data/temp
