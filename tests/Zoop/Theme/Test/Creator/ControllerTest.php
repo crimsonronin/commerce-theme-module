@@ -75,7 +75,8 @@ class ControllerTest extends BaseTest
 
         $id = str_replace(['Location: ', '/admin/themes/import/'], '', $response->getHeaders()->get('Location')->toString());
 
-        $this->assertFalse(isset($result));
+        $this->assertTrue(isset($result['error']));
+        $this->assertFalse($result['error']);
 
         $theme = $this->getTheme($id);
         $this->assertNotEmpty($theme);
@@ -112,7 +113,8 @@ class ControllerTest extends BaseTest
 
         $id = str_replace(['Location: ', '/admin/themes/import/'], '', $response->getHeaders()->get('Location')->toString());
 
-        $this->assertFalse(isset($result));
+        $this->assertTrue(isset($result['error']));
+        $this->assertFalse($result['error']);
 
         $theme = $this->getTheme($id);
         $this->assertNotEmpty($theme);
