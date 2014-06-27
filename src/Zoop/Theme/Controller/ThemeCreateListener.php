@@ -10,6 +10,7 @@ use Zoop\Store\DataModel\Store;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
 use Zoop\Theme\Creator\ThemeCreatorImport;
+use Zend\ServiceManager\ServiceManager;
 
 class ThemeCreateListener extends CreateListener
 {
@@ -19,6 +20,10 @@ class ThemeCreateListener extends CreateListener
 
     protected function doAction(MvcEvent $event, $metadata, $documentManager)
     {
+        //create a service manager helper
+        $sm = $event->getTarget()->getOptions()->getServiceLocator();
+        $this->setServiceLocator($sm);
+        
         $request = $event->getRequest();
 
         $uploadedFile = $request->getFiles()->toArray();
@@ -28,7 +33,8 @@ class ThemeCreateListener extends CreateListener
         } else {
             $uploadedContent = $request->getContent();
             if (!empty($uploadedContent)) {
-                $uploadedFileName = $this->saveLocal($uploadedContent);
+                $filename = $request->getHeaders()->get('X-File-Name')->getFieldValue();
+                $uploadedFileName = $this->saveLocalFile($filename, $uploadedContent);
             } else {
                 throw new Exception('No file uploaded');
             }
@@ -36,9 +42,6 @@ class ThemeCreateListener extends CreateListener
 
         $result = $event->getResult();
         $theme = $result->getModel();
-
-        $sm = $event->getTarget()->getOptions()->getServiceLocator();
-        $this->setServiceLocator($sm);
 
         $file = new SplFileInfo($uploadedFileName);
 
@@ -49,9 +52,13 @@ class ThemeCreateListener extends CreateListener
         try {
             $this->import($file, $theme);
             $result->setStatusCode(201);
+            
+            $this->removeLocalFile($uploadedFileName);
 
             return $result;
         } catch (Exception $e) {
+            $this->removeLocalFile($uploadedFileName);
+            
             throw new Exception($e->getMessage());
         }
     }
@@ -72,25 +79,53 @@ class ThemeCreateListener extends CreateListener
         }
     }
 
-    protected function saveLocal($content)
+    /**
+     * @param string $filename
+     * @param string $content
+     * @return string
+     */
+    protected function saveLocalFile($filename, $content)
     {
-        $name = tempnam(sys_get_temp_dir(), 'Zoop');
-        file_put_contents($name, $content);
-        return $name;
+        $tempDir = $this->getTempDirectory();
+        if (!is_dir($tempDir)) {
+            $createdDir = mkdir($tempDir);
+        }
+
+        $filePathname = $tempDir . '/' . $filename;
+
+        file_put_contents($filePathname, $content);
+        return $filePathname;
     }
 
+    /**
+     * @param string $filename
+     */
+    protected function removeLocalFile($filename)
+    {
+        $tempDir = $this->getTempDirectory();
+        if(strpos($filename, $tempDir) === 0) {
+            @unlink($filename);
+            @rmdir($tempDir);
+        }
+    }
+
+    /**
+     * @return ServiceManager
+     */
     protected function getServiceLocator()
     {
         return $this->serviceLocator;
     }
 
-    protected function setServiceLocator($serviceLocator)
+    /**
+     * @param ServiceManager $serviceLocator
+     */
+    protected function setServiceLocator(ServiceManager $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
     }
 
     /**
-     * @param MvcEvent $event
      * @return string
      */
     protected function getStoreSubdomain()
@@ -99,7 +134,6 @@ class ThemeCreateListener extends CreateListener
     }
 
     /**
-     * @param MvcEvent $event
      * @return Store
      */
     protected function getStore()
@@ -111,7 +145,6 @@ class ThemeCreateListener extends CreateListener
     }
 
     /**
-     * @param MvcEvent $event
      * @return ThemeCreatorImport
      */
     protected function getImporter()
@@ -121,5 +154,15 @@ class ThemeCreateListener extends CreateListener
         }
         return $this->importer;
     }
-
+    
+    /**
+     * @return string
+     */
+    protected function getTempDirectory()
+    {
+        if (!isset($this->tempDirectory)) {
+            $this->tempDirectory = $this->getServiceLocator()->get('config')['zoop']['theme']['temp_dir'] . '/' . uniqid();
+        }
+        return $this->tempDirectory;
+    }
 }
