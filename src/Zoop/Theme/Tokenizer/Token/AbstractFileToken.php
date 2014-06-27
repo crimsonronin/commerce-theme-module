@@ -27,7 +27,7 @@ abstract class AbstractFileToken
     {
         $this->tempDirectory = $tempDirectory;
     }
-    
+
     public function getFilePath()
     {
         return $this->filePath;

@@ -46,7 +46,7 @@ abstract class AbstractThemeCreator
     }
 
     /**
-     * 
+     *
      * @param ArrayCollection|array $structureAssets
      * @param ArrayCollection|array $assets
      * @param FolderModel $parent
@@ -141,7 +141,7 @@ abstract class AbstractThemeCreator
     }
 
     /**
-     * 
+     *
      * @param ArrayCollection|array $assets
      * @param string $pathname
      * @return AssetInterface|boolean

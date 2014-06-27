@@ -23,11 +23,11 @@ class ThemeCreateListener extends CreateListener
         //create a service manager helper
         $sm = $event->getTarget()->getOptions()->getServiceLocator();
         $this->setServiceLocator($sm);
-        
+
         $request = $event->getRequest();
 
         $uploadedFile = $request->getFiles()->toArray();
-        
+
         if (isset($uploadedFile['theme'])) {
             $uploadedFileName = $uploadedFile['theme']['tmp_name'];
         } else {
@@ -52,13 +52,13 @@ class ThemeCreateListener extends CreateListener
         try {
             $this->import($file, $theme);
             $result->setStatusCode(201);
-            
+
             $this->removeLocalFile($uploadedFileName);
 
             return $result;
         } catch (Exception $e) {
             $this->removeLocalFile($uploadedFileName);
-            
+
             throw new Exception($e->getMessage());
         }
     }
@@ -154,7 +154,7 @@ class ThemeCreateListener extends CreateListener
         }
         return $this->importer;
     }
-    
+
     /**
      * @return string
      */

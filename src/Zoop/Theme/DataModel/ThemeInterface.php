@@ -13,7 +13,7 @@ interface ThemeInterface
      * @return string
      */
     public function getName();
-    
+
     /**
      * @param string $name
      */
