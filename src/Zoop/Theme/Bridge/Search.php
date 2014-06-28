@@ -29,5 +29,4 @@ class Search extends AbstractBridge implements BridgeInterface
 
         return $data;
     }
-
 }

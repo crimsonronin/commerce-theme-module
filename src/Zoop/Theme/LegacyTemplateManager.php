@@ -62,5 +62,4 @@ class LegacyTemplateManager extends TemplateManager implements TemplateManagerIn
     {
         return $this->load($this->getFile(), $this->getBridgedVariables());
     }
-
 }

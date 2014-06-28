@@ -74,5 +74,4 @@ class Order extends AbstractBridge implements BridgeInterface
 
         return $products;
     }
-
 }

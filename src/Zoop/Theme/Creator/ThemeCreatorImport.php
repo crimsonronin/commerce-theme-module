@@ -71,7 +71,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         return false;
     }
 
-    private function getAssetsFromDirectory($directory, AssetInterface $parent = null)
+    protected function getAssetsFromDirectory($directory, AssetInterface $parent = null)
     {
         $assets = [];
 
@@ -103,12 +103,12 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
     /**
      * @return AssetInterface
      */
-    private function getAsset($pathname)
+    protected function getAsset($pathname)
     {
         return $this->getAssetUnserializer()->fromFile(new SplFileInfo($pathname));
     }
 
-    private function isValidUpload(SplFileInfo $uploadedFile)
+    protected function isValidUpload(SplFileInfo $uploadedFile)
     {
         $fileSizeValidator = new File\Size($this->getMaxFileUploadSize());
         $zipValidator = new File\IsCompressed();
@@ -146,7 +146,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         return $this->maxFileUploadSize;
     }
 
-    private function getTempThemeDirectory()
+    protected function getTempThemeDirectory()
     {
         return $this->tempThemeDirectory;
     }
@@ -177,13 +177,13 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         return $this;
     }
 
-    private function setTempThemeDirectory($tempDirectory)
+    protected function setTempThemeDirectory($tempDirectory)
     {
         $this->tempThemeDirectory = $tempDirectory;
         return $this;
     }
 
-    private function createDirectory($base, $name)
+    protected function createDirectory($base, $name)
     {
         $dir = $base . '/' . $name;
         if (!is_dir($dir)) {
@@ -192,7 +192,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         return $dir;
     }
 
-    private function unZipTheme($file, $dir)
+    protected function unZipTheme($file, $dir)
     {
         $zip = new ZipArchive;
         if ($zip->open($file) === true) {
@@ -225,7 +225,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         }
     }
 
-    private function deleteTempDirectory($dir)
+    protected function deleteTempDirectory($dir)
     {
         $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::CHILD_FIRST);
         /* @var $file \SplFileInfo */

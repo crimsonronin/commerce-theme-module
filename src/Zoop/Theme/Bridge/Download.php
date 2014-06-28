@@ -10,5 +10,4 @@ class Download extends AbstractBridge implements BridgeInterface
 
         return $data;
     }
-
 }

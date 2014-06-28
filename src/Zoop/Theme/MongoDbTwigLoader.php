@@ -10,7 +10,6 @@ use Zoop\Theme\DataModel\ThemeInterface;
 
 class MongoDbTwigLoader implements Twig_LoaderInterface, Twig_ExistsLoaderInterface
 {
-
     protected $dm;
     protected $theme;
     protected $cache;
@@ -104,5 +103,4 @@ class MongoDbTwigLoader implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
         }
         return false;
     }
-
 }

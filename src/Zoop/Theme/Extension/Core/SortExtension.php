@@ -7,7 +7,6 @@ use \Twig_SimpleFilter;
 
 class SortExtension extends Twig_Extension
 {
-
     public function getFilters()
     {
         return [
@@ -44,5 +43,4 @@ class SortExtension extends Twig_Extension
         }
         return $collection;
     }
-
 }

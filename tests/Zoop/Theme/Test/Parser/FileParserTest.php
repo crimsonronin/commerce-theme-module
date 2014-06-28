@@ -162,7 +162,11 @@ class FileParserTest extends BaseTest
      */
     protected static function deleteDirectoryRecursively($dir, $deleteRoot = false)
     {
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::CHILD_FIRST);
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+        
         /* @var $file SplFileInfo */
         foreach ($files as $file) {
             if ($file->getFilename() === '.' || $file->getFilename() === '..') {

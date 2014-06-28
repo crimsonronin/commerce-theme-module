@@ -66,5 +66,4 @@ class Store extends AbstractBridge implements BridgeInterface
 
         return $data;
     }
-
 }

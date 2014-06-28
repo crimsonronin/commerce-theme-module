@@ -13,5 +13,4 @@ class Information extends AbstractBridge implements BridgeInterface
 
         return $data;
     }
-
 }

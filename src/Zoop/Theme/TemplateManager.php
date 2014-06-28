@@ -4,7 +4,6 @@ namespace Zoop\Theme;
 
 class TemplateManager extends AbstractTemplateManager implements TemplateManagerInterface
 {
-
     public function render()
     {
         return $this->load($this->getFile(), $this->getVariables());
@@ -19,5 +18,4 @@ class TemplateManager extends AbstractTemplateManager implements TemplateManager
         $template = $this->getTwig()->loadTemplate($file);
         return $template->render($data);
     }
-
 }

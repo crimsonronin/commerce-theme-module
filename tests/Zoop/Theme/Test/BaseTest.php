@@ -23,8 +23,11 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
 
         //create db connection and store requests
         if (!isset(self::$documentManager)) {
-            self::$documentManager = $this->getApplicationServiceLocator()->get('doctrine.odm.documentmanager.commerce');
-            self::$dbName = $this->getApplicationServiceLocator()->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
+            self::$documentManager = $this->getApplicationServiceLocator()
+                ->get('doctrine.odm.documentmanager.commerce');
+            
+            self::$dbName = $this->getApplicationServiceLocator()
+                ->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
 
             $eventManager = self::$documentManager->getEventManager();
             $eventManager->addEventListener(Events::EXCEPTION, $this);

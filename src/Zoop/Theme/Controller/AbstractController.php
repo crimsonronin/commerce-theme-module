@@ -16,7 +16,6 @@ use Zoop\Shard\Serializer\Unserializer;
  */
 abstract class AbstractController extends AbstractActionController
 {
-
     protected $dm;
     protected $manifest;
     protected $store;
@@ -101,5 +100,4 @@ abstract class AbstractController extends AbstractActionController
     {
         return $this->getStore()->getSubdomain();
     }
-
 }

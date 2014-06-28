@@ -21,7 +21,6 @@ use Zoop\Theme\DataModel\Template as TemplateModel;
  */
 class Unserializer
 {
-
     private $tempDirectory;
 
     /**
@@ -216,5 +215,4 @@ class Unserializer
     {
         $this->tempDirectory = $tempDirectory;
     }
-
 }

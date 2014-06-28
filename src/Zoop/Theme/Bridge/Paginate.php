@@ -8,5 +8,4 @@ class Paginate extends AbstractBridge implements BridgeInterface
     {
         return $legacyData;
     }
-
 }

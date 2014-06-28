@@ -14,7 +14,6 @@ use Zoop\Theme\DataModel\Template as TemplateModel;
 
 class Validator
 {
-
     private $twig;
     private $errors = [];
     private $hasErrors = false;
@@ -102,5 +101,4 @@ class Validator
     {
         $this->hasErrors = (bool) $hasErrors;
     }
-
 }

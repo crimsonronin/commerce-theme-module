@@ -4,7 +4,6 @@ namespace Zoop\Theme\Bridge;
 
 interface BridgeInterface
 {
-
     public function getVariables();
 
     public function getData();

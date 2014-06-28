@@ -28,10 +28,9 @@ class Collection extends AbstractBridge implements BridgeInterface
             'children' => [],
             'depth' => $legacyData['categoryDepth'],
             'hidden' => empty($legacyData['categoryDisplay']),
-            'imageSets' => $this->parseImages($legacyData['images']),
             'numberOfProducts' => $legacyData['numberOfProducts'],
             'products' => $this->parseProducts($legacyData['products']),
-//            'order' => $legacyData['categoryOrder'],
+            'order' => $legacyData['categoryOrder'],
             'createdOn' => new DateTime($legacyData['dateAdded']),
             'updatedOn' => new DateTime($legacyData['dateUpdated']),
         ];
@@ -59,5 +58,4 @@ class Collection extends AbstractBridge implements BridgeInterface
 
         return $products;
     }
-
 }

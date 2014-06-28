@@ -59,5 +59,4 @@ class Menu extends AbstractBridge implements BridgeInterface
 
         return $data;
     }
-
 }

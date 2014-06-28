@@ -73,7 +73,11 @@ class ControllerTest extends BaseTest
 
         $result = json_decode($response->getContent(), true);
 
-        $id = str_replace(['Location: ', '/admin/themes/import/'], '', $response->getHeaders()->get('Location')->toString());
+        $id = str_replace(
+            ['Location: ', '/admin/themes/import/'],
+            '',
+            $response->getHeaders()->get('Location')->toString()
+        );
 
         $this->assertTrue(isset($result['error']));
         $this->assertFalse($result['error']);
@@ -111,7 +115,11 @@ class ControllerTest extends BaseTest
 
         $result = json_decode($response->getContent(), true);
 
-        $id = str_replace(['Location: ', '/admin/themes/import/'], '', $response->getHeaders()->get('Location')->toString());
+        $id = str_replace(
+            ['Location: ', '/admin/themes/import/'],
+            '',
+            $response->getHeaders()->get('Location')->toString()
+        );
 
         $this->assertTrue(isset($result['error']));
         $this->assertFalse($result['error']);

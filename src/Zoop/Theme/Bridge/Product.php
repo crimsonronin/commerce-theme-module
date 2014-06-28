@@ -181,5 +181,4 @@ class Product extends AbstractBridge implements BridgeInterface
 
         return $dimensions;
     }
-
 }

@@ -159,5 +159,4 @@ abstract class AbstractFileNode extends AbstractNode
     {
         $this->token = $token;
     }
-
 }

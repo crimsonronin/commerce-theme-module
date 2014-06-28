@@ -7,7 +7,6 @@ use Zoop\Catalog\Product;
 
 class TwigEnvironment extends Twig_Environment
 {
-
     protected $productService;
 
     public function getProductService()
@@ -19,5 +18,4 @@ class TwigEnvironment extends Twig_Environment
     {
         $this->productService = $productService;
     }
-
 }

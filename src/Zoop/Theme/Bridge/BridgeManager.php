@@ -40,5 +40,4 @@ class BridgeManager
 
         return $newData;
     }
-
 }

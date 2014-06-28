@@ -6,7 +6,6 @@ use \Twig_Environment;
 
 abstract class AbstractTemplateManager
 {
-
     const CACHE_DIR = '/../../cache';
 
     private $cacheDirectory;
@@ -78,5 +77,4 @@ abstract class AbstractTemplateManager
     {
         $this->cacheDirectory = $cacheDirectory;
     }
-
 }

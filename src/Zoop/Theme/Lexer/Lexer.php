@@ -16,7 +16,6 @@ use Zoop\Theme\Tokenizer\Token\Absolute;
 
 class Lexer
 {
-
     protected $regexes;
     protected $relativeFilePath;
     protected $tempDirectory;
@@ -143,5 +142,4 @@ class Lexer
 
         return $tokenStream;
     }
-
 }

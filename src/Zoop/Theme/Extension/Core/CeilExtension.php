@@ -7,7 +7,6 @@ use \Twig_SimpleFilter;
 
 class CeilExtension extends Twig_Extension
 {
-
     public function getFilters()
     {
         return [
@@ -24,5 +23,4 @@ class CeilExtension extends Twig_Extension
     {
         return 'ceil_extension';
     }
-
 }

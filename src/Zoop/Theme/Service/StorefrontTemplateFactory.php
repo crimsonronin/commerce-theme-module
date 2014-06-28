@@ -17,7 +17,6 @@ use Zoop\Theme\TwigEnvironment;
 
 class StorefrontTemplateFactory implements FactoryInterface
 {
-
     /**
      *
      * @param  ServiceLocatorInterface $serviceLocator
@@ -58,5 +57,4 @@ class StorefrontTemplateFactory implements FactoryInterface
 
         return new TemplateManager($twig);
     }
-
 }

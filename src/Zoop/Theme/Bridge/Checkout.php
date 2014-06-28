@@ -8,5 +8,4 @@ class Checkout extends AbstractBridge implements BridgeInterface
     {
         return $legacyData;
     }
-
 }

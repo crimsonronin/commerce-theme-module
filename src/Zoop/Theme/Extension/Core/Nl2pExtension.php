@@ -31,5 +31,4 @@ class Nl2pExtension extends Twig_Extension
     {
         return 'nl2p';
     }
-
 }

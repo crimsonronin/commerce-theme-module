@@ -85,5 +85,4 @@ abstract class AbstractBridge
     {
         return lcfirst(str_replace(' ', '', ucwords(strtolower(str_replace(['_', '-'], ' ', $key)))));
     }
-
 }

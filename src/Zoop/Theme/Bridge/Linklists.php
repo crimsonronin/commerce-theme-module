@@ -26,5 +26,4 @@ class Linklists extends AbstractBridge implements BridgeInterface
             'mainNavigation' => $links
         ];
     }
-
 }

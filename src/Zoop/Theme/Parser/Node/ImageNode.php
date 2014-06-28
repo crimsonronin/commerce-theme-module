@@ -7,7 +7,6 @@ use Zoop\Theme\DataModel\Image;
 
 class ImageNode extends AbstractFileNode implements NodeInterface, FileNodeInterface
 {
-
     protected $model;
 
     /**
@@ -70,5 +69,4 @@ class ImageNode extends AbstractFileNode implements NodeInterface, FileNodeInter
     {
         return $this->getModel()->getSrc();
     }
-
 }

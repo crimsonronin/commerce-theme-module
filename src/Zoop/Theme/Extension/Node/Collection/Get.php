@@ -8,7 +8,6 @@ use \Twig_Compiler;
 
 class Get extends Twig_Node
 {
-
     public function __construct(Twig_Node_Expression $collection, $line, $tag = null)
     {
         parent::__construct(['collection' => $collection], [], $line, $tag);
@@ -31,5 +30,4 @@ class Get extends Twig_Node
                 ->outdent()
                 ->write("}\n");
     }
-
 }
