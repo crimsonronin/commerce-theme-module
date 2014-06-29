@@ -2,6 +2,10 @@
 
 namespace Zoop\Theme\Bridge;
 
+/**
+ * The theme Bridge is to help migrate from the legacy template variables to the
+ * new version found here: http://zoopcommerce.github.io/phoenix/variables.html
+ */
 class BridgeManager
 {
     private $bridges = [];

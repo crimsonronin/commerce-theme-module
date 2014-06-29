@@ -5,13 +5,13 @@ namespace Zoop\Theme\Test\Parser;
 use \SplFileInfo;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
-use Zoop\Theme\Test\BaseTest;
+use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Parser\Node\ImageNode;
 use Zoop\Theme\Parser\Node\CssNode;
 use Zoop\Theme\Parser\Node\JavascriptNode;
 use Zoop\Theme\Tokenizer\Token;
 
-class FileParserTest extends BaseTest
+class FileParserTest extends AbstractTest
 {
     protected static $tempDir;
 

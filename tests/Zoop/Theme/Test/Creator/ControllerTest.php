@@ -2,7 +2,7 @@
 
 namespace Zoop\Theme\Test\Creator;
 
-use Zoop\Theme\Test\BaseTest;
+use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Test\FileMoc;
 use Zend\Http\Header\Accept;
 use Zend\Http\Header\ContentType;
@@ -10,7 +10,7 @@ use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\PrivateTheme;
 use Zoop\Theme\DataModel\ThemeInterface;
 
-class ControllerTest extends BaseTest
+class ControllerTest extends AbstractTest
 {
     const DOCUMENT_PRIVATE_THEME = 'Zoop\Theme\DataModel\PrivateTheme';
 
@@ -18,7 +18,7 @@ class ControllerTest extends BaseTest
     {
         $data = [
             'type' => 'PrivateTheme',
-            'stores' => ['demo'],
+            'stores' => ['apple'],
             'name' => 'Test'
         ];
 
@@ -30,7 +30,7 @@ class ControllerTest extends BaseTest
             ->setContent(json_encode($data))
             ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
 
-        $this->dispatch('http://demo.zoopcommerce.local/admin/themes');
+        $this->dispatch('http://apple.zoopcommerce.local/admin/themes');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
@@ -66,7 +66,7 @@ class ControllerTest extends BaseTest
 
         $request->setFiles($files);
 
-        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/import');
+        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/import');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
@@ -108,7 +108,7 @@ class ControllerTest extends BaseTest
 
         $request->setFiles($files);
 
-        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/import');
+        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/import');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
@@ -138,7 +138,7 @@ class ControllerTest extends BaseTest
                 ->setMethod('GET')
                 ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://demo.zoopcommerce.local/admin/themes');
+        $this->dispatch('http://apple.zoopcommerce.local/admin/themes');
 
         $result = json_decode($this->getResponse()->getContent(), true);
 
@@ -158,7 +158,7 @@ class ControllerTest extends BaseTest
                 ->setMethod('GET')
                 ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/' . $private->getId());
+        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/' . $private->getId());
 
         $result = json_decode($this->getResponse()->getContent(), true);
         $this->assertResponseStatusCode(200);
@@ -176,7 +176,7 @@ class ControllerTest extends BaseTest
                 ->setMethod('DELETE')
                 ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://demo.zoopcommerce.local/admin/themes/' . $private->getId());
+        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/' . $private->getId());
 
         $this->assertResponseStatusCode(204);
         //need to ensure assets are soft deleted too
@@ -189,7 +189,7 @@ class ControllerTest extends BaseTest
     {
         $private = new PrivateTheme;
         $private->setName('Test');
-        $private->addStore('demo');
+        $private->addStore('apple');
 
         $this->getDocumentManager()->persist($private);
         $this->getDocumentManager()->flush($private);
@@ -205,7 +205,7 @@ class ControllerTest extends BaseTest
     {
         $private = $this->getApplicationServiceLocator()->get('zoop.commerce.theme.structure');
         $private->setName('Test');
-        $private->addStore('demo');
+        $private->addStore('apple');
 
         $this->getDocumentManager()->persist($private);
         $this->getDocumentManager()->flush($private);

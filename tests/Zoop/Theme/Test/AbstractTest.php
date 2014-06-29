@@ -5,14 +5,20 @@ namespace Zoop\Theme\Test;
 use Zoop\Store\DataModel\Store;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Zoop\Shard\Manifest;
+use Zoop\Shard\Serializer\Unserializer;
+use Zoop\Theme\Test\Assets\TestData;
 use Zoop\Shard\Core\Events;
 use Zend\ServiceManager\ServiceManager;
 
-abstract class BaseTest extends AbstractHttpControllerTestCase
+abstract class AbstractTest extends AbstractHttpControllerTestCase
 {
     protected static $documentManager;
     protected static $serviceManager;
     protected static $dbName;
+    protected static $unserializer;
+    protected static $manifest;
+    protected static $store;
     public $calls;
 
     public function setUp()
@@ -32,13 +38,28 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
             $eventManager = self::$documentManager->getEventManager();
             $eventManager->addEventListener(Events::EXCEPTION, $this);
 
-            //create a demo store
-            $this->createStore();
-            //set the Request host so that active store works correctly.
-            $request = $this->getApplicationServiceLocator()->get('request');
-            /* @var $request Request */
-            $request->getUri()->setHost('demo.zoopcommerce.local');
+            if (!isset(self::$manifest)) {
+                self::$manifest = $this->getApplicationServiceLocator()
+                    ->get('shard.commerce.manifest');
+            }
+
+            if (!isset(self::$unserializer)) {
+                self::$unserializer = self::$manifest->getServiceManager()
+                    ->get('unserializer');
+            }
+
+            //create a apple store
+            self::getStore();
         }
+        
+        if (empty(self::$store)) {
+            $store = self::getStore();
+        }
+        
+        //set the Request host so that active store works correctly.
+        $request = $this->getApplicationServiceLocator()->get('request');
+        /* @var $request Request */
+        $request->getUri()->setHost('apple.zoopcommerce.local');
     }
 
     public static function tearDownAfterClass()
@@ -94,22 +115,38 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
         self::$dbName = $dbName;
     }
 
-    protected static function createStore($data = [])
+    /**
+     *
+     * @return Manifest
+     */
+    public static function getManifest()
     {
-        $db = self::getDocumentManager();
-        if (!empty($data)) {
-            //serialize
-        } else {
-            $store = new Store;
-            $store->setSlug('demo');
-            $store->setSubdomain('demo');
-            $store->setName('Demo');
-            $store->setEmail('josh@zoopcommerce.com');
-        }
+        return self::$manifest;
+    }
 
-        $db->persist($store);
-        $db->flush($store);
-        $db->clear();
+    /**
+     *
+     * @return Unserializer
+     */
+    public static function getUnserializer()
+    {
+        return self::$unserializer;
+    }
+
+    /**
+     * @return Store
+     */
+    protected static function getStore()
+    {
+        if (!isset(self::$store)) {
+            $store = TestData::createStore(self::getUnserializer());
+
+            self::getDocumentManager()->persist($store);
+            self::getDocumentManager()->flush($store);
+            self::getDocumentManager()->clear($store);
+            self::$store = $store;
+        }
+        return self::$store;
     }
 
     public static function clearDatabase()
@@ -123,6 +160,8 @@ abstract class BaseTest extends AbstractHttpControllerTestCase
                 /* @var $collection \MongoCollection */
                 $collection->drop();
             }
+            self::$documentManager->clear();
+            self::$store = null;
         }
     }
 

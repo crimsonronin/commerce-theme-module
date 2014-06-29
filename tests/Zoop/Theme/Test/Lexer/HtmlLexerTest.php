@@ -2,7 +2,7 @@
 
 namespace Zoop\Theme\Test\Lexer;
 
-use Zoop\Theme\Test\BaseTest;
+use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Lexer\Lexer;
 use Zoop\Theme\Lexer\Regex;
 use Zoop\Theme\Tokenizer\Token\TextToken;
@@ -10,7 +10,7 @@ use Zoop\Theme\Tokenizer\Token\ImageTokenInterface;
 use Zoop\Theme\Tokenizer\Token\CssTokenInterface;
 use Zoop\Theme\Tokenizer\Token\JavascriptTokenInterface;
 
-class HtmlLexerTest extends BaseTest
+class HtmlLexerTest extends AbstractTest
 {
     public function testTokenizeHtmlCssUrl()
     {

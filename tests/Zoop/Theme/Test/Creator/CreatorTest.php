@@ -4,10 +4,10 @@ namespace Zoop\Theme\Test\Creator;
 
 use \Exception;
 use \SplFileInfo;
-use Zoop\Theme\Test\BaseTest;
+use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Creator\ThemeCreatorImport;
 
-class CreatorTest extends BaseTest
+class CreatorTest extends AbstractTest
 {
     private $creator;
 

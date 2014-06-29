@@ -4,17 +4,17 @@ namespace Zoop\Theme\Test\Serializer;
 
 use \Exception;
 use \SplFileInfo;
-use Zoop\Theme\Test\BaseTest;
+use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Serializer\Asset\Unserializer;
 
-class UnserializerTest extends BaseTest
+class UnserializerTest extends AbstractTest
 {
-    private $unserializer;
+    private $assetUnserializer;
 
     public function testCssFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/bootstrap.css');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\Css', $asset);
         $this->assertEquals($asset->getName(), 'bootstrap.css');
@@ -24,7 +24,7 @@ class UnserializerTest extends BaseTest
     public function testCssGzipFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/bootstrap.min.css');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\GzippedCss', $asset);
         $this->assertEquals($asset->getName(), 'bootstrap.min.css');
@@ -34,7 +34,7 @@ class UnserializerTest extends BaseTest
     public function testJavascriptFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/jquery-2.1.0.js');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\Javascript', $asset);
         $this->assertEquals($asset->getName(), 'jquery-2.1.0.js');
@@ -44,7 +44,7 @@ class UnserializerTest extends BaseTest
     public function testJavascriptGzipFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/jquery-2.1.0.min.js');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\GzippedJavascript', $asset);
         $this->assertEquals($asset->getName(), 'jquery-2.1.0.min.js');
@@ -54,7 +54,7 @@ class UnserializerTest extends BaseTest
     public function testLessFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/bootstrap.less');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\Less', $asset);
         $this->assertEquals($asset->getName(), 'bootstrap.less');
@@ -65,7 +65,7 @@ class UnserializerTest extends BaseTest
     {
         //JPG
         $file = new SplFileInfo(__DIR__ . '/../Assets/zoop.jpg');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\Image', $asset);
         $this->assertEquals($asset->getExtension(), 'jpg');
@@ -74,7 +74,7 @@ class UnserializerTest extends BaseTest
 
         //PNG
         $file = new SplFileInfo(__DIR__ . '/../Assets/zoop.png');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\Image', $asset);
         $this->assertEquals($asset->getExtension(), 'png');
@@ -85,7 +85,7 @@ class UnserializerTest extends BaseTest
     public function testHtmlFile()
     {
         $file = new SplFileInfo(__DIR__ . '/../Assets/bootstrap.html');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\Template', $asset);
         $this->assertEquals($asset->getName(), 'bootstrap.html');
@@ -97,18 +97,18 @@ class UnserializerTest extends BaseTest
         $file = new SplFileInfo(__DIR__ . '/../Assets/zoop.pdf');
 
         $this->setExpectedException('Exception');
-        $asset = $this->getUnserializer()->fromFile($file);
+        $asset = $this->getAssetUnserializer()->fromFile($file);
     }
 
     /**
      * @return Unserializer
      */
-    private function getUnserializer()
+    private function getAssetUnserializer()
     {
-        if (!isset($this->unserializer)) {
-            $this->unserializer = $this->getApplicationServiceLocator()
+        if (!isset($this->assetUnserializer)) {
+            $this->assetUnserializer = $this->getApplicationServiceLocator()
                     ->get('zoop.commerce.theme.serializer.asset.unserializer');
         }
-        return $this->unserializer;
+        return $this->assetUnserializer;
     }
 }

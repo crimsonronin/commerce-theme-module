@@ -2,8 +2,8 @@
 
 namespace Zoop\Theme\Test\Bridge;
 
-use Zoop\Theme\Test\BaseTest;
-use Zoop\Theme\Bridge\BridgeManager as BM;
+use Zoop\Theme\Test\AbstractTest;
+use Zoop\Theme\Bridge\BridgeManager;
 use Zoop\Theme\Bridge\Checkout as CheckoutBridge;
 use Zoop\Theme\Bridge\Collection as CollectionBridge;
 use Zoop\Theme\Bridge\Collections as CollectionsBridge;
@@ -19,11 +19,11 @@ use Zoop\Theme\Bridge\Paginate as PaginateBridge;
 use Zoop\Theme\Bridge\Product as ProductBridge;
 use Zoop\Theme\Bridge\Order as OrderBridge;
 
-class BridgeManager extends BaseTest
+class BridgeManagerTest extends AbstractTest
 {
     public function testCheckoutBridge()
     {
-        $bm = new BM;
+        $bm = new BridgeManager;
         $bm->addBridge('checkout', new CheckoutBridge);
 
         $preVars = include __DIR__ . '/Assets/checkout.php';
@@ -35,7 +35,7 @@ class BridgeManager extends BaseTest
 
     public function testCollectionBridge()
     {
-        $bm = new BM;
+        $bm = new BridgeManager;
         $bm->addBridge('collection', new CollectionBridge);
 
         $preVars = include __DIR__ . '/Assets/collection.php';
