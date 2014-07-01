@@ -15,19 +15,24 @@ class Get extends Twig_Node
 
     public function compile(Twig_Compiler $compiler)
     {
-       die(var_dump($this->getNode('collection')));
         $compiler->addDebugInfo($this)
-                ->write('$context[\'_collection\'] = ')
-                ->subcompile($this->getNode('collection'))
-                ->raw(";\n");
+            ->write('$context[\'_collection\'] = ')
+            ->subcompile($this->getNode('collection'))
+            ->raw(";\n");
 
         $compiler->write("\$context['productService'] = \$this->env->getProductService();\n");
 
+        /*
+         * @codingStandardsIgnoreStart
+         */
         $compiler->write("if(!empty(\$context['productService']) && isset(\$context['_collection']['legacyId'])) {\n")
-                ->indent()
-                ->write("\$context['test'] = \$context['productService']->getFromCategory(\$context['_collection']['legacyId']);\n")
-                ->write("var_dump(\$context['test']);\n")
-                ->outdent()
-                ->write("}\n");
+            ->indent()
+            ->write("\$context['test'] = \$context['productService']->getFromCategory(\$context['_collection']['legacyId']);\n")
+            ->write("var_dump(\$context['test']);\n")
+            ->outdent()
+            ->write("}\n");
+        /*
+         * @codingStandardsIgnoreEnd
+         */
     }
 }

@@ -5,6 +5,7 @@ namespace Zoop\Theme\Service;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zoop\Theme\DataModel\ThemeInterface;
+use Zoop\Store\DataModel\Store;
 
 class ActiveThemeFactory implements FactoryInterface
 {
@@ -17,12 +18,14 @@ class ActiveThemeFactory implements FactoryInterface
     {
         $dm = $serviceLocator->get('shard.commerce.modelmanager');
         $store = $serviceLocator->get('zoop.commerce.store.active');
+        /* @var $store Store */
 
-        $theme = $dm->getRepository('Zoop\Theme\DataModel\AbstractTheme')
-            ->findOneBy([
-                'legacyStoreId' => $store->getId(),
-                'active' => true
-        ]);
+        $theme = $dm->createQueryBuilder('Zoop\Theme\DataModel\AbstractTheme')
+            ->field('stores')->in([$store->getId()])
+            ->field('isActive')->equals(true)
+            ->getQuery()
+            ->getSingleResult();
+
         return $theme;
     }
 }

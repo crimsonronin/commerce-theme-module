@@ -42,6 +42,7 @@ abstract class AbstractThemeCreator
             if (!empty($completedAssets)) {
                 $this->getTheme()->setAssets($completedAssets);
             }
+//            $this->getTheme()->setAssets($assets);
         }
     }
 

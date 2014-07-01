@@ -8,7 +8,7 @@ use Zoop\Store\DataModel\Store;
 class TestData
 {
     const DOCUMENT_STORE = 'Zoop\Store\DataModel\Store';
-    
+
     /**
      * @param Unserializer $unserializer
      * @return Store

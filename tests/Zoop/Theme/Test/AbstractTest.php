@@ -10,6 +10,9 @@ use Zoop\Shard\Serializer\Unserializer;
 use Zoop\Theme\Test\Assets\TestData;
 use Zoop\Shard\Core\Events;
 use Zend\ServiceManager\ServiceManager;
+use Zoop\Theme\Creator\ThemeCreatorImport;
+use Zoop\Theme\DataModel\ThemeInterface;
+use Zoop\Theme\DataModel\Folder as FolderModel;
 
 abstract class AbstractTest extends AbstractHttpControllerTestCase
 {
@@ -19,6 +22,7 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     protected static $unserializer;
     protected static $manifest;
     protected static $store;
+    protected static $creator;
     public $calls;
 
     public function setUp()
@@ -31,7 +35,7 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         if (!isset(self::$documentManager)) {
             self::$documentManager = $this->getApplicationServiceLocator()
                 ->get('doctrine.odm.documentmanager.commerce');
-            
+
             self::$dbName = $this->getApplicationServiceLocator()
                 ->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
 
@@ -48,14 +52,19 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                     ->get('unserializer');
             }
 
+            if (!isset(self::$creator)) {
+                self::$creator = $this->getApplicationServiceLocator()
+                    ->get('zoop.commerce.theme.creator.import');
+            }
+
             //create a apple store
             self::getStore();
         }
-        
+
         if (empty(self::$store)) {
             $store = self::getStore();
         }
-        
+
         //set the Request host so that active store works correctly.
         $request = $this->getApplicationServiceLocator()->get('request');
         /* @var $request Request */
@@ -134,6 +143,14 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     }
 
     /**
+     * @return ThemeCreatorImport
+     */
+    public static function getThemeCreatorImport()
+    {
+        return self::$creator;
+    }
+
+    /**
      * @return Store
      */
     protected static function getStore()
@@ -149,12 +166,16 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         return self::$store;
     }
 
+    /**
+     * Clears the DB
+     */
     public static function clearDatabase()
     {
         if (self::$documentManager) {
             $collections = self::getDocumentManager()
                 ->getConnection()
-                ->selectDatabase(self::getDbName())->listCollections();
+                ->selectDatabase(self::getDbName())
+                ->listCollections();
 
             foreach ($collections as $collection) {
                 /* @var $collection \MongoCollection */
@@ -162,6 +183,48 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
             }
             self::$documentManager->clear();
             self::$store = null;
+        }
+    }
+
+    /**
+     * @param ThemeInterface $theme
+     */
+    public static function saveTheme(ThemeInterface $theme)
+    {
+        self::getDocumentManager()->persist($theme);
+        self::getDocumentManager()->flush($theme);
+
+        self::saveThemeAssetsRecursively($theme, $theme->getAssets());
+    }
+
+    /**
+     * @param ThemeInterface $theme
+     * @param array $assets
+     */
+    public static function saveThemeAssetsRecursively(ThemeInterface $theme, $assets)
+    {
+        if (!empty($assets)) {
+            /* @var $asset AssetInterface */
+            foreach ($assets as $asset) {
+                $parent = $asset->getParent();
+                if (empty($parent)) {
+                    $asset->setParent($theme);
+                }
+                $asset->setTheme($theme);
+
+                self::getDocumentManager()->persist($asset);
+                self::getDocumentManager()->flush($asset);
+            }
+
+            //look for folders and recurse
+            foreach ($assets as $asset) {
+                if ($asset instanceof FolderModel) {
+                    $childAssets = $asset->getAssets();
+                    if (!empty($childAssets)) {
+                        self::saveThemeAssetsRecursively($theme, $childAssets);
+                    }
+                }
+            }
         }
     }
 

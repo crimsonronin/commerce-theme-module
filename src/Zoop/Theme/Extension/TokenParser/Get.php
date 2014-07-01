@@ -4,7 +4,7 @@ namespace Zoop\Theme\Extension\TokenParser;
 
 use \Twig_TokenParser;
 use \Twig_Token;
-use Zoop\Theme\Extension\Node\Collection\Get AS CollectionGetNode;
+use Zoop\Theme\Extension\Node\Collection\Get as CollectionGetNode;
 
 class Get extends Twig_TokenParser
 {

@@ -18,7 +18,7 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
     /**
      * Array. Stores that this theme is part of.
      * The Zones annotation means this field is used by the Zones filter so
-     * only products from the active store are available.
+     * only products from the isActive store are available.
      *
      * @ODM\Collection
      * @ODM\Index
@@ -55,12 +55,11 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      * @ODM\Boolean
      * @ODM\Index
      */
-    protected $active = false;
+    protected $isActive = false;
 
     public function __construct()
     {
         $this->assets = new ArrayCollection;
-        $this->stores = new ArrayCollection;
     }
 
     /**
@@ -68,7 +67,7 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
      */
     public function getStores()
     {
-        if(!is_array($this->stores)) {
+        if (!is_array($this->stores)) {
             $this->stores = [];
         }
         return $this->stores;
@@ -111,16 +110,16 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
     /**
      * @return boolean
      */
-    public function getActive()
+    public function isActive()
     {
-        return $this->active;
+        return $this->isActive;
     }
 
     /**
-     * @param boolean $active
+     * @param boolean $isActive
      */
-    public function setActive($active)
+    public function setIsActive($isActive)
     {
-        $this->active = (bool) $active;
+        $this->isActive = (bool) $isActive;
     }
 }

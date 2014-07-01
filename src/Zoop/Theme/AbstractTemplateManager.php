@@ -38,7 +38,7 @@ abstract class AbstractTemplateManager
     }
 
     /**
-     * 
+     *
      * @return type
      */
     public function getFile()
@@ -47,7 +47,7 @@ abstract class AbstractTemplateManager
     }
 
     /**
-     * 
+     *
      * @param type $file
      * @return AbstractTemplateManager
      */
@@ -58,7 +58,7 @@ abstract class AbstractTemplateManager
     }
 
     /**
-     * 
+     *
      * @param string $key
      * @param mixed $value
      * @param true $merge

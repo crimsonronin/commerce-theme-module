@@ -193,9 +193,9 @@ class ThemeManager
     }
 
     /**
-     * @param boolean $setActive
+     * @param boolean $setIsActive
      */
-    public function save($setActive = true)
+    public function save($setIsActive = true)
     {
         $theme = $this->getTheme();
         $assets = $theme->getAssets();
@@ -212,8 +212,8 @@ class ThemeManager
         //save assets
         $this->saveRecursively($theme, $assets);
 
-        if ($setActive === true) {
-            $theme->setActive(true);
+        if ($setIsActive === true) {
+            $theme->setIsActive(true);
         }
 
         //final
@@ -441,7 +441,13 @@ class ThemeManager
                         $this->createAssetsFromDirectory($file->getTempDirectory());
 
                         //save to S3
-                        $newAssetUrl = $this->saveAssetToS3(file_get_contents($file->get()), $file->getMime(), $assetPath . $file->getPath(), $file->getName());
+                        $newAssetUrl = $this->saveAssetToS3(
+                            file_get_contents($file->get()),
+                            $file->getMime(),
+                            $assetPath . $file->getPath(),
+                            $file->getName()
+                        );
+
                         //replace url to s3
                         if (!empty($newAssetUrl)) {
                             $parsedAssets[$key] = $newAssetUrl;

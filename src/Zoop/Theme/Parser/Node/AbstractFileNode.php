@@ -49,7 +49,7 @@ abstract class AbstractFileNode extends AbstractNode
     {
         if (!empty($url)) {
             $path = $this->getPath($localPathname);
-            if(!is_dir($path)) {
+            if (!is_dir($path)) {
                 $this->createDirectory($path);
             }
 

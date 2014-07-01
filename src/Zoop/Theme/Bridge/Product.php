@@ -19,7 +19,12 @@ class Product extends AbstractBridge implements BridgeInterface
 
     protected function parse($legacyData)
     {
-        $skuDefinitions = $this->parseSkuDefinitions($legacyData['options'], $this->parseShippingRates($legacyData['shippingRates']), $this->parseDimensions($legacyData), $legacyData['supplierName']);
+        $skuDefinitions = $this->parseSkuDefinitions(
+            $legacyData['options'],
+            $this->parseShippingRates($legacyData['shippingRates']),
+            $this->parseDimensions($legacyData),
+            $legacyData['supplierName']
+        );
 
         $data = [
             'id' => $legacyData['productId'],
@@ -129,7 +134,12 @@ class Product extends AbstractBridge implements BridgeInterface
             $options[] = '{' . $id . ': ' . json_encode($data) . '}';
         }
 
-        $js[] = '_zoop.push(["_setProduct", {' . $productId . ': {"skuDefinitions": [' . implode(',', $options) . ']}}]);';
+        $js[] = '_zoop.push(["_setProduct", {' .
+            $productId .
+            ': {"skuDefinitions": [' .
+            implode(',', $options)
+            . ']}}]);';
+
         $js[] = '</script>';
 
         return implode("\n", $js);
@@ -173,10 +183,18 @@ class Product extends AbstractBridge implements BridgeInterface
     private function parseDimensions($legacyData)
     {
         $dimensions = [
-            'weight' => (float) ($legacyData['productWeight'] == 0) ? $legacyData['productTypeWeight'] : $legacyData['productWeight'],
-            'width' => (float) ($legacyData['productWidth'] == 0) ? $legacyData['productTypeWidth'] : $legacyData['productWidth'],
-            'height' => (float) ($legacyData['productHeight'] == 0) ? $legacyData['productTypeHeight'] : $legacyData['productHeight'],
-            'depth' => (float) ($legacyData['productLength'] == 0) ? $legacyData['productTypeLength'] : $legacyData['productLength']
+            'weight' => (float) ($legacyData['productWeight'] == 0) ?
+                $legacyData['productTypeWeight'] :
+                $legacyData['productWeight'],
+            'width' => (float) ($legacyData['productWidth'] == 0) ?
+                $legacyData['productTypeWidth'] :
+                $legacyData['productWidth'],
+            'height' => (float) ($legacyData['productHeight'] == 0) ?
+                $legacyData['productTypeHeight'] :
+                $legacyData['productHeight'],
+            'depth' => (float) ($legacyData['productLength'] == 0) ?
+                $legacyData['productTypeLength'] :
+                $legacyData['productLength']
         ];
 
         return $dimensions;

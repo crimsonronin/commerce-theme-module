@@ -63,7 +63,7 @@ class Folder extends AbstractAsset implements AssetInterface
      */
     public function setAssets($assets)
     {
-        if(is_array($assets)) {
+        if (is_array($assets)) {
             $assets = new ArrayCollection($assets);
         }
         $this->assets = $assets;

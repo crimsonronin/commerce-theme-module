@@ -81,7 +81,7 @@ abstract class AbstractTheme
      * )
      * @Shard\Serializer\Eager
      */
-    protected $assets = [];
+    protected $assets;
 
     /**
      *
@@ -150,7 +150,7 @@ abstract class AbstractTheme
      */
     public function getAssets()
     {
-        if(empty($this->assets)) {
+        if (empty($this->assets)) {
             $this->assets = new ArrayCollection;
         }
         return $this->assets;
@@ -161,7 +161,7 @@ abstract class AbstractTheme
      */
     public function setAssets($assets)
     {
-        if(is_array($assets)) {
+        if (is_array($assets)) {
             $assets = new ArrayCollection($assets);
         }
         $this->assets = $assets;

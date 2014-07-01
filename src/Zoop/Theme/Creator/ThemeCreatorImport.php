@@ -12,7 +12,6 @@ use Zend\Validator\File;
 use Zoop\Shard\Serializer\Unserializer;
 use Zoop\Theme\DataModel\AssetInterface;
 use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
-use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\Serializer\Asset\Unserializer as AssetUnserializer;
 
 /**
@@ -32,8 +31,7 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         PrivateThemeModel $themeStructure,
         $tempDirectory,
         $maxFileUploadSize = 20971520
-    )
-    {
+    ) {
         $this->setUnserializer($unserializer);
         $this->setThemeStructure($themeStructure);
         $this->setTempDirectory($tempDirectory);
@@ -63,7 +61,13 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
 
                     return $this->getTheme();
                 } else {
-                    throw new Exception('Could not unzip the file "' . $uploadedFile->getFilename() . '" into "' . $tempDir . '"');
+                    throw new Exception(
+                        sprintf(
+                            'Could not unzip the file "%s" into "%s"',
+                            $uploadedFile->getFilename(),
+                            $tempDir
+                        )
+                    );
                 }
             }
         }
@@ -114,9 +118,14 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
         $zipValidator = new File\IsCompressed();
 
         if (!$zipValidator->isValid($uploadedFile->getPathname())) {
-            throw new Exception('The file "' . $uploadedFile->getFilename() . '" is not a zip archive');
+            throw new Exception(sprintf('The file "%s" is not a zip archive', $uploadedFile->getFilename()));
         } elseif (!$fileSizeValidator->isValid($uploadedFile->getPathname())) {
-            throw new Exception('Exceeds the maximum file size of ' . $this->getMaxFileUploadSize() / 1024 / 1024 . 'MB');
+            throw new Exception(
+                sprintf(
+                    'Exceeds the maximum file size of %dMB',
+                    ($this->getMaxFileUploadSize() / 1024 / 1024)
+                )
+            );
         }
         return true;
     }
@@ -227,7 +236,11 @@ class ThemeCreatorImport extends AbstractThemeCreator implements ThemeCreatorImp
 
     protected function deleteTempDirectory($dir)
     {
-        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::CHILD_FIRST);
+        $files = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($dir),
+            RecursiveIteratorIterator::CHILD_FIRST
+        );
+
         /* @var $file \SplFileInfo */
         foreach ($files as $file) {
             if ($file->getFilename() === '.' || $file->getFilename() === '..') {

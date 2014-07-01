@@ -60,7 +60,12 @@ class Validator
         } catch (Twig_Error_Syntax $e) {
             // $template contains one or more syntax errors
             $this->addError([
-                'message' => 'Template "' . $template->getName() . '" contains errors: ' . $e->getRawMessage() . ' at line: ' . $e->getLine(),
+                'message' => sprintf(
+                    'Template "%s" contains errors: %s at line: %s',
+                    $template->getName(),
+                    $e->getRawMessage(),
+                    $e->getLine()
+                ),
                 'asset' => $template
             ]);
             $this->setHasErrors(true);

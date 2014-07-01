@@ -74,7 +74,12 @@ class Unserializer
             //Less
             return $this->unserializeLess($file);
         } else {
-            throw new Exception('The file "' . str_replace($this->getTempDirectory() . DIRECTORY_SEPARATOR, '', $file->getPathname()) . '" is not a supported file type');
+            throw new Exception(
+                sprintf(
+                    'The file "%s" is not a supported file type',
+                    str_replace($this->getTempDirectory() . DIRECTORY_SEPARATOR, '', $file->getPathname())
+                )
+            );
         }
 
         return false;

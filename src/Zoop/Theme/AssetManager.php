@@ -45,19 +45,37 @@ class AssetManager
         }
     }
 
-//    public function getAssetsFromContent(TemplateModel $asset)
-//    {
-//        $htmlParser = new HtmlParser();
-//        $htmlParser->setContent($asset->getContent());
-//        $htmlParser->parse();
-//
-//        $cssAssets = $this->getAssetFromContent($htmlParser->getParsedCssAssets(), 'assets/css', '/text\/(plain|html|css)/', 'css');
-//        $jsAssets = $this->getAssetFromContent($htmlParser->getParsedJavascriptAssets(), 'assets/javascript', '/text\/(plain|html|js)/', 'javascript');
-//        $imageAssets = $this->getAssetFromContent($htmlParser->getParsedImageAssets(), 'assets/images', '/image\/(.*)/', 'image');
-//        $parsedAssets = array_merge($cssAssets, $jsAssets, $imageAssets);
-//
-//        if (!empty($parsedAssets)) {
-//            $asset->setContent($htmlParser->compileContent($parsedAssets));
-//        }
-//    }
+    public function getAssetsFromContentLegacy(TemplateModel $asset)
+    {
+        $htmlParser = new HtmlParser();
+        $htmlParser->setContent($asset->getContent());
+        $htmlParser->parse();
+
+        $cssAssets = $this->getAssetFromContent(
+            $htmlParser->getParsedCssAssets(),
+            'assets/css',
+            '/text\/(plain|html|css)/',
+            'css'
+        );
+
+        $jsAssets = $this->getAssetFromContent(
+            $htmlParser->getParsedJavascriptAssets(),
+            'assets/javascript',
+            '/text\/(plain|html|js)/',
+            'javascript'
+        );
+
+        $imageAssets = $this->getAssetFromContent(
+            $htmlParser->getParsedImageAssets(),
+            'assets/images',
+            '/image\/(.*)/',
+            'image'
+        );
+
+        $parsedAssets = array_merge($cssAssets, $jsAssets, $imageAssets);
+
+        if (!empty($parsedAssets)) {
+            $asset->setContent($htmlParser->compileContent($parsedAssets));
+        }
+    }
 }

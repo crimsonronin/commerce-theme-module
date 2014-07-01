@@ -103,7 +103,7 @@ class ThemeCreateListener extends CreateListener
     protected function removeLocalFile($filename)
     {
         $tempDir = $this->getTempDirectory();
-        if(strpos($filename, $tempDir) === 0) {
+        if (strpos($filename, $tempDir) === 0) {
             @unlink($filename);
             @rmdir($tempDir);
         }
@@ -139,7 +139,8 @@ class ThemeCreateListener extends CreateListener
     protected function getStore()
     {
         if (!isset($this->store)) {
-            $this->store = $this->getServiceLocator()->get('zoop.commerce.store.active');
+            $this->store = $this->getServiceLocator()
+                ->get('zoop.commerce.store.active');
         }
         return $this->store;
     }
@@ -150,7 +151,8 @@ class ThemeCreateListener extends CreateListener
     protected function getImporter()
     {
         if (!isset($this->importer)) {
-            $this->importer = $this->getServiceLocator()->get('zoop.commerce.theme.creator.import');
+            $this->importer = $this->getServiceLocator()
+                ->get('zoop.commerce.theme.creator.import');
         }
         return $this->importer;
     }
@@ -161,7 +163,8 @@ class ThemeCreateListener extends CreateListener
     protected function getTempDirectory()
     {
         if (!isset($this->tempDirectory)) {
-            $this->tempDirectory = $this->getServiceLocator()->get('config')['zoop']['theme']['temp_dir'] . '/' . uniqid();
+            $this->tempDirectory = $this->getServiceLocator()
+                ->get('config')['zoop']['theme']['temp_dir'] . '/' . uniqid();
         }
         return $this->tempDirectory;
     }

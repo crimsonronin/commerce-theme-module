@@ -86,11 +86,11 @@ class MongoDbTwigLoader implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
         $asset = $this->getThemeAssetFromCache($pathName);
         if (empty($asset)) {
             $theme = $this->getTheme();
-            $asset = $this->getDm()->createQueryBuilder('Zoop\Theme\DataModel\Asset')
-                    ->field('pathname')->equals($pathName)
-                    ->field('theme')->references($theme)
-                    ->getQuery()
-                    ->getSingleResult();
+            $asset = $this->getDm()->createQueryBuilder('Zoop\Theme\DataModel\AbstractAsset')
+                ->field('pathname')->equals($pathName)
+                ->field('theme')->references($theme)
+                ->getQuery()
+                ->getSingleResult();
             $this->cache[$pathName] = $asset;
         }
         return $asset;

@@ -79,7 +79,7 @@ class CreatorTest extends AbstractTest
     {
         if (!isset($this->creator)) {
             $this->creator = $this->getApplicationServiceLocator()
-                    ->get('zoop.commerce.theme.creator.import');
+                ->get('zoop.commerce.theme.creator.import');
         }
         return $this->creator;
     }
