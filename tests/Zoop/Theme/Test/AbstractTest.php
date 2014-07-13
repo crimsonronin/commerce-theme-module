@@ -85,14 +85,6 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * @param DocumentManager $documentManager
-     */
-    public static function setDocumentManager(DocumentManager $documentManager)
-    {
-        self::$documentManager = $documentManager;
-    }
-
-    /**
      * @return ServiceManager
      */
     public static function getServiceManager()
@@ -101,27 +93,11 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * @param ServiceManager $serviceManager
-     */
-    public static function setServiceManager(ServiceManager $serviceManager)
-    {
-        self::$serviceManager = $serviceManager;
-    }
-
-    /**
      * @return string
      */
     public static function getDbName()
     {
         return self::$dbName;
-    }
-
-    /**
-     * @param string $dbName
-     */
-    public static function setDbName($dbName)
-    {
-        self::$dbName = $dbName;
     }
 
     /**
