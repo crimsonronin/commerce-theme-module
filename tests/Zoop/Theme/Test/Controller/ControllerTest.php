@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme\Test\Creator;
+namespace Zoop\Theme\Test\Controller;
 
 use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Test\FileMoc;

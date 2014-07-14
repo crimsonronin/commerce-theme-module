@@ -2,30 +2,25 @@
 
 namespace Zoop\Theme\Test\Creator;
 
-use \Exception;
 use \SplFileInfo;
 use Zoop\Theme\Test\AbstractTest;
-use Zoop\Theme\Creator\ThemeCreatorImport;
 
 class CreatorTest extends AbstractTest
 {
-    private $creator;
-
     public function testInvalidFileImport()
     {
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/zoop.jpg');
 
         $this->setExpectedException('Exception');
-        $theme = $this->getThemeCreatorImport()->import($uploadedFile);
+        $theme = self::getThemeCreatorImport()->import($uploadedFile);
     }
 
     public function testInvalidFileSizeImport()
     {
-        $creator = $this->getThemeCreatorImport();
-
-        //set lower file limit to 1kb
+        $creator = self::getThemeCreatorImport();
         $creator->setMaxFileUploadSize(1024);
-        $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
+
+        $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
 
         $this->setExpectedException('Exception');
         $theme = $creator->import($uploadedFile);
@@ -33,9 +28,12 @@ class CreatorTest extends AbstractTest
 
     public function testValidSimpleThemeImport()
     {
+        $creator = self::getThemeCreatorImport();
+        $creator->setMaxFileUploadSize(1024 * 1024 * 20);
+
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
 
-        $theme = $this->getThemeCreatorImport()->import($uploadedFile);
+        $theme = $creator->import($uploadedFile);
         $assets = $theme->getAssets();
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);
@@ -70,17 +68,5 @@ class CreatorTest extends AbstractTest
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractAsset', $assets[0]);
 
         //maybe need some more tests to traverse the child assets
-    }
-
-    /**
-     * @return ThemeCreatorImport
-     */
-    private function getThemeCreatorImport()
-    {
-        if (!isset($this->creator)) {
-            $this->creator = $this->getApplicationServiceLocator()
-                ->get('zoop.commerce.theme.creator.import');
-        }
-        return $this->creator;
     }
 }

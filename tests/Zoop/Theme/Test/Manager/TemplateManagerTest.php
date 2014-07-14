@@ -24,6 +24,9 @@ class TemplateManagerTest extends AbstractTest
 
     public function testStorefrontTemplateManager()
     {
+        $creator = self::getThemeCreatorImport();
+        $creator->setMaxFileUploadSize(1024 * 1024 * 20);
+
         $store = self::getStore();
 
         $request = $this->getApplicationServiceLocator()->get('request');
@@ -33,7 +36,7 @@ class TemplateManagerTest extends AbstractTest
         //insert templates
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
 
-        $theme = $this->getThemeCreatorImport()->import($uploadedFile);
+        $theme = $creator->import($uploadedFile);
         $this->assertTrue($theme instanceof PrivateTheme);
 
         $theme->addStore($store->getSubdomain());
