@@ -6,6 +6,7 @@ use Zoop\Store\DataModel\Store;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Shard\Manifest;
+use Zoop\Shard\Serializer\Serializer;
 use Zoop\Shard\Serializer\Unserializer;
 use Zoop\Theme\Test\Assets\TestData;
 use Zoop\Shard\Core\Events;
@@ -19,6 +20,7 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     protected static $documentManager;
     protected static $serviceManager;
     protected static $dbName;
+    protected static $serializer;
     protected static $unserializer;
     protected static $manifest;
     protected static $store;
@@ -50,6 +52,11 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
             if (!isset(self::$unserializer)) {
                 self::$unserializer = self::$manifest->getServiceManager()
                     ->get('unserializer');
+            }
+
+            if (!isset(self::$serializer)) {
+                self::$serializer = self::$manifest->getServiceManager()
+                    ->get('serializer');
             }
 
             if (!isset(self::$creator)) {
@@ -107,6 +114,15 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     public static function getManifest()
     {
         return self::$manifest;
+    }
+
+    /**
+     *
+     * @return Serializer
+     */
+    public static function getSerializer()
+    {
+        return self::$serializer;
     }
 
     /**

@@ -30,13 +30,13 @@ class ControllerTest extends AbstractTest
             ->setContent(json_encode($data))
             ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
 
-        $this->dispatch('http://apple.zoopcommerce.local/admin/themes');
+        $this->dispatch('http://apple.zoopcommerce.local/themes');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
         $result = json_decode($response->getContent(), true);
 
-        $id = str_replace(['Location: ', '/admin/themes/'], '', $response->getHeaders()->get('Location')->toString());
+        $id = str_replace(['Location: ', '/themes/'], '', $response->getHeaders()->get('Location')->toString());
 
         $this->assertFalse(isset($result));
 
@@ -66,7 +66,7 @@ class ControllerTest extends AbstractTest
 
         $request->setFiles($files);
 
-        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/import');
+        $this->dispatch('http://apple.zoopcommerce.local/themes/import');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
@@ -74,7 +74,7 @@ class ControllerTest extends AbstractTest
         $result = json_decode($response->getContent(), true);
 
         $id = str_replace(
-            ['Location: ', '/admin/themes/import/'],
+            ['Location: ', '/themes/import/'],
             '',
             $response->getHeaders()->get('Location')->toString()
         );
@@ -104,11 +104,11 @@ class ControllerTest extends AbstractTest
         $request = $this->getRequest();
 
         $request->setMethod('POST')
-                ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeader($accept);
 
         $request->setFiles($files);
 
-        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/import');
+        $this->dispatch('http://apple.zoopcommerce.local/themes/import');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
@@ -116,7 +116,7 @@ class ControllerTest extends AbstractTest
         $result = json_decode($response->getContent(), true);
 
         $id = str_replace(
-            ['Location: ', '/admin/themes/import/'],
+            ['Location: ', '/themes/import/'],
             '',
             $response->getHeaders()->get('Location')->toString()
         );
@@ -135,10 +135,10 @@ class ControllerTest extends AbstractTest
         $accept->addMediaType('application/json');
 
         $this->getRequest()
-                ->setMethod('GET')
-                ->getHeaders()->addHeader($accept);
+            ->setMethod('GET')
+            ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://apple.zoopcommerce.local/admin/themes');
+        $this->dispatch('http://apple.zoopcommerce.local/themes');
 
         $result = json_decode($this->getResponse()->getContent(), true);
 
@@ -155,10 +155,10 @@ class ControllerTest extends AbstractTest
         $accept->addMediaType('application/json');
 
         $this->getRequest()
-                ->setMethod('GET')
-                ->getHeaders()->addHeader($accept);
+            ->setMethod('GET')
+            ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/' . $private->getId());
+        $this->dispatch('http://apple.zoopcommerce.local/themes/' . $private->getId());
 
         $result = json_decode($this->getResponse()->getContent(), true);
         $this->assertResponseStatusCode(200);
@@ -173,10 +173,10 @@ class ControllerTest extends AbstractTest
         $accept->addMediaType('application/json');
 
         $this->getRequest()
-                ->setMethod('DELETE')
-                ->getHeaders()->addHeader($accept);
+            ->setMethod('DELETE')
+            ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://apple.zoopcommerce.local/admin/themes/' . $private->getId());
+        $this->dispatch('http://apple.zoopcommerce.local/themes/' . $private->getId());
 
         $this->assertResponseStatusCode(204);
         //need to ensure assets are soft deleted too

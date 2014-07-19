@@ -25,6 +25,10 @@
     "repositories": [
         {
             "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-api-module.git"
+        },
+        {
+            "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-common-module.git"
         },
         {
@@ -54,6 +58,7 @@
         "sendgrid/sendgrid"                         : "~2.1",
         "twig/twig"                                 : "1.*",
         "willdurand/geocoder"                       : "2.4.*",
+        "zoopcommerce/commerce-api-module"          : "dev-master",
         "zoopcommerce/commerce-common-module"       : "dev-master",
         "zoopcommerce/commerce-store-module"        : "dev-master",
         "zoopcommerce/shard-module"                 : "~3.1"

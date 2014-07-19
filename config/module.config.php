@@ -2,6 +2,13 @@
 
 return [
     'zoop' => [
+        'api' => [
+            'endpoints' => [
+                'asset',
+                'themes',
+                'themes/import',
+            ]
+        ],
         'shard' => [
             'manifest' => [
                 'commerce' => [
@@ -91,25 +98,6 @@ return [
             ],
             'storefront' => [
                 'templates' => []
-            ]
-        ],
-    ],
-    'router' => [
-        'routes' => [
-            'rest' => [
-                //this route will look to load a controller
-                //service called `shard.rest.<endpoint>`
-                'type' => 'Zend\Mvc\Router\Http\Segment',
-                'options' => [
-                    'route' => '/admin/:endpoint[/:id]',
-                    'constraints' => [
-                        'endpoint' => '(themes\/import|themes|asset)',
-                        'id' => '[a-zA-Z0-9_\-]+',
-                    ],
-                ],
-                'chain_routes' => [
-                    'zoop/commerce/store'
-                ]
             ]
         ],
     ],
