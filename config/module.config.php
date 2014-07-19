@@ -50,10 +50,26 @@ return [
                                 'zoop.commerce.theme.listener.theme.serialize',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
-                            'options' => [],
-                            'patch' => [],
+                            'options' => [
+                                'zoop.api.listener.options',
+//                                'zoop.shardmodule.listener.options',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'patch' => [
+                                'zoop.shardmodule.listener.unserialize',
+                                'zoop.shardmodule.listener.idchange',
+                                'zoop.shardmodule.listener.patch',
+                                'zoop.shardmodule.listener.flush',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
                             'patchList' => [],
-                            'update' => [],
+                            'update' => [
+                                'zoop.shardmodule.listener.unserialize',
+                                'zoop.shardmodule.listener.idchange',
+                                'zoop.shardmodule.listener.update',
+                                'zoop.shardmodule.listener.flush',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
                             'replaceList' => [],
                         ],
                     ],
@@ -67,7 +83,19 @@ return [
                                 'zoop.commerce.theme.listener.theme.flush',
                                 'zoop.shardmodule.listener.location',
                                 'zoop.commerce.theme.listener.theme.import.prepareviewmodel',
-                            ]
+                            ],
+                            'delete' => [],
+                            'deleteList' => [],
+                            'get' => [],
+                            'getList' => [],
+                            'options' => [
+                                'zoop.api.listener.options',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'patch' => [],
+                            'patchList' => [],
+                            'update' => [],
+                            'replaceList' => [],
                         ],
                     ],
                 ],
