@@ -29,6 +29,7 @@ return [
                         'listeners' => [
                             'create' => [
                                 'zoop.commerce.theme.listener.theme.unserialize',
+                                'zoop.api.listener.cors',
                                 'zoop.shardmodule.listener.create',
                                 'zoop.shardmodule.listener.flush',
                                 'zoop.shardmodule.listener.location',
@@ -36,17 +37,20 @@ return [
                             ],
                             'delete' => [
                                 'zoop.commerce.theme.listener.theme.delete',
+                                'zoop.api.listener.cors',
                                 'zoop.shardmodule.listener.flush',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'deleteList' => [],
                             'get' => [
                                 'zoop.shardmodule.listener.get',
+                                'zoop.api.listener.cors',
                                 'zoop.commerce.theme.listener.theme.serialize',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'getList' => [
                                 'zoop.shardmodule.listener.getlist',
+                                'zoop.api.listener.cors',
                                 'zoop.commerce.theme.listener.theme.serialize',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
@@ -56,6 +60,7 @@ return [
                             ],
                             'patch' => [
                                 'zoop.shardmodule.listener.unserialize',
+                                'zoop.api.listener.cors',
                                 'zoop.shardmodule.listener.idchange',
                                 'zoop.shardmodule.listener.patch',
                                 'zoop.shardmodule.listener.flush',
@@ -65,6 +70,7 @@ return [
                             'replaceList' => [],
                             'update' => [
                                 'zoop.shardmodule.listener.unserialize',
+                                'zoop.api.listener.cors',
                                 'zoop.shardmodule.listener.idchange',
                                 'zoop.shardmodule.listener.update',
                                 'zoop.shardmodule.listener.flush',
