@@ -5,6 +5,7 @@ namespace Zoop\Theme\Test\Controller;
 use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Test\FileMoc;
 use Zend\Http\Header\Accept;
+use Zend\Http\Header\Origin;
 use Zend\Http\Header\ContentType;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\PrivateTheme;
@@ -14,6 +15,25 @@ class ControllerTest extends AbstractTest
 {
     const DOCUMENT_PRIVATE_THEME = 'Zoop\Theme\DataModel\PrivateTheme';
 
+    public function testOptionsRequestSucceed()
+    {
+        $accept = new Accept;
+        $accept->addMediaType('application/json');
+
+        $this->getRequest()
+            ->setMethod('OPTIONS')
+            ->getHeaders()->addHeaders([
+                $accept,
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
+
+        $this->dispatch('http://api.zoopcommerce.local/themes');
+
+        $response = $this->getResponse();
+
+        $this->assertResponseStatusCode(201);
+    }
+    
     public function testThemeCreate()
     {
         $data = [
