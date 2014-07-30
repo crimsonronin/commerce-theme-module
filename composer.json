@@ -33,7 +33,19 @@
         },
         {
             "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-company-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-partner-module.git"
+        },
+        {
+            "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-store-module.git"
+        },
+        {
+            "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-user-module.git"
         },
         {
             "type": "vcs",
@@ -60,7 +72,11 @@
         "willdurand/geocoder"                       : "2.4.*",
         "zoopcommerce/commerce-api-module"          : "dev-master",
         "zoopcommerce/commerce-common-module"       : "dev-master",
+        "zoopcommerce/commerce-company-module"      : "dev-master",
+        "zoopcommerce/commerce-partner-module"      : "dev-master",
         "zoopcommerce/commerce-store-module"        : "dev-master",
+        "zoopcommerce/commerce-user-module"         : "dev-master",
+        "zoopcommerce/gateway-module"               : "~2.0",
         "zoopcommerce/shard-module"                 : "~4.0"
     },
     "require-dev": {
