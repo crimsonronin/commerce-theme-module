@@ -147,6 +147,8 @@ class ControllerTest extends AbstractTest
         $theme = $this->getTheme($id);
         $this->assertNotEmpty($theme);
         $this->assertEquals('complex-theme', $theme->getName());
+        
+        return $id;
     }
 
     public function testGetListTheme()
@@ -167,10 +169,11 @@ class ControllerTest extends AbstractTest
         $this->assertCount(3, $result);
     }
 
-    public function testGetTheme()
+    /**
+     * @depends testComplexThemeImport
+     */
+    public function testGetTheme($id)
     {
-        $private = $this->createSimpleTheme();
-
         $accept = new Accept;
         $accept->addMediaType('application/json');
 
@@ -178,11 +181,13 @@ class ControllerTest extends AbstractTest
             ->setMethod('GET')
             ->getHeaders()->addHeader($accept);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes/' . $private->getId());
+        $this->dispatch('http://apple.zoopcommerce.local/themes/' . $id);
 
         $result = json_decode($this->getResponse()->getContent(), true);
         $this->assertResponseStatusCode(200);
-        $this->assertEquals('Test', $result['name']);
+        $this->assertEquals('complex-theme', $result['name']);
+        $this->assertNotEmpty($result['assets']);
+        $this->assertCount(15, $result['assets']);
     }
 
     public function testDeleteSimpleTheme()
@@ -199,7 +204,7 @@ class ControllerTest extends AbstractTest
         $this->dispatch('http://apple.zoopcommerce.local/themes/' . $private->getId());
 
         $this->assertResponseStatusCode(204);
-        //need to ensure assets are soft deleted too
+        //need to ensure assets are soft deleted ONLY
     }
 
     /**
