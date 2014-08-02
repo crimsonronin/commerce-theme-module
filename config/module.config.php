@@ -30,8 +30,8 @@ return [
                             'create' => [
                                 'zoop.commerce.theme.listener.theme.unserialize',
                                 'zoop.api.listener.cors',
-                                'zoop.shardmodule.listener.create',
-                                'zoop.shardmodule.listener.flush',
+                                'zoop.commerce.theme.listener.theme.create',
+                                'zoop.commerce.theme.listener.theme.flush',
                                 'zoop.shardmodule.listener.location',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],

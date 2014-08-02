@@ -27,7 +27,29 @@ class ThemeCreateListener extends CreateListener
         $request = $event->getRequest();
 
         $uploadedFile = $request->getFiles()->toArray();
+        $xFileName = $request->getHeaders()->get('X-File-Name');
 
+        // test to see if this is a file import or single create
+        if (isset($uploadedFile['theme']) || $xFileName) {
+            return $this->doImport($event);
+        } else {
+            return parent::doAction($event, $metadata, $documentManager);
+        }
+    }
+
+    /**
+     * Creates a theme from an uploaded file
+     * 
+     * @param MvcEvent $event
+     * @return mixed
+     * @throws Exception
+     */
+    protected function doImport(MvcEvent $event)
+    {
+        $request = $event->getRequest();
+        
+        $uploadedFile = $request->getFiles()->toArray();
+        
         if (isset($uploadedFile['theme'])) {
             $uploadedFileName = $uploadedFile['theme']['tmp_name'];
         } else {
