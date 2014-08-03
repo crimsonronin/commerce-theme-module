@@ -23,6 +23,7 @@ class GzippedJavascript extends AbstractFileAsset implements AssetInterface
     /**
      *
      * @ODM\String
+     * @Shard\Unserializer\Ignore
      */
     protected $mime = 'application/javascript';
 

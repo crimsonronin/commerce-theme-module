@@ -35,18 +35,21 @@ class PrivateTheme extends AbstractTheme implements ThemeInterface
     /**
      *
      * @ODM\String
+     * @Shard\Unserializer\Ignore
      */
     protected $createdBy;
 
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $writeable = true;
 
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $deleteable = true;
 

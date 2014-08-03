@@ -44,18 +44,21 @@ abstract class AbstractTheme
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $writeable;
 
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $deleteable;
 
     /**
      *
      * @ODM\Date
+     * @Shard\Unserializer\Ignore
      */
     protected $createdOn;
 

@@ -23,11 +23,13 @@ class GzippedCss extends AbstractFileAsset implements AssetInterface
     /**
      *
      * @ODM\String
+     * @Shard\Unserializer\Ignore
      */
     protected $mime = 'text/css';
 
     /**
      * @return string
+     * 
      */
     public function getHref()
     {

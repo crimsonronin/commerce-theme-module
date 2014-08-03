@@ -221,7 +221,7 @@ class ThemeControllerTest extends AbstractTest
         $accept->addMediaType('application/json');
 
         $this->getRequest()
-            ->setMethod('PUT')
+            ->setMethod('PATCH')
             ->setContent($jsonData)
             ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
 

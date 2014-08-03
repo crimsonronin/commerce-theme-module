@@ -59,7 +59,7 @@ return [
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'patch' => [
-                                'zoop.shardmodule.listener.unserialize',
+                                'zoop.commerce.theme.listener.theme.unserialize',
                                 'zoop.api.listener.cors',
                                 'zoop.shardmodule.listener.idchange',
                                 'zoop.shardmodule.listener.patch',
@@ -68,14 +68,7 @@ return [
                             ],
                             'patchList' => [],
                             'replaceList' => [],
-                            'update' => [
-                                'zoop.commerce.theme.listener.theme.unserialize',
-                                'zoop.api.listener.cors',
-                                'zoop.shardmodule.listener.idchange',
-                                'zoop.shardmodule.listener.update',
-                                'zoop.shardmodule.listener.flush',
-                                'zoop.shardmodule.listener.prepareviewmodel'
-                            ],
+                            'update' => [],
                         ],
                     ],
                     'themesimport' => [

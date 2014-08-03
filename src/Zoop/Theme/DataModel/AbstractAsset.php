@@ -90,24 +90,28 @@ abstract class AbstractAsset
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $writable = true;
 
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $deletable = true;
 
     /**
      *
      * @ODM\Date
+     * @Shard\Unserializer\Ignore
      */
     protected $createdOn;
 
     /**
      *
      * @ODM\Date
+     * @Shard\Unserializer\Ignore
      */
     protected $lastModified;
 

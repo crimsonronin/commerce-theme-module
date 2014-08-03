@@ -42,6 +42,7 @@ class Folder extends AbstractAsset implements AssetInterface
     /**
      *
      * @ODM\Int
+     * @Shard\Unserializer\Ignore
      */
     protected $sortBy = 0;
 

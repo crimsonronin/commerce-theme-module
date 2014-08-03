@@ -17,12 +17,14 @@ class ZoopTheme extends AbstractTheme implements ThemeInterface
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $writeable = false;
 
     /**
      *
      * @ODM\Boolean
+     * @Shard\Unserializer\Ignore
      */
     protected $deleteable = false;
 }
