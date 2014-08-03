@@ -122,7 +122,7 @@ abstract class AbstractThemeCreator
                 //check if the parent perms allow this asset
                 $parent = $asset->getParent();
                 if (!empty($parent)) {
-                    if ($parent->getWritable()) {
+                    if ($parent->isWritable()) {
                         $validAsset = $asset;
                     }
                 }
@@ -181,8 +181,8 @@ abstract class AbstractThemeCreator
      */
     private function copyPermissions(AssetInterface $from, AssetInterface $to)
     {
-        $to->setDeletable($from->getDeletable());
-        $to->setWritable($from->getWritable());
+        $to->setDeletable($from->isDeletable());
+        $to->setWritable($from->isWritable());
         return $this;
     }
 

@@ -40,6 +40,9 @@ abstract class AbstractBridge
         $this->format = $format;
     }
 
+    /**
+     * @SuppressWarnings(UnusedLocalVariable)
+     */
     protected function find($key, $legacyData)
     {
         if (isset($legacyData[$key])) {

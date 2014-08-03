@@ -116,7 +116,7 @@ abstract class AbstractTheme
     /**
      * @return boolean
      */
-    public function getWriteable()
+    public function isWriteable()
     {
         return $this->writeable;
     }
@@ -132,7 +132,7 @@ abstract class AbstractTheme
     /**
      * @return boolean
      */
-    public function getDeleteable()
+    public function isDeleteable()
     {
         return $this->deleteable;
     }

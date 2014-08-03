@@ -17,7 +17,7 @@ use Zoop\Theme\Parser\Html as HtmlParser;
  */
 class AssetManager
 {
-    private function getAssetUrl(AssetInterface $asset)
+    public function getAssetUrl(AssetInterface $asset)
     {
         if ($asset instanceof ImageModel) {
             return $asset->getSrc();

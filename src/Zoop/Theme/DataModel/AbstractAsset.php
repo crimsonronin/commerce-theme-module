@@ -160,12 +160,12 @@ abstract class AbstractAsset
         $this->theme = $theme;
     }
 
-    public function getWritable()
+    public function isWritable()
     {
         return $this->writable;
     }
 
-    public function getDeletable()
+    public function isDeletable()
     {
         return $this->deletable;
     }

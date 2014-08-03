@@ -39,7 +39,7 @@ class ThemeCreateListener extends CreateListener
 
     /**
      * Creates a theme from an uploaded file
-     * 
+     *
      * @param MvcEvent $event
      * @return mixed
      * @throws Exception
@@ -47,9 +47,9 @@ class ThemeCreateListener extends CreateListener
     protected function doImport(MvcEvent $event)
     {
         $request = $event->getRequest();
-        
+
         $uploadedFile = $request->getFiles()->toArray();
-        
+
         if (isset($uploadedFile['theme'])) {
             $uploadedFileName = $uploadedFile['theme']['tmp_name'];
         } else {

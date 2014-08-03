@@ -21,7 +21,7 @@ use Zoop\Theme\DataModel\Template as TemplateModel;
  */
 class Unserializer
 {
-    private $tempDirectory;
+    protected $tempDirectory;
 
     /**
      * @return AssetUnserializer
@@ -44,33 +44,23 @@ class Unserializer
     /**
      * @return AssetUnserializer
      */
-    private function unserializeModel(SplFileInfo $file)
+    protected function unserializeModel(SplFileInfo $file)
     {
         $pathname = $file->getPathname();
-
-        $htmlValidator = new File\MimeType(['text/html', 'text/plain', 'text/x-asm']);
-        $htmlExtensionValidator = new File\Extension(['html']);
-        $imageValidator = new File\IsImage();
-        $cssValidator = new File\MimeType(['text/css', 'text/plain', 'text/x-asm', 'application/x-gzip']);
-        $cssExtensionValidator = new File\Extension(['css', 'min.css']);
-        $jsValidator = new File\MimeType(['application/javascript', 'text/plain', 'text/x-asm', 'application/x-gzip']);
-        $jsExtensionValidator = new File\Extension(['js', 'min.js']);
-        $lessValidator = new File\MimeType(['application/less', 'text/plain', 'text/x-asm']);
-        $lessExtensionValidator = new File\Extension(['less']);
-
-        if ($htmlValidator->isValid($pathname) && $htmlExtensionValidator->isValid($pathname)) {
+        
+        if ($this->isHtml($pathname)) {
             //Twig/HTML Template
             return $this->unserializeTemplate($file);
-        } elseif ($imageValidator->isValid($pathname)) {
+        } elseif ($this->isImage($pathname)) {
             //Image
             return $this->unserializeImage($file);
-        } elseif ($cssValidator->isValid($pathname) && $cssExtensionValidator->isValid($pathname)) {
+        } elseif ($this->isCss($pathname)) {
             //Css
             return $this->unserializeCss($file);
-        } elseif ($jsValidator->isValid($pathname) && $jsExtensionValidator->isValid($pathname)) {
+        } elseif ($this->isJavascript($pathname)) {
             //Javascript
             return $this->unserializeJavascript($file);
-        } elseif ($lessValidator->isValid($pathname) && $lessExtensionValidator->isValid($pathname)) {
+        } elseif ($this->isLess($pathname)) {
             //Less
             return $this->unserializeLess($file);
         } else {
@@ -84,11 +74,56 @@ class Unserializer
 
         return false;
     }
+    
+    protected function isHtml($pathname)
+    {
+        $mime = new File\MimeType(['text/html', 'text/plain', 'text/x-asm']);
+        $extension = new File\Extension(['html']);
+        
+        return $mime->isValid($pathname) && $extension->isValid($pathname);
+    }
+    
+    protected function isImage($pathname)
+    {
+        $file = new File\IsImage();
+        
+        return $file->isValid($pathname);
+    }
+    
+    protected function isCss($pathname)
+    {
+        $mime = new File\MimeType(['text/css', 'text/plain', 'text/x-asm', 'application/x-gzip']);
+        $extension = new File\Extension(['css', 'min.css']);
+        
+        return $mime->isValid($pathname) && $extension->isValid($pathname);
+    }
+    
+    protected function isJavascript($pathname)
+    {
+        $mime = new File\MimeType([
+            'application/javascript',
+            'text/javascript',
+            'text/plain',
+            'text/x-asm',
+            'application/x-gzip'
+        ]);
+        $extension = new File\Extension(['js', 'min.js']);
+        
+        return $mime->isValid($pathname) && $extension->isValid($pathname);
+    }
+    
+    protected function isLess($pathname)
+    {
+        $mime = new File\MimeType(['application/less', 'text/plain', 'text/x-asm']);
+        $extension = new File\Extension(['less']);
+        
+        return $mime->isValid($pathname) && $extension->isValid($pathname);
+    }
 
     /**
      * @return string
      */
-    private function getFileContent(SplFileInfo $file)
+    protected function getFileContent(SplFileInfo $file)
     {
         return file_get_contents($file->getPathname());
     }
@@ -96,7 +131,7 @@ class Unserializer
     /**
      * @return FolderModel
      */
-    private function unserializeFolder(SplFileInfo $folder)
+    protected function unserializeFolder(SplFileInfo $folder)
     {
         $folderModel = new FolderModel;
         $folderModel->setName($folder->getFilename());
@@ -109,7 +144,7 @@ class Unserializer
     /**
      * @return CssModel|GzippedCssModel
      */
-    private function unserializeCss(SplFileInfo $file)
+    protected function unserializeCss(SplFileInfo $file)
     {
         $gzipValidator = new File\MimeType(['application/x-gzip']);
 
@@ -130,7 +165,7 @@ class Unserializer
     /**
      * @return ImageModel
      */
-    private function unserializeImage(SplFileInfo $file)
+    protected function unserializeImage(SplFileInfo $file)
     {
         $mime = mime_content_type($file->getPathname());
         list($width, $height) = getimagesize($file->getPathname());
@@ -143,9 +178,9 @@ class Unserializer
         $image->setHeight($height);
         $image->setWidth($width);
 
-        //save to S3
-        $content = $this->getFileContent($file);
-
+        //TODO: save to S3
+//        $content = $this->getFileContent($file);
+        
         $this->setPaths($image, $file->getPathname());
 
         return $image;
@@ -154,7 +189,7 @@ class Unserializer
     /**
      * @return JavascriptModel|GzippedJavascriptModel
      */
-    private function unserializeJavascript(SplFileInfo $file)
+    protected function unserializeJavascript(SplFileInfo $file)
     {
         $gzipValidator = new File\MimeType(['application/x-gzip']);
 
@@ -175,7 +210,7 @@ class Unserializer
     /**
      * @return LessModel
      */
-    private function unserializeLess(SplFileInfo $file)
+    protected function unserializeLess(SplFileInfo $file)
     {
         //get the parsed assets and add to the queue
         $less = new LessModel;
@@ -190,7 +225,7 @@ class Unserializer
     /**
      * @return TemplateModel
      */
-    private function unserializeTemplate(SplFileInfo $file)
+    protected function unserializeTemplate(SplFileInfo $file)
     {
         //get the parsed assets and add to the queue
         $template = new TemplateModel;
@@ -202,7 +237,7 @@ class Unserializer
         return $template;
     }
 
-    private function setPaths(AssetInterface $asset, $absolutePathname)
+    protected function setPaths(AssetInterface $asset, $absolutePathname)
     {
         $relativePathname = str_replace($this->getTempDirectory() . '/', '', $absolutePathname);
         $relativePath = rtrim(str_replace($asset->getName(), '', $relativePathname), '/');

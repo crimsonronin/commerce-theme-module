@@ -34,7 +34,7 @@ class ThemeControllerTest extends AbstractTest
 
         $this->assertResponseStatusCode(201);
     }
-    
+
     public function testThemeCreate()
     {
         $data = [
@@ -64,14 +64,14 @@ class ThemeControllerTest extends AbstractTest
         $theme = $this->getTheme($id);
         $this->assertNotEmpty($theme);
         $this->assertEquals('Test', $theme->getName());
-        
+
         //prime all assets
         /* @var $asset Template */
         $asset = $theme->getAssets()[13];
-        
+
         $this->assertEquals('index.html', $asset->getName());
         $this->assertEmpty($asset->getContent());
-        
+
         return $theme;
     }
 
@@ -157,7 +157,7 @@ class ThemeControllerTest extends AbstractTest
         $theme = $this->getTheme($id);
         $this->assertNotEmpty($theme);
         $this->assertEquals('complex-theme', $theme->getName());
-        
+
         return $id;
     }
 
@@ -198,7 +198,7 @@ class ThemeControllerTest extends AbstractTest
         $this->assertEquals('complex-theme', $result['name']);
         $this->assertNotEmpty($result['assets']);
         $this->assertCount(15, $result['assets']);
-        
+
         return $result;
     }
 
@@ -208,15 +208,15 @@ class ThemeControllerTest extends AbstractTest
     public function testUpdateTheme(PrivateTheme $theme)
     {
         $id = $theme->getId();
-        
+
         $content = '<html><body><h1>This is some content</h1></body></html>';
-        
+
         /* @var $asset Template */
         $asset = $theme->getAssets()[13];
         $asset->setContent($content);
-        
+
         $jsonData = self::getSerializer()->toJson($theme);
-        
+
         $accept = new Accept;
         $accept->addMediaType('application/json');
 
@@ -227,9 +227,9 @@ class ThemeControllerTest extends AbstractTest
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
-        
+
         $this->reset();
-        
+
         // check to see if the asset was updated correctly
         $this->getRequest()
             ->setMethod('GET')
@@ -237,9 +237,9 @@ class ThemeControllerTest extends AbstractTest
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $result = json_decode($this->getResponse()->getContent(), true);
-        
+
         $newAsset = $result['assets'][13];
-        
+
         $this->assertEquals('index.html', $newAsset['name']);
         $this->assertEquals($content, $newAsset['content']);
     }
@@ -250,7 +250,7 @@ class ThemeControllerTest extends AbstractTest
     public function testDeleteSimpleTheme(PrivateTheme $theme)
     {
         $id = $theme->getId();
-        
+
         $accept = new Accept;
         $accept->addMediaType('application/json');
 
@@ -260,9 +260,9 @@ class ThemeControllerTest extends AbstractTest
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
-        
+
         $this->reset();
-        
+
         // check that we cannot get the deleted theme
         $this->getRequest()
             ->setMethod('GET')
@@ -272,7 +272,7 @@ class ThemeControllerTest extends AbstractTest
 
         $this->assertResponseStatusCode(404);
         $result = json_decode($this->getResponse()->getContent(), true);
-        
+
         $this->assertEquals('Document not found', $result['title']);
     }
 

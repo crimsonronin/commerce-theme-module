@@ -14,9 +14,9 @@ interface AssetInterface
 
     public function setParent($parent);
 
-    public function getWritable();
+    public function isWritable();
 
-    public function getDeletable();
+    public function isDeletable();
 
     public function setWritable($writable);
 

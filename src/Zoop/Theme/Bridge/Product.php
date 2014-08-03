@@ -6,8 +6,8 @@ use \DateTime;
 
 class Product extends AbstractBridge implements BridgeInterface
 {
-    private static $optionKey = 'sizeOption';
-    private static $state = [
+    protected static $optionKey = 'sizeOption';
+    protected static $state = [
         0 => 'inactive',
         1 => 'active',
         2 => 'sold-out',
@@ -79,7 +79,7 @@ class Product extends AbstractBridge implements BridgeInterface
         return $data;
     }
 
-    private function parseSuggestedProducts($legacyProducts)
+    protected function parseSuggestedProducts($legacyProducts)
     {
         $suggested = [];
         if (!empty($legacyProducts)) {
@@ -91,12 +91,12 @@ class Product extends AbstractBridge implements BridgeInterface
         return $suggested;
     }
 
-    private function parseState($stateId)
+    protected function parseState($stateId)
     {
         return self::$state[$stateId];
     }
 
-    private function parseOptions($legacyOptions)
+    protected function parseOptions($legacyOptions)
     {
         $options = [];
         $optionValues = [];
@@ -123,7 +123,7 @@ class Product extends AbstractBridge implements BridgeInterface
         return $options;
     }
 
-    private function parseSkuOptionsJavascript($productId, $skuDefinitions)
+    protected function parseSkuOptionsJavascript($productId, $skuDefinitions)
     {
         $js = [];
         $js[] = '<script>';
@@ -145,7 +145,7 @@ class Product extends AbstractBridge implements BridgeInterface
         return implode("\n", $js);
     }
 
-    private function parseSkuDefinitions($legacyOptions, $legacyShippingRates, $legacyDimensions, $legacySupplier)
+    protected function parseSkuDefinitions($legacyOptions, $legacyShippingRates, $legacyDimensions, $legacySupplier)
     {
         $skuDefinitions = [];
         foreach ($legacyOptions as $legacyOption) {
@@ -167,7 +167,7 @@ class Product extends AbstractBridge implements BridgeInterface
         return $skuDefinitions;
     }
 
-    private function parseShippingRates($legacySippingRates)
+    protected function parseShippingRates($legacySippingRates)
     {
         $shippingRates = [];
         foreach ($legacySippingRates as $rate) {
@@ -180,23 +180,43 @@ class Product extends AbstractBridge implements BridgeInterface
         return $shippingRates;
     }
 
-    private function parseDimensions($legacyData)
+    protected function parseDimensions($legacyData)
     {
         $dimensions = [
-            'weight' => (float) ($legacyData['productWeight'] == 0) ?
-                $legacyData['productTypeWeight'] :
-                $legacyData['productWeight'],
-            'width' => (float) ($legacyData['productWidth'] == 0) ?
-                $legacyData['productTypeWidth'] :
-                $legacyData['productWidth'],
-            'height' => (float) ($legacyData['productHeight'] == 0) ?
-                $legacyData['productTypeHeight'] :
-                $legacyData['productHeight'],
-            'depth' => (float) ($legacyData['productLength'] == 0) ?
-                $legacyData['productTypeLength'] :
-                $legacyData['productLength']
+            'weight' => $this->getWeight($legacyData),
+            'width' => $this->getWidth($legacyData),
+            'height' => $this->getHeight($legacyData),
+            'depth' => $this->getDepth($legacyData),
         ];
 
         return $dimensions;
+    }
+    
+    protected function getWeight($legacyData)
+    {
+        return (float) ($legacyData['productWeight'] == 0) ?
+            $legacyData['productTypeWeight'] :
+            $legacyData['productWeight'];
+    }
+    
+    protected function getWidth($legacyData)
+    {
+        return (float) ($legacyData['productWidth'] == 0) ?
+            $legacyData['productTypeWidth'] :
+            $legacyData['productWidth'];
+    }
+    
+    protected function getHeight($legacyData)
+    {
+        return (float) ($legacyData['productHeight'] == 0) ?
+            $legacyData['productTypeHeight'] :
+            $legacyData['productHeight'];
+    }
+    
+    protected function getDepth($legacyData)
+    {
+        return (float) ($legacyData['productLength'] == 0) ?
+            $legacyData['productTypeLength'] :
+            $legacyData['productLength'];
     }
 }

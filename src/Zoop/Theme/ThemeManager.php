@@ -22,14 +22,14 @@ class ThemeManager
 {
     const S3_TEMPLATE_ROOT = 'storefront/%s/templates/%s';
 
-    private $cloudfrontEndpoint;
-    private $s3Bucket;
-    private $s3Folder;
-    private $tempDirectory;
-    private $validator;
-    private $dm;
-    private $theme;
-    private $assetManager;
+    protected $cloudfrontEndpoint;
+    protected $s3Bucket;
+    protected $s3Folder;
+    protected $tempDirectory;
+    protected $validator;
+    protected $dm;
+    protected $theme;
+    protected $assetManager;
 
     /**
      * @return Validator
@@ -234,7 +234,7 @@ class ThemeManager
      * @param ThemeInterface $theme
      * @param array $assets
      */
-    private function saveRecursively(ThemeInterface $theme, $assets)
+    protected function saveRecursively(ThemeInterface $theme, $assets)
     {
         if (!empty($assets)) {
             /* @var $asset AssetInterface */
@@ -325,7 +325,7 @@ class ThemeManager
      * @param FolderModel $parent
      * @return array
      */
-    private function createAssetsFromDirectory($directory, FolderModel $parent = null)
+    protected function createAssetsFromDirectory($directory, FolderModel $parent = null)
     {
         $assets = [];
 
@@ -384,7 +384,7 @@ class ThemeManager
      *
      * @param array $assets
      */
-    private function createAdditionalAssets($assets)
+    protected function createAdditionalAssets($assets)
     {
         $additionalAssets = $this->createAssetsFromHtml($assets);
         //add additional js and css assets to the asset pool so we can check them for assets too
@@ -394,7 +394,7 @@ class ThemeManager
      *
      * @param array $assets
      */
-    private function createAssetsFromHtml($assets)
+    protected function createAssetsFromHtml($assets)
     {
         if (!empty($assets) && is_array($assets)) {
             foreach ($assets as $asset) {
@@ -415,7 +415,7 @@ class ThemeManager
      * @param string $type
      * @return array
      */
-    private function getAssetFromContent($additionalAssets, $assetPath, $mimeRegex, $type)
+    protected function getAssetFromContent($additionalAssets, $assetPath, $mimeRegex, $type)
     {
         $parsedAssets = [];
 

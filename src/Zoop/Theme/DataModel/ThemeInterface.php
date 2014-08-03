@@ -22,7 +22,7 @@ interface ThemeInterface
     /**
      * @return boolean
      */
-    public function getWriteable();
+    public function isWriteable();
 
     /**
      * @param boolean $writeable
@@ -32,7 +32,7 @@ interface ThemeInterface
     /**
      * @return boolean
      */
-    public function getDeleteable();
+    public function isDeleteable();
 
     /**
      * @param boolean $deleteable

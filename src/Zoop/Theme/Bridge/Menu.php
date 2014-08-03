@@ -4,6 +4,9 @@ namespace Zoop\Theme\Bridge;
 
 use Zoop\Theme\Bridge\Collection as CollectionBridge;
 
+/**
+ * @SuppressWarnings(UnusedPrivateField)
+ */
 class Menu extends AbstractBridge implements BridgeInterface
 {
     const TYPE_LINK = 'link';
