@@ -49,7 +49,11 @@ class ThemeControllerTest extends AbstractTest
         $this->getRequest()
             ->setMethod('POST')
             ->setContent(json_encode($data))
-            ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                ContentType::fromString('Content-type: application/json'),
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $this->dispatch('http://apple.zoopcommerce.local/themes');
         $this->assertResponseStatusCode(201);
@@ -92,7 +96,11 @@ class ThemeControllerTest extends AbstractTest
         $request = $this->getRequest();
 
         $request->setMethod('POST')
-            ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeaders([
+                $accept,
+                ContentType::fromString('Content-type: multipart/form-data'),
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $request->setFiles($files);
 
@@ -134,7 +142,11 @@ class ThemeControllerTest extends AbstractTest
         $request = $this->getRequest();
 
         $request->setMethod('POST')
-            ->getHeaders()->addHeaders([$accept]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                ContentType::fromString('Content-type: multipart/form-data'),
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $request->setFiles($files);
 
@@ -168,7 +180,10 @@ class ThemeControllerTest extends AbstractTest
 
         $this->getRequest()
             ->setMethod('GET')
-            ->getHeaders()->addHeaders([$accept]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $this->dispatch('http://apple.zoopcommerce.local/themes');
 
@@ -189,7 +204,10 @@ class ThemeControllerTest extends AbstractTest
 
         $this->getRequest()
             ->setMethod('GET')
-            ->getHeaders()->addHeaders([$accept]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
 
@@ -223,7 +241,11 @@ class ThemeControllerTest extends AbstractTest
         $this->getRequest()
             ->setMethod('PATCH')
             ->setContent($jsonData)
-            ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                ContentType::fromString('Content-type: application/json'),
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
@@ -233,7 +255,10 @@ class ThemeControllerTest extends AbstractTest
         // check to see if the asset was updated correctly
         $this->getRequest()
             ->setMethod('GET')
-            ->getHeaders()->addHeaders([$accept]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $result = json_decode($this->getResponse()->getContent(), true);
@@ -256,7 +281,10 @@ class ThemeControllerTest extends AbstractTest
 
         $this->getRequest()
             ->setMethod('DELETE')
-            ->getHeaders()->addHeaders([$accept]);
+            ->getHeaders()->addHeaders([
+                $accept,
+                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+            ]);
 
         $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
