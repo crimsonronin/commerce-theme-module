@@ -9,11 +9,12 @@ namespace Zoop\Theme\Controller;
 use Zend\Mvc\MvcEvent;
 use Zoop\Shard\Serializer\Unserializer;
 use Zoop\ShardModule\Controller\Result;
+use Zoop\ShardModule\Controller\Listener\UnserializeListener;
 
 /**
  * @author  Josh Stuart <josh.stuart@zoopcommerce.com>
  */
-class ThemeUnserializeListener
+class ThemeUnserializeListener extends UnserializeListener
 {
     public function create(MvcEvent $event)
     {

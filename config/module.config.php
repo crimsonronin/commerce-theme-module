@@ -38,7 +38,7 @@ return [
                             'delete' => [
                                 'zoop.commerce.theme.listener.theme.delete',
                                 'zoop.api.listener.cors',
-                                'zoop.shardmodule.listener.flush',
+                                'zoop.commerce.theme.listener.theme.flush',
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'deleteList' => [],
@@ -69,7 +69,7 @@ return [
                             'patchList' => [],
                             'replaceList' => [],
                             'update' => [
-                                'zoop.shardmodule.listener.unserialize',
+                                'zoop.commerce.theme.listener.theme.unserialize',
                                 'zoop.api.listener.cors',
                                 'zoop.shardmodule.listener.idchange',
                                 'zoop.shardmodule.listener.update',

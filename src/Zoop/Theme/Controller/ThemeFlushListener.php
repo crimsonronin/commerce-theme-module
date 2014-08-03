@@ -14,7 +14,7 @@ use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 
 /**
- * @author  Josh Stuart <josh.stuart@zoopcommerce.com>
+ * @author Josh Stuart <josh.stuart@zoopcommerce.com>
  */
 class ThemeFlushListener extends FlushListener
 {

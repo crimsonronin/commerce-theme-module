@@ -10,8 +10,9 @@ use Zend\Http\Header\ContentType;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\PrivateTheme;
 use Zoop\Theme\DataModel\ThemeInterface;
+use Zoop\Theme\DataModel\Template;
 
-class ControllerTest extends AbstractTest
+class ThemeControllerTest extends AbstractTest
 {
     const DOCUMENT_PRIVATE_THEME = 'Zoop\Theme\DataModel\PrivateTheme';
 
@@ -63,6 +64,15 @@ class ControllerTest extends AbstractTest
         $theme = $this->getTheme($id);
         $this->assertNotEmpty($theme);
         $this->assertEquals('Test', $theme->getName());
+        
+        //prime all assets
+        /* @var $asset Template */
+        $asset = $theme->getAssets()[13];
+        
+        $this->assertEquals('index.html', $asset->getName());
+        $this->assertEmpty($asset->getContent());
+        
+        return $theme;
     }
 
     public function testSimpleThemeImport()
@@ -124,7 +134,7 @@ class ControllerTest extends AbstractTest
         $request = $this->getRequest();
 
         $request->setMethod('POST')
-            ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeaders([$accept]);
 
         $request->setFiles($files);
 
@@ -158,7 +168,7 @@ class ControllerTest extends AbstractTest
 
         $this->getRequest()
             ->setMethod('GET')
-            ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeaders([$accept]);
 
         $this->dispatch('http://apple.zoopcommerce.local/themes');
 
@@ -179,32 +189,91 @@ class ControllerTest extends AbstractTest
 
         $this->getRequest()
             ->setMethod('GET')
-            ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeaders([$accept]);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes/' . $id);
+        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
 
         $result = json_decode($this->getResponse()->getContent(), true);
         $this->assertResponseStatusCode(200);
         $this->assertEquals('complex-theme', $result['name']);
         $this->assertNotEmpty($result['assets']);
         $this->assertCount(15, $result['assets']);
+        
+        return $result;
     }
 
-    public function testDeleteSimpleTheme()
+    /**
+     * @depends testThemeCreate
+     */
+    public function testUpdateTheme(PrivateTheme $theme)
     {
-        $private = $this->createComplexTheme();
+        $id = $theme->getId();
+        
+        $content = '<html><body><h1>This is some content</h1></body></html>';
+        
+        /* @var $asset Template */
+        $asset = $theme->getAssets()[13];
+        $asset->setContent($content);
+        
+        $jsonData = self::getSerializer()->toJson($theme);
+        
+        $accept = new Accept;
+        $accept->addMediaType('application/json');
 
+        $this->getRequest()
+            ->setMethod('PUT')
+            ->setContent($jsonData)
+            ->getHeaders()->addHeaders([$accept, ContentType::fromString('Content-type: application/json')]);
+
+        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $this->assertResponseStatusCode(204);
+        
+        $this->reset();
+        
+        // check to see if the asset was updated correctly
+        $this->getRequest()
+            ->setMethod('GET')
+            ->getHeaders()->addHeaders([$accept]);
+
+        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $result = json_decode($this->getResponse()->getContent(), true);
+        
+        $newAsset = $result['assets'][13];
+        
+        $this->assertEquals('index.html', $newAsset['name']);
+        $this->assertEquals($content, $newAsset['content']);
+    }
+
+    /**
+     * @depends testThemeCreate
+     */
+    public function testDeleteSimpleTheme(PrivateTheme $theme)
+    {
+        $id = $theme->getId();
+        
         $accept = new Accept;
         $accept->addMediaType('application/json');
 
         $this->getRequest()
             ->setMethod('DELETE')
-            ->getHeaders()->addHeader($accept);
+            ->getHeaders()->addHeaders([$accept]);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes/' . $private->getId());
-
+        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
-        //need to ensure assets are soft deleted ONLY
+        
+        $this->reset();
+        
+        // check that we cannot get the deleted theme
+        $this->getRequest()
+            ->setMethod('GET')
+            ->getHeaders()->addHeaders([$accept]);
+
+        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+
+        $this->assertResponseStatusCode(404);
+        $result = json_decode($this->getResponse()->getContent(), true);
+        
+        $this->assertEquals('Document not found', $result['title']);
     }
 
     /**
@@ -250,7 +319,12 @@ class ControllerTest extends AbstractTest
     protected function getTheme($id)
     {
         return $this->getDocumentManager()
-            ->getRepository(self::DOCUMENT_PRIVATE_THEME)->find($id);
+            ->createQueryBuilder(self::DOCUMENT_PRIVATE_THEME)
+            ->eagerCursor(true)
+            ->hydrate(true)
+            ->field('id')->equals($id)
+            ->getQuery()
+            ->getSingleResult();
     }
 
     /**

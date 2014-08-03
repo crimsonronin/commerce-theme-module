@@ -69,7 +69,7 @@ abstract class AbstractAsset
      *      discriminatorField="type",
      *      inversedBy="assets"
      * )
-     * @Shard\Serializer\Ignore
+     * @Shard\Serializer\Lazy
      */
     protected $parent;
 
@@ -83,7 +83,7 @@ abstract class AbstractAsset
      *      },
      *      discriminatorField="type"
      * )
-     * @Shard\Serializer\Ignore
+     * @Shard\Serializer\Lazy
      */
     protected $theme;
 

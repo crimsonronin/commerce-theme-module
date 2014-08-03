@@ -14,7 +14,7 @@ use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 
 /**
- * @author  Josh Stuart <josh.stuart@zoopcommerce.com>
+ * @author Josh Stuart <josh.stuart@zoopcommerce.com>
  */
 class ThemeDeleteListener extends AbstractActionListener
 {
@@ -44,7 +44,7 @@ class ThemeDeleteListener extends AbstractActionListener
         );
         $this->deleteRecursively($theme, $theme->getAssets(), $documentManager);
 
-        $result = new Result([]);
+        $result = new Result($theme);
         $result->setStatusCode(204);
 
         $event->setResult($result);
@@ -52,7 +52,7 @@ class ThemeDeleteListener extends AbstractActionListener
         return $result;
     }
 
-    private function deleteRecursively(ThemeInterface $theme, $assets, $documentManager)
+    protected function deleteRecursively(ThemeInterface $theme, $assets, $documentManager)
     {
         if (!empty($assets)) {
             /* @var $asset AssetInterface */
@@ -79,7 +79,7 @@ class ThemeDeleteListener extends AbstractActionListener
     /**
      * @return SoftDeleter
      */
-    public function getSoftDeleter()
+    protected function getSoftDeleter()
     {
         return $this->softDeleter;
     }
@@ -87,7 +87,7 @@ class ThemeDeleteListener extends AbstractActionListener
     /**
      * @param SoftDeleter $softDeleter
      */
-    public function setSoftDeleter(SoftDeleter $softDeleter)
+    protected function setSoftDeleter(SoftDeleter $softDeleter)
     {
         $this->softDeleter = $softDeleter;
     }
