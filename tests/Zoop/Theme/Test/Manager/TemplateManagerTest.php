@@ -6,12 +6,14 @@ use \SplFileInfo;
 use Zoop\Theme\DataModel\PrivateTheme;
 use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\LegacyTemplateManager as TemplateManager;
+use Zoop\Test\Helper\DataHelper;
 
 class TemplateManagerTest extends AbstractTest
 {
     public function testStorefrontTemplateManagerMissing()
     {
-        $store = self::getStore();
+        DataHelper::createZoopUser(self::getNoAuthDocumentManager(), self::getDbName());
+        DataHelper::createStores(self::getNoAuthDocumentManager(), self::getDbName());
 
         $request = $this->getApplicationServiceLocator()->get('request');
         /* @var $request Request */
@@ -27,8 +29,6 @@ class TemplateManagerTest extends AbstractTest
         $creator = self::getThemeCreatorImport();
         $creator->setMaxFileUploadSize(1024 * 1024 * 20);
 
-        $store = self::getStore();
-
         $request = $this->getApplicationServiceLocator()->get('request');
         /* @var $request Request */
         $request->getUri()->setHost('apple.zoopcommerce.local');
@@ -39,7 +39,7 @@ class TemplateManagerTest extends AbstractTest
         $theme = $creator->import($uploadedFile);
         $this->assertTrue($theme instanceof PrivateTheme);
 
-        $theme->addStore($store->getSubdomain());
+        $theme->addStore('apple');
         $theme->setIsActive(true);
 
         self::saveTheme($theme);

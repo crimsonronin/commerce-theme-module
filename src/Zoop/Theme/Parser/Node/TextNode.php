@@ -4,7 +4,7 @@ namespace Zoop\Theme\Parser\Node;
 
 class TextNode extends AbstractNode implements NodeInterface
 {
-    public function compile()
+    public function __toString()
     {
         return (string) $this->getToken();
     }

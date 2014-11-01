@@ -33,7 +33,10 @@ class CreatorTest extends AbstractTest
 
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
 
-        $theme = $creator->import($uploadedFile);
+        $isImported = $creator->import($uploadedFile);
+        $this->assertTrue($isImported);
+        
+        $theme = $creator->getTheme();
         $assets = $theme->getAssets();
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);
@@ -59,7 +62,10 @@ class CreatorTest extends AbstractTest
 
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
 
-        $theme = $creator->import($uploadedFile);
+        $isImported = $creator->import($uploadedFile);
+        $this->assertTrue($isImported);
+        
+        $theme = $creator->getTheme();
         $assets = $theme->getAssets();
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);

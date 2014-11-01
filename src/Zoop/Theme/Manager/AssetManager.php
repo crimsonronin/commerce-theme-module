@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme;
+namespace Zoop\Theme\Helper;
 
 use Zoop\Theme\DataModel\AssetInterface;
 use Zoop\Theme\DataModel\Css as CssModel;

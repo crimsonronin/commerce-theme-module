@@ -2,6 +2,9 @@
 
 namespace Zoop\Theme\Test;
 
+use Zend\Http\Header\Accept;
+use Zend\Http\Header\ContentType;
+use Zend\Http\Header\GenericHeader;
 use Zoop\Store\DataModel\Store;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -18,6 +21,7 @@ use Zoop\Theme\DataModel\Folder as FolderModel;
 abstract class AbstractTest extends AbstractHttpControllerTestCase
 {
     protected static $documentManager;
+    protected static $noAuthDocumentManager;
     protected static $serviceManager;
     protected static $dbName;
     protected static $serializer;
@@ -37,6 +41,9 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         if (!isset(self::$documentManager)) {
             self::$documentManager = $this->getApplicationServiceLocator()
                 ->get('doctrine.odm.documentmanager.commerce');
+            
+            self::$noAuthDocumentManager = $this->getApplicationServiceLocator()
+                ->get('doctrine.odm.documentmanager.noauth');
 
             self::$dbName = $this->getApplicationServiceLocator()
                 ->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
@@ -63,13 +70,6 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 self::$creator = $this->getApplicationServiceLocator()
                     ->get('zoop.commerce.theme.creator.import');
             }
-
-            //create a apple store
-            self::getStore();
-        }
-
-        if (empty(self::$store)) {
-            $store = self::getStore();
         }
 
         //set the Request host so that active store works correctly.
@@ -89,6 +89,14 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     public static function getDocumentManager()
     {
         return self::$documentManager;
+    }
+
+    /**
+     * @return DocumentManager
+     */
+    public static function getNoAuthDocumentManager()
+    {
+        return self::$noAuthDocumentManager;
     }
 
     /**
@@ -143,28 +151,12 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * @return Store
-     */
-    protected static function getStore()
-    {
-        if (!isset(self::$store)) {
-            $store = TestData::createStore(self::getUnserializer());
-
-            self::getDocumentManager()->persist($store);
-            self::getDocumentManager()->flush($store);
-            self::getDocumentManager()->clear($store);
-            self::$store = $store;
-        }
-        return self::$store;
-    }
-
-    /**
      * Clears the DB
      */
     public static function clearDatabase()
     {
         if (self::$documentManager) {
-            $collections = self::getDocumentManager()
+            $collections = self::getNoAuthDocumentManager()
                 ->getConnection()
                 ->selectDatabase(self::getDbName())
                 ->listCollections();
@@ -183,8 +175,8 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
      */
     public static function saveTheme(ThemeInterface $theme)
     {
-        self::getDocumentManager()->persist($theme);
-        self::getDocumentManager()->flush($theme);
+        self::getNoAuthDocumentManager()->persist($theme);
+        self::getNoAuthDocumentManager()->flush($theme);
 
         self::saveThemeAssetsRecursively($theme, $theme->getAssets());
     }
@@ -204,8 +196,8 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 }
                 $asset->setTheme($theme);
 
-                self::getDocumentManager()->persist($asset);
-                self::getDocumentManager()->flush($asset);
+                self::getNoAuthDocumentManager()->persist($asset);
+                self::getNoAuthDocumentManager()->flush($asset);
             }
 
             //look for folders and recurse
@@ -218,6 +210,37 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
                 }
             }
         }
+    }
+    
+    public function applyUserToRequest($request, $key, $secret)
+    {
+        $request->getHeaders()->addHeaders([
+            GenericHeader::fromString('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $key, $secret)))
+        ]);
+    }
+    
+    public function applyJsonRequest($request)
+    {
+        $accept = new Accept;
+        $accept->addMediaType('application/json');
+        
+        $request->getHeaders()
+            ->addHeaders([
+                $accept,
+                ContentType::fromString('Content-type: application/json'),
+            ]);
+    }
+    
+    public function applyMultiPartRequest($request)
+    {
+        $accept = new Accept;
+        $accept->addMediaType('application/json');
+        
+        $request->getHeaders()
+            ->addHeaders([
+                $accept,
+                ContentType::fromString('Content-type: multipart/form-data'),
+            ]);
     }
 
     public function __call($name, $arguments)

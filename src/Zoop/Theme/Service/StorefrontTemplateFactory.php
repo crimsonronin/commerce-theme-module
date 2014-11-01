@@ -30,7 +30,7 @@ class StorefrontTemplateFactory implements FactoryInterface
 
         //check for a set of legacy custom templates
         $templates = $config['theme']['storefront']['templates'];
-        $customTemplate = $config['theme']['template_dir'] . '/storefront/' . $store->getSubdomain();
+        $customTemplate = $config['theme']['template_dir'] . '/storefront/' . $store->getId();
 
         if (is_dir($customTemplate)) {
             array_unshift($templates, $customTemplate);
@@ -49,7 +49,7 @@ class StorefrontTemplateFactory implements FactoryInterface
 
                 $loader = new Twig_Loader_Chain([$dbLoader, $loader]);
             } catch (Exception $e) {
-                throw new Exception('We cannot find the template for ' . $store->getSubdomain());
+                throw new Exception('We cannot find the template for ' . $store->getId());
             }
         }
         $twig = new TwigEnvironment($loader, array(

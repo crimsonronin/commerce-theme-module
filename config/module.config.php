@@ -130,8 +130,6 @@ return [
     ],
     'controllers' => [
         'invokables' => [
-            'zoop.commerce.theme.controller.admin.theme' => 'Zoop\Theme\Controller\ThemeController',
-            'zoop.commerce.theme.controller.admin.asset' => 'Zoop\Theme\Controller\AssetController',
         ],
     ],
     'service_manager' => [
@@ -142,17 +140,18 @@ return [
             'zoop.commerce.theme.listener.theme.serialize' => 'Zoop\Theme\Controller\ThemeSerializeListener',
             'zoop.commerce.theme.listener.theme.unserialize' => 'Zoop\Theme\Controller\ThemeUnserializeListener',
             'zoop.commerce.theme.listener.theme.import.prepareviewmodel' => 'Zoop\Theme\Controller\ThemeImportPrepareViewModelListener',
-            'zoop.commerce.theme.parser.css' => 'Zoop\Theme\Parser\Css',
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',
             'zoop.commerce.theme.zoop' => 'Zoop\Theme\DataModel\ZoopTheme',
+            'zoop.commerce.theme.lexer' => 'Zoop\Theme\Lexer\Lexer',
+            'zoop.commerce.theme.parser' => 'Zoop\Theme\Parser\Parser',
         ],
         'factories' => [
             //controllers
             'zoop.commerce.theme.active' => 'Zoop\Theme\Service\ActiveThemeFactory',
-            'zoop.commerce.theme.assetmanager' => 'Zoop\Theme\Service\AssetManagerFactory',
+            'zoop.commerce.theme.assetmanager' => 'Zoop\Theme\Service\Manager\AssetManagerFactory',
+            'zoop.commerce.theme.manager' => 'Zoop\Theme\Service\Manager\ThemeManagerFactory',
             'zoop.commerce.theme.creator.import' => 'Zoop\Theme\Service\Creator\ThemeCreatorImportFactory',
-            'zoop.commerce.theme.manager' => 'Zoop\Theme\Service\ThemeManagerFactory',
             'zoop.commerce.theme.serializer.asset.unserializer' => 'Zoop\Theme\Service\Serializer\AssetUnserializerFactory',
             'zoop.commerce.theme.structure' => 'Zoop\Theme\Service\ThemeStructureFactory',
             'zoop.commerce.theme.template.admin' => 'Zoop\Theme\Service\AdminTemplateFactory',
@@ -161,6 +160,8 @@ return [
             'zoop.commerce.theme.template.facebook' => 'Zoop\Theme\Service\FacebookTemplateFactory',
             'zoop.commerce.theme.template.legacy' => 'Zoop\Theme\Service\LegacyTemplateFactory',
             'zoop.commerce.theme.validator' => 'Zoop\Theme\Service\ValidatorFactory',
+            'zoop.commerce.theme.linter' => 'Zoop\Theme\Service\LinterFactory',
+            'zoop.commerce.theme.lexer.full' => 'Zoop\Theme\Service\LexerFullFactory',
         ],
     ],
 ];

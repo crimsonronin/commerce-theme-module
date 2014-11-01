@@ -19,11 +19,9 @@ class ThemeCreatorImportFactory implements FactoryInterface
         $manifest = $serviceLocator->get('shard.commerce.manifest');
         /* @var $manifest \Zoop\Shard\Manifest */
         $unserializer = $manifest->getServiceManager()->get('unserializer');
-        $themeStructure = $serviceLocator->get('zoop.commerce.theme.structure');
 
         $creator = new ThemeCreatorImport(
             $unserializer,
-            $themeStructure,
             $config['temp_dir'],
             $config['max_file_upload_size']
         );

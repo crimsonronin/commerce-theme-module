@@ -14,6 +14,15 @@ use Zoop\Theme\Tokenizer\Token\TextToken;
 use Zoop\Theme\Tokenizer\Token\Relative;
 use Zoop\Theme\Tokenizer\Token\Absolute;
 
+/**
+ * The Lexer consumes content and creates a token stream
+ * depending on the lexer regexes supplied. These tokens can
+ * be css, images, js etc.
+ * 
+ * This then allows the Tokenizer to recompile the original
+ * content with the replaced assets.
+ * 
+ */
 class Lexer
 {
     protected $regexes;

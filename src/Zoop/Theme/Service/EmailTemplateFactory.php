@@ -25,7 +25,7 @@ class EmailTemplateFactory implements FactoryInterface
         $store = $serviceLocator->get('zoop.commerce.store.active');
 
         $templates = $config['theme']['email']['templates'];
-        $customTemplate = $config['theme']['template_dir'] . '/storefront/' . $store->getSubDomain();
+        $customTemplate = $config['theme']['template_dir'] . '/storefront/' . $store->getId();
 
         if (is_dir($customTemplate)) {
             array_unshift($templates, $customTemplate);

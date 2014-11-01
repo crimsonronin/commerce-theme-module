@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme;
+namespace Zoop\Theme\Manager;
 
 class TemplateManager extends AbstractTemplateManager implements TemplateManagerInterface
 {

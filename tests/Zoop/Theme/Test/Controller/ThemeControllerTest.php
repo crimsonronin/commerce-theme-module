@@ -2,30 +2,47 @@
 
 namespace Zoop\Theme\Test\Controller;
 
-use Zoop\Theme\Test\AbstractTest;
-use Zoop\Theme\Test\FileMoc;
-use Zend\Http\Header\Accept;
 use Zend\Http\Header\Origin;
-use Zend\Http\Header\ContentType;
+use Zend\Http\Header\Host;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\PrivateTheme;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\Template;
+use Zoop\Theme\Test\AbstractTest;
+use Zoop\Theme\Test\FileMoc;
+use Zoop\Test\Helper\DataHelper;
 
 class ThemeControllerTest extends AbstractTest
 {
     const DOCUMENT_PRIVATE_THEME = 'Zoop\Theme\DataModel\PrivateTheme';
 
+    
+    private static $zoopUserKey = 'joshstuart';
+    private static $zoopUserSecret = 'password1';
+    private static $testDataCreated = false;
+    
+    public function setUp()
+    {
+        parent::setUp();
+        
+        if (self::$testDataCreated === false) {
+            DataHelper::createZoopUser(self::getNoAuthDocumentManager(), self::getDbName());
+            DataHelper::createStores(self::getNoAuthDocumentManager(), self::getDbName());
+            self::$testDataCreated = true;
+        }
+    }
+
     public function testOptionsRequestSucceed()
     {
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
 
         $this->getRequest()
             ->setMethod('OPTIONS')
             ->getHeaders()->addHeaders([
-                $accept,
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
         $this->dispatch('http://api.zoopcommerce.local/themes');
@@ -42,26 +59,31 @@ class ThemeControllerTest extends AbstractTest
             'stores' => ['apple'],
             'name' => 'Test'
         ];
+        
+        $post = json_encode($data);
+        $request = $this->getRequest();
+        $request->setContent($post);
 
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
 
-        $this->getRequest()
-            ->setMethod('POST')
-            ->setContent(json_encode($data))
+        $request->setMethod('POST')
             ->getHeaders()->addHeaders([
-                $accept,
-                ContentType::fromString('Content-type: application/json'),
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes');
+        $this->dispatch('http://api.zoopcommerce.local/themes');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
         $result = json_decode($response->getContent(), true);
 
-        $id = str_replace(['Location: ', '/themes/'], '', $response->getHeaders()->get('Location')->toString());
+        $id = str_replace(
+            ['Location: ', '/themes/'],
+            '',
+            $response->getHeaders()->get('Location')->toString()
+        );
 
         $this->assertFalse(isset($result));
 
@@ -90,25 +112,25 @@ class ThemeControllerTest extends AbstractTest
                 'error' => 0
             ]
         ]);
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
-
+        
         $request = $this->getRequest();
-
+        
+        $this->applyMultiPartRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
+        
         $request->setMethod('POST')
             ->getHeaders()->addHeaders([
-                $accept,
-                ContentType::fromString('Content-type: multipart/form-data'),
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $request->setFiles($files);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes/import');
-        $this->assertResponseStatusCode(201);
+        $this->dispatch('http://api.zoopcommerce.local/themes/import');
 
         $response = $this->getResponse();
 
+        $this->assertResponseStatusCode(201);
         $result = json_decode($response->getContent(), true);
 
         $id = str_replace(
@@ -136,21 +158,21 @@ class ThemeControllerTest extends AbstractTest
                 'error' => 0
             ]
         ]);
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
-
+        
         $request = $this->getRequest();
-
+        
+        $this->applyMultiPartRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
+        
         $request->setMethod('POST')
             ->getHeaders()->addHeaders([
-                $accept,
-                ContentType::fromString('Content-type: multipart/form-data'),
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $request->setFiles($files);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes/import');
+        $this->dispatch('http://api.zoopcommerce.local/themes/import');
         $this->assertResponseStatusCode(201);
 
         $response = $this->getResponse();
@@ -175,17 +197,18 @@ class ThemeControllerTest extends AbstractTest
 
     public function testGetListTheme()
     {
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
 
         $this->getRequest()
             ->setMethod('GET')
             ->getHeaders()->addHeaders([
-                $accept,
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
-        $this->dispatch('http://apple.zoopcommerce.local/themes');
+        $this->dispatch('http://api.zoopcommerce.local/themes');
 
         $result = json_decode($this->getResponse()->getContent(), true);
 
@@ -199,17 +222,18 @@ class ThemeControllerTest extends AbstractTest
      */
     public function testGetTheme($id)
     {
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
 
         $this->getRequest()
             ->setMethod('GET')
             ->getHeaders()->addHeaders([
-                $accept,
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
-        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
 
         $result = json_decode($this->getResponse()->getContent(), true);
         $this->assertResponseStatusCode(200);
@@ -235,32 +259,34 @@ class ThemeControllerTest extends AbstractTest
 
         $jsonData = self::getSerializer()->toJson($theme);
 
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
 
-        $this->getRequest()
-            ->setMethod('PATCH')
+        $request->setMethod('PATCH')
             ->setContent($jsonData)
             ->getHeaders()->addHeaders([
-                $accept,
-                ContentType::fromString('Content-type: application/json'),
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
-        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
 
         $this->reset();
 
         // check to see if the asset was updated correctly
-        $this->getRequest()
-            ->setMethod('GET')
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
+        
+        $request->setMethod('GET')
             ->getHeaders()->addHeaders([
-                $accept,
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
-        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
         $result = json_decode($this->getResponse()->getContent(), true);
 
         $newAsset = $result['assets'][13];
@@ -275,28 +301,34 @@ class ThemeControllerTest extends AbstractTest
     public function testDeleteSimpleTheme(PrivateTheme $theme)
     {
         $id = $theme->getId();
+        
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
 
-        $accept = new Accept;
-        $accept->addMediaType('application/json');
-
-        $this->getRequest()
-            ->setMethod('DELETE')
+        $request->setMethod('DELETE')
             ->getHeaders()->addHeaders([
-                $accept,
-                Origin::fromString('Origin: http://apple.zoopcommerce.com')
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
             ]);
 
-        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
         $this->assertResponseStatusCode(204);
 
         $this->reset();
 
         // check that we cannot get the deleted theme
-        $this->getRequest()
-            ->setMethod('GET')
-            ->getHeaders()->addHeaders([$accept]);
+        $request = $this->getRequest();
+        $this->applyJsonRequest($request);
+        $this->applyUserToRequest($request, self::$zoopUserKey, self::$zoopUserSecret);
+        
+        $request->setMethod('GET')
+            ->getHeaders()->addHeaders([
+                Origin::fromString('Origin: http://api.zoopcommerce.local'),
+                Host::fromString('Host: api.zoopcommerce.local')
+            ]);
 
-        $this->dispatch(sprintf('http://apple.zoopcommerce.local/themes/%s', $id));
+        $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
 
         $this->assertResponseStatusCode(404);
         $result = json_decode($this->getResponse()->getContent(), true);
@@ -313,9 +345,9 @@ class ThemeControllerTest extends AbstractTest
         $private->setName('Test');
         $private->addStore('apple');
 
-        $this->getDocumentManager()->persist($private);
-        $this->getDocumentManager()->flush($private);
-        $this->getDocumentManager()->clear();
+        $this->getNoAuthDocumentManager()->persist($private);
+        $this->getNoAuthDocumentManager()->flush($private);
+        $this->getNoAuthDocumentManager()->clear();
 
         return $private;
     }
@@ -329,13 +361,13 @@ class ThemeControllerTest extends AbstractTest
         $private->setName('Test');
         $private->addStore('apple');
 
-        $this->getDocumentManager()->persist($private);
-        $this->getDocumentManager()->flush($private);
+        $this->getNoAuthDocumentManager()->persist($private);
+        $this->getNoAuthDocumentManager()->flush($private);
 
         //persist assets
         $this->saveRecursively($private, $private->getAssets());
 
-        $this->getDocumentManager()->clear();
+        $this->getNoAuthDocumentManager()->clear();
 
         return $private;
     }
@@ -346,7 +378,7 @@ class ThemeControllerTest extends AbstractTest
      */
     protected function getTheme($id)
     {
-        return $this->getDocumentManager()
+        return $this->getNoAuthDocumentManager()
             ->createQueryBuilder(self::DOCUMENT_PRIVATE_THEME)
             ->eagerCursor(true)
             ->hydrate(true)
@@ -371,8 +403,8 @@ class ThemeControllerTest extends AbstractTest
                 }
                 $asset->setTheme($theme);
 
-                $this->getDocumentManager()->persist($asset);
-                $this->getDocumentManager()->flush($asset);
+                $this->getNoAuthDocumentManager()->persist($asset);
+                $this->getNoAuthDocumentManager()->flush($asset);
             }
 
             //look for folders and recurse

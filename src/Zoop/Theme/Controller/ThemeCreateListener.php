@@ -8,7 +8,7 @@ use Zend\Mvc\MvcEvent;
 use Zoop\ShardModule\Controller\Listener\CreateListener;
 use Zoop\Store\DataModel\Store;
 use Zoop\Theme\DataModel\ThemeInterface;
-use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
+use Zoop\Theme\DataModel\PrivateThemeInterface;
 use Zoop\Theme\Creator\ThemeCreatorImport;
 use Zend\ServiceManager\ServiceManager;
 
@@ -89,8 +89,8 @@ class ThemeCreateListener extends CreateListener
     {
         $importer = $this->getImporter();
         try {
-            if ($theme instanceof PrivateThemeModel) {
-                $theme->addStore($this->getStoreSubdomain());
+            if ($theme instanceof PrivateThemeInterface) {
+                $theme->addStore($this->getStore()->getId());
             }
 
             //use the current theme
@@ -145,14 +145,6 @@ class ThemeCreateListener extends CreateListener
     protected function setServiceLocator(ServiceManager $serviceLocator)
     {
         $this->serviceLocator = $serviceLocator;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getStoreSubdomain()
-    {
-        return $this->getStore()->getSubdomain();
     }
 
     /**

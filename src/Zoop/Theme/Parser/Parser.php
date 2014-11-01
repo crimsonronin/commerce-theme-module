@@ -10,6 +10,12 @@ use Zoop\Theme\Tokenizer\Token\ImageTokenInterface;
 use Zoop\Theme\Tokenizer\Token\CssTokenInterface;
 use Zoop\Theme\Tokenizer\Token\JavascriptTokenInterface;
 
+/**
+ * The Parser creates a NodeTree from a TokenStream.
+ * This can then be used to further manipulate nodes
+ * such as saving them to other locations or replacing
+ * them completely.
+ */
 class Parser implements ParserInterface
 {
     public function parse(TokenStream $tokenStream)

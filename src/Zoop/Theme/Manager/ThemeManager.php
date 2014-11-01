@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme;
+namespace Zoop\Theme\Manager;
 
 use \Exception;
 use \DateTime;
@@ -10,9 +10,9 @@ use \DirectoryIterator;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Theme\AssetManager;
 use Zoop\Theme\DataModel\ThemeInterface;
-use Zoop\Theme\DataModel\PrivateTheme as PrivateThemeModel;
-use Zoop\Theme\DataModel\SharedTheme as SharedThemeModel;
-use Zoop\Theme\DataModel\ZoopTheme as ZoopThemeModel;
+use Zoop\Theme\DataModel\PrivateThemeInterface;
+use Zoop\Theme\DataModel\SharedThemeInterface;
+use Zoop\Theme\DataModel\ZoopThemeInterface;
 use Zoop\Theme\DataModel\AssetInterface;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\Template as TemplateModel;
@@ -276,7 +276,7 @@ class ThemeManager
      */
     public function setS3Folder(ThemeInterface $theme)
     {
-        if ($theme instanceof PrivateThemeModel) {
+        if ($theme instanceof PrivateThemeInterface) {
             $storeSlug = $theme->getStores()[0];
             $themeId = $theme->getId();
             $this->s3Folder = sprintf(self::S3_TEMPLATE_ROOT, $storeSlug, $themeId);

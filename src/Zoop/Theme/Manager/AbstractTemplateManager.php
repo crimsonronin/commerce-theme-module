@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme;
+namespace Zoop\Theme\Manager;
 
 use \Twig_Environment;
 

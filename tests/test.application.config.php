@@ -9,7 +9,9 @@ return [
         'Zoop\Api',
         'Zoop\Common',
         'Zoop\Store',
-        'Zoop\Theme'
+        'Zoop\Theme',
+        'Zoop\User',
+        'Zoop\Test'
     ],
     'module_listener_options' => [
         'config_glob_paths' => [
