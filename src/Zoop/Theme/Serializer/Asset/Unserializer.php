@@ -14,12 +14,13 @@ use Zoop\Theme\DataModel\Javascript as JavascriptModel;
 use Zoop\Theme\DataModel\GzippedJavascript as GzippedJavascriptModel;
 use Zoop\Theme\DataModel\Less as LessModel;
 use Zoop\Theme\DataModel\Template as TemplateModel;
+use Zoop\Theme\Serializer\Asset\UnserializerInterface;
 
 /**
  *
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
  */
-class Unserializer
+class Unserializer implements UnserializerInterface
 {
     protected $tempDirectory;
 
@@ -47,7 +48,7 @@ class Unserializer
     protected function unserializeModel(SplFileInfo $file)
     {
         $pathname = $file->getPathname();
-        
+
         if ($this->isHtml($pathname)) {
             //Twig/HTML Template
             return $this->unserializeTemplate($file);
@@ -74,30 +75,30 @@ class Unserializer
 
         return false;
     }
-    
+
     protected function isHtml($pathname)
     {
         $mime = new File\MimeType(['text/html', 'text/plain', 'text/x-asm']);
         $extension = new File\Extension(['html']);
-        
+
         return $mime->isValid($pathname) && $extension->isValid($pathname);
     }
-    
+
     protected function isImage($pathname)
     {
         $file = new File\IsImage();
-        
+
         return $file->isValid($pathname);
     }
-    
+
     protected function isCss($pathname)
     {
         $mime = new File\MimeType(['text/css', 'text/plain', 'text/x-asm', 'application/x-gzip']);
         $extension = new File\Extension(['css', 'min.css']);
-        
+
         return $mime->isValid($pathname) && $extension->isValid($pathname);
     }
-    
+
     protected function isJavascript($pathname)
     {
         $mime = new File\MimeType([
@@ -108,15 +109,15 @@ class Unserializer
             'application/x-gzip'
         ]);
         $extension = new File\Extension(['js', 'min.js']);
-        
+
         return $mime->isValid($pathname) && $extension->isValid($pathname);
     }
-    
+
     protected function isLess($pathname)
     {
         $mime = new File\MimeType(['application/less', 'text/plain', 'text/x-asm']);
         $extension = new File\Extension(['less']);
-        
+
         return $mime->isValid($pathname) && $extension->isValid($pathname);
     }
 
@@ -180,7 +181,7 @@ class Unserializer
 
         //TODO: save to S3
 //        $content = $this->getFileContent($file);
-        
+
         $this->setPaths($image, $file->getPathname());
 
         return $image;
@@ -237,6 +238,10 @@ class Unserializer
         return $template;
     }
 
+    /**
+     * @param AssetInterface $asset
+     * @param string $absolutePathname
+     */
     protected function setPaths(AssetInterface $asset, $absolutePathname)
     {
         $relativePathname = str_replace($this->getTempDirectory() . '/', '', $absolutePathname);
@@ -246,11 +251,17 @@ class Unserializer
         $asset->setPathName($relativePathname);
     }
 
+    /**
+     * @return string
+     */
     public function getTempDirectory()
     {
         return $this->tempDirectory;
     }
 
+    /**
+     * @param string $tempDirectory
+     */
     public function setTempDirectory($tempDirectory)
     {
         $this->tempDirectory = $tempDirectory;

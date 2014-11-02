@@ -51,7 +51,7 @@ use ServiceLocatorAwareTrait;
                 $tokenStream = $lexer->tokenize($asset->getContent());
 
                 $nodeTree = $parser->parse($tokenStream);
-                
+
                 $cssNodes = $nodeTree->getCssNodes();
                 $jsNodes = $nodeTree->getJavascriptNodes();
                 $imgNodes = $nodeTree->getImageNodes();
@@ -62,7 +62,7 @@ use ServiceLocatorAwareTrait;
     /**
      * This loops through existing assets and checks against a reference
      * theme structure.
-     * 
+     *
      * @param array $assets
      * @return array
      */

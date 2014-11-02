@@ -4,24 +4,21 @@ namespace Zoop\Theme\Service\Creator;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zoop\Theme\Creator\ThemeCreatorImport;
+use Zoop\Theme\Creator\FileImportCreator;
 
-class ThemeCreatorImportFactory implements FactoryInterface
+class FileImportCreatorFactory implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface $serviceLocator
      * @return ThemeCreatorImport
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('config')['zoop']['theme'];
-        $manifest = $serviceLocator->get('shard.commerce.manifest');
-        /* @var $manifest \Zoop\Shard\Manifest */
-        $unserializer = $manifest->getServiceManager()->get('unserializer');
-
-        $creator = new ThemeCreatorImport(
-            $unserializer,
+        $directoryParser = $serviceLocator->get('zoop.commerce.theme.parser.directoryparser');
+        
+        $creator = new FileImportCreator(
+            $directoryParser,
             $config['temp_dir'],
             $config['max_file_upload_size']
         );

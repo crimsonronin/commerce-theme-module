@@ -5,14 +5,15 @@ namespace Zoop\Theme\Test\Creator;
 use \SplFileInfo;
 use Zoop\Theme\Test\AbstractTest;
 
-class CreatorTest extends AbstractTest
+class FileImportCreatorTest extends AbstractTest
 {
     public function testInvalidFileImport()
     {
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/zoop.jpg');
 
         $this->setExpectedException('Exception');
-        $theme = self::getThemeCreatorImport()->import($uploadedFile);
+        $theme = self::getThemeCreatorImport()
+            ->create($uploadedFile);
     }
 
     public function testInvalidFileSizeImport()
@@ -23,7 +24,7 @@ class CreatorTest extends AbstractTest
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
 
         $this->setExpectedException('Exception');
-        $theme = $creator->import($uploadedFile);
+        $theme = $creator->create($uploadedFile);
     }
 
     public function testValidSimpleThemeImport()
@@ -33,9 +34,9 @@ class CreatorTest extends AbstractTest
 
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
 
-        $isImported = $creator->import($uploadedFile);
+        $isImported = $creator->create($uploadedFile);
         $this->assertTrue($isImported);
-        
+
         $theme = $creator->getTheme();
         $assets = $theme->getAssets();
 
@@ -57,14 +58,14 @@ class CreatorTest extends AbstractTest
     public function testValidComplexThemeImport()
     {
         $creator = $this->getApplicationServiceLocator()
-                ->get('zoop.commerce.theme.creator.import');
+                ->get('zoop.commerce.theme.creator.create');
         /* @var $creator \Zoop\Theme\Creator\ThemeCreatorImport */
 
         $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
 
-        $isImported = $creator->import($uploadedFile);
+        $isImported = $creator->create($uploadedFile);
         $this->assertTrue($isImported);
-        
+
         $theme = $creator->getTheme();
         $assets = $theme->getAssets();
 

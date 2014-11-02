@@ -38,12 +38,12 @@ class NodeTree
     {
         $this->nodes->add($node);
     }
-    
+
     public function getCssNodes()
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\CssNode');
     }
-    
+
     public function getJavascriptNodes()
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\JavascriptNode');
@@ -58,7 +58,7 @@ class NodeTree
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\TextNode');
     }
-    
+
     protected function getNodesByType($type)
     {
         $cssNodes = new ArrayCollection;

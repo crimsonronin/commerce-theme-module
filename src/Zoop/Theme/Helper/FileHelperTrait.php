@@ -6,6 +6,7 @@ namespace Zoop\Theme\Helper;
 use \Exception;
 use \RecursiveDirectoryIterator;
 use \RecursiveIteratorIterator;
+use \SplFileInfo;
 use \ZipArchive;
 use Zend\Validator\File;
 
@@ -14,52 +15,6 @@ use Zend\Validator\File;
  */
 trait FileHelperTrait
 {
-    protected $tempDirectory;
-    protected $tempThemeDirectory;
-    protected $maxFileUploadSize = 20971520; //20MB
-    
-    /**
-     * @param string $tempDirectory
-     * @return ThemeCreatorImport
-     * @throws Exception
-     */
-    public function setTempDirectory($tempDirectory)
-    {
-        if (is_dir($tempDirectory)) {
-            $this->tempDirectory = $tempDirectory;
-            $this->setTempThemeDirectory($this->createDirectory($tempDirectory, uniqid(null, true)));
-        } else {
-            throw new Exception('The directory "' . $tempDirectory . '" does not exist');
-        }
-        return $this;
-    }
-    
-    /**
-     * @param string $tempDirectory
-     * @return ThemeCreatorImport
-     */
-    protected function setTempThemeDirectory($tempDirectory)
-    {
-        $this->tempThemeDirectory = $tempDirectory;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTempThemeDirectory()
-    {
-        return $this->tempThemeDirectory;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTempDirectory()
-    {
-        return $this->tempDirectory;
-    }
-
     /**
      * @param string $base
      * @param string $name
@@ -76,14 +31,14 @@ trait FileHelperTrait
 
     /**
      * @param string $file
-     * @param string $dir
+     * @param string $toDirectory
      * @return boolean
      */
-    protected function unzipTheme($file, $dir)
+    protected function unzip($file, $toDirectory)
     {
         $zip = new ZipArchive;
         if ($zip->open($file) === true) {
-            $zip->extractTo($dir);
+            $zip->extractTo($toDirectory);
             $zip->close();
             return true;
         }
@@ -92,47 +47,34 @@ trait FileHelperTrait
 
     /**
      * Validates the file upload
-     * 
+     *
      * @param SplFileInfo $uploadedFile
      * @return boolean
      * @throws Exception
      */
-    protected function isValidUpload(SplFileInfo $uploadedFile)
+    protected function isValidUpload(SplFileInfo $uploadedFile, $maxFileUploadSize = null)
     {
-        $fileSizeValidator = new File\Size($this->getMaxFileUploadSize());
         $zipValidator = new File\IsCompressed();
 
         if (!$zipValidator->isValid($uploadedFile->getPathname())) {
             throw new Exception(sprintf('The file "%s" is not a zip archive', $uploadedFile->getFilename()));
-        } elseif (!$fileSizeValidator->isValid($uploadedFile->getPathname())) {
-            throw new Exception(
-                sprintf(
-                    'Exceeds the maximum file size of %dMB',
-                    ($this->getMaxFileUploadSize() / 1024 / 1024)
-                )
-            );
+        }
+
+        if (!empty($maxFileUploadSize)) {
+            $fileSizeValidator = new File\Size($maxFileUploadSize);
+
+            if (!$fileSizeValidator->isValid($uploadedFile->getPathname())) {
+                throw new Exception(
+                    sprintf(
+                        'Exceeds the maximum file size of %dMB',
+                        ($maxFileUploadSize / 1024 / 1024)
+                    )
+                );
+            }
         }
         return true;
     }
 
-    /**
-     * @return int
-     */
-    public function getMaxFileUploadSize()
-    {
-        return $this->maxFileUploadSize;
-    }
-
-    /**
-     * Sets the max upload size allowed in bytes
-     *
-     * @param integer $maxFileUploadSize
-     */
-    public function setMaxFileUploadSize($maxFileUploadSize)
-    {
-        $this->maxFileUploadSize = (int) $maxFileUploadSize;
-    }
-    
     /**
      * @param string $dir
      */
@@ -155,5 +97,33 @@ trait FileHelperTrait
             }
         }
         rmdir($dir);
+    }
+
+    /**
+     * @param string $filename
+     * @param string $content
+     * @return string
+     */
+    protected function saveFile($tempDir, $filename, $content)
+    {
+        if (!is_dir($tempDir)) {
+            $createdDir = mkdir($tempDir);
+        }
+
+        $filePathname = $tempDir . '/' . $filename;
+
+        file_put_contents($filePathname, $content);
+        return $filePathname;
+    }
+
+    /**
+     * @param string $filename
+     */
+    protected function removeFile($tempDir, $filename)
+    {
+        if (strpos($filename, $tempDir) === 0) {
+            @unlink($filename);
+            @rmdir($tempDir);
+        }
     }
 }

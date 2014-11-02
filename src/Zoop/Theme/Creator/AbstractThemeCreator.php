@@ -6,8 +6,6 @@ use Zoop\Theme\Helper\ThemeHelperTrait;
 use Zoop\Shard\Serializer\Unserializer;
 use Zoop\Theme\DataModel\PrivateThemeInterface;
 use Zoop\Theme\DataModel\ThemeInterface;
-use Zend\ServiceManager\ServiceLocatorAwareInterface;
-use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
@@ -16,10 +14,9 @@ abstract class AbstractThemeCreator implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
     use ThemeHelperTrait;
-    
+
     protected $theme;
     protected $unserializer;
-    protected $themeStructure;
 
     /**
      * @return Unserializer

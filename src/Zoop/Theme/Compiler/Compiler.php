@@ -47,7 +47,7 @@ class Compiler
         }
         return false;
     }
-    
+
     public function getS3Folder()
     {
         return $this->s3Folder;

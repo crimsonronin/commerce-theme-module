@@ -16,7 +16,7 @@ use Zoop\Theme\Tokenizer\Token\JavascriptTokenInterface;
  * such as saving them to other locations or replacing
  * them completely.
  */
-class Parser implements ParserInterface
+class TokenParser implements TokenParserInterface
 {
     public function parse(TokenStream $tokenStream)
     {

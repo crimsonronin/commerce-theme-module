@@ -40,21 +40,21 @@ class ParserTest extends AbstractTest
         $lexer->addRegex(new Regex\HtmlJavascriptUrlRegex);
 
         $tokenStream = $lexer->tokenize($content);
-        
+
         $parser = new Parser;
         $nodeTree = $parser->parse($tokenStream);
-        
+
         $nodes = $nodeTree->getNodes();
         $this->assertCount(53, $nodes);
-        
+
         //ensure that there are css nodes
         $cssNodes = $nodeTree->getCssNodes();
         $this->assertCount(2, $cssNodes);
-        
+
         //ensure that there are js nodes
         $jsNodes = $nodeTree->getJavascriptNodes();
         $this->assertCount(1, $jsNodes);
-        
+
         //ensure that there are image nodes
         $imgNodes = $nodeTree->getImageNodes();
         $this->assertCount(1, $imgNodes);

@@ -191,28 +191,28 @@ class Product extends AbstractBridge implements BridgeInterface
 
         return $dimensions;
     }
-    
+
     protected function getWeight($legacyData)
     {
         return (float) ($legacyData['productWeight'] == 0) ?
             $legacyData['productTypeWeight'] :
             $legacyData['productWeight'];
     }
-    
+
     protected function getWidth($legacyData)
     {
         return (float) ($legacyData['productWidth'] == 0) ?
             $legacyData['productTypeWidth'] :
             $legacyData['productWidth'];
     }
-    
+
     protected function getHeight($legacyData)
     {
         return (float) ($legacyData['productHeight'] == 0) ?
             $legacyData['productTypeHeight'] :
             $legacyData['productHeight'];
     }
-    
+
     protected function getDepth($legacyData)
     {
         return (float) ($legacyData['productLength'] == 0) ?

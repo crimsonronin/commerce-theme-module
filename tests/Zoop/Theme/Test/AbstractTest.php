@@ -5,16 +5,13 @@ namespace Zoop\Theme\Test;
 use Zend\Http\Header\Accept;
 use Zend\Http\Header\ContentType;
 use Zend\Http\Header\GenericHeader;
-use Zoop\Store\DataModel\Store;
 use Zend\Test\PHPUnit\Controller\AbstractHttpControllerTestCase;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Shard\Manifest;
 use Zoop\Shard\Serializer\Serializer;
 use Zoop\Shard\Serializer\Unserializer;
-use Zoop\Theme\Test\Assets\TestData;
 use Zoop\Shard\Core\Events;
 use Zend\ServiceManager\ServiceManager;
-use Zoop\Theme\Creator\ThemeCreatorImport;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 
@@ -28,7 +25,6 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     protected static $unserializer;
     protected static $manifest;
     protected static $store;
-    protected static $creator;
     public $calls;
 
     public function setUp()
@@ -41,7 +37,7 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         if (!isset(self::$documentManager)) {
             self::$documentManager = $this->getApplicationServiceLocator()
                 ->get('doctrine.odm.documentmanager.commerce');
-            
+
             self::$noAuthDocumentManager = $this->getApplicationServiceLocator()
                 ->get('doctrine.odm.documentmanager.noauth');
 
@@ -64,11 +60,6 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
             if (!isset(self::$serializer)) {
                 self::$serializer = self::$manifest->getServiceManager()
                     ->get('serializer');
-            }
-
-            if (!isset(self::$creator)) {
-                self::$creator = $this->getApplicationServiceLocator()
-                    ->get('zoop.commerce.theme.creator.import');
             }
         }
 
@@ -143,14 +134,6 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
     }
 
     /**
-     * @return ThemeCreatorImport
-     */
-    public static function getThemeCreatorImport()
-    {
-        return self::$creator;
-    }
-
-    /**
      * Clears the DB
      */
     public static function clearDatabase()
@@ -211,31 +194,31 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
             }
         }
     }
-    
+
     public function applyUserToRequest($request, $key, $secret)
     {
         $request->getHeaders()->addHeaders([
             GenericHeader::fromString('Authorization: Basic ' . base64_encode(sprintf('%s:%s', $key, $secret)))
         ]);
     }
-    
+
     public function applyJsonRequest($request)
     {
         $accept = new Accept;
         $accept->addMediaType('application/json');
-        
+
         $request->getHeaders()
             ->addHeaders([
                 $accept,
                 ContentType::fromString('Content-type: application/json'),
             ]);
     }
-    
+
     public function applyMultiPartRequest($request)
     {
         $accept = new Accept;
         $accept->addMediaType('application/json');
-        
+
         $request->getHeaders()
             ->addHeaders([
                 $accept,
