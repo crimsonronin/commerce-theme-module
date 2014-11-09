@@ -4,7 +4,6 @@ namespace Zoop\Theme\Parser;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Zoop\Theme\Parser\Node\NodeInterface;
-use Zoop\Theme\Parser\Node\CssNode;
 
 class NodeTree
 {
@@ -39,21 +38,33 @@ class NodeTree
         $this->nodes->add($node);
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getCssNodes()
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\CssNode');
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getJavascriptNodes()
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\JavascriptNode');
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function getImageNodes()
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\ImageNode');
     }
 
+    /**
+     * @return ArrayCollection
+     */
     public function geTextNodes()
     {
         return $this->getNodesByType('Zoop\Theme\Parser\Node\TextNode');

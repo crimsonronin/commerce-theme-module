@@ -43,13 +43,14 @@ class FileImportCreator implements CreatorInterface
             $result->setStatusCode(201);
             $theme = $result->getModel();
         
-            return $this->doCreate($file, $theme);
+            $this->doCreate($file, $theme);
+            
+            return $result;
         }
     }
 
     /**
      * @param SplFileInfo $file
-     * @return Response
      * @throws Exception
      */
     public function doCreate(SplFileInfo $file, ThemeInterface $theme)
@@ -59,9 +60,11 @@ class FileImportCreator implements CreatorInterface
                 //set theme name
                 $theme->setName(str_replace('.zip', '', $file->getFilename()));
                     
-                // use directory creator to parse for theme
-                return $this->getDirectoryParser()
-                    ->parse($this->getTempThemeDirectory(), $theme);
+                // use directory creator to parse and get assets
+                $assets = $this->getDirectoryParser()
+                    ->parse($this->getTempThemeDirectory());
+                
+                $theme->setAssets($assets);
             } else {
                 throw new Exception(
                     sprintf(

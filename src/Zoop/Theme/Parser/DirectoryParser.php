@@ -7,39 +7,42 @@ use \DirectoryIterator;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zoop\Theme\DataModel\AssetInterface;
+use Zoop\Theme\Parser\DirectoryParserInterface;
 use Zoop\Theme\Serializer\Asset\UnserializerInterface;
-use Zoop\Theme\DataModel\ThemeInterface;
 
 /**
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
  */
-class DirectoryParser implements ServiceLocatorAwareInterface
+class DirectoryParser implements
+    DirectoryParserInterface,
+    ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
-    
+
     protected $unserializer;
-    protected $tempDirectory;
-    
+
+    public function __construct(UnserializerInterface $unserializer)
+    {
+        $this->setUnserializer($unserializer);
+    }
+
     /**
-     * @param string $directory
-     * @param ThemeInterface $theme
+     * {@inheritdoc}
      */
-    public function parse($directory, ThemeInterface $theme)
+    public function parse($directory)
     {
         $this->setTempDirectory($directory);
-        
+
         //parse directory for assets
-        $assets = $this->parseDirectory($directory);
-        
-        $theme->setAssets($assets);
+        return $this->parseDirectory($directory);
     }
-    
+
     /**
      * Loops through the directory to parse assets.
      *
      * @param string $directory
      * @param AssetInterface $parent
-     * @return AssetInterface
+     * @return array
      */
     protected function parseDirectory($directory, AssetInterface $parent = null)
     {
@@ -61,8 +64,7 @@ class DirectoryParser implements ServiceLocatorAwareInterface
 
                     if ($file->isDir()) {
                         $childAssets = $this->parseDirectory(
-                            $file->getPathname(),
-                            $asset
+                            $file->getPathname(), $asset
                         );
                         $asset->setAssets($childAssets);
                     }
@@ -84,45 +86,27 @@ class DirectoryParser implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @return UnserializerInterface
+     * @param string $tempDirectory
      */
-     public function getUnserializer()
+    protected function setTempDirectory($tempDirectory)
     {
-        if (empty($this->unserializer)) {
-            $unserializer = $this->getServiceLocator()
-                ->get('zoop.commerce.theme.serializer.asset.unserializer');
-            
-            //override the default template directory to use the
-            //current uuid one
-            $unserializer->setTempDirectory($this->getTempDirectory());
+        $this->getUnserializer()
+            ->setTempDirectory($tempDirectory);
+    }
 
-            $this->setUnserializer($unserializer);
-        }
-
+    /**
+     * {@inheritdoc}
+     */
+    public function getUnserializer()
+    {
         return $this->unserializer;
     }
 
     /**
-     * @param UnserializerInterface $unserializer
+     * {@inheritdoc}
      */
     public function setUnserializer(UnserializerInterface $unserializer)
     {
         $this->unserializer = $unserializer;
-    }
-    
-    /**
-     * @return string
-     */
-    public function getTempDirectory()
-    {
-        return $this->tempDirectory;
-    }
-
-    /**
-     * @param string $tempDirectory
-     */
-    public function setTempDirectory($tempDirectory)
-    {
-        $this->tempDirectory = $tempDirectory;
     }
 }

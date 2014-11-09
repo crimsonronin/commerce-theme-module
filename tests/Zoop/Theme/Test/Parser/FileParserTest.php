@@ -55,7 +55,7 @@ class FileParserTest extends AbstractTest
     {
         $tempDir = $this->getTempDir();
 
-        $url = 'https://zoop-ops-sydney.s3.amazonaws.com/testing/assets/zoop.jpg';
+        $url = 'http://zoop-ops-sydney.s3.amazonaws.com/testing/assets/zoop.jpg';
         $token = new Token\Absolute\ImageToken($url);
         $token->setTempDirectory($tempDir);
 

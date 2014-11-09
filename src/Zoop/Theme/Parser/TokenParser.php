@@ -2,7 +2,6 @@
 
 namespace Zoop\Theme\Parser;
 
-use \Exception;
 use Zoop\Theme\Parser\Node;
 use Zoop\Theme\Tokenizer\TokenStream;
 use Zoop\Theme\Tokenizer\Token\TextToken;

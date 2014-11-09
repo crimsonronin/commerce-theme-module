@@ -34,33 +34,31 @@ abstract class AbstractTest extends AbstractHttpControllerTestCase
         );
 
         //create db connection and store requests
-        if (!isset(self::$documentManager)) {
-            self::$documentManager = $this->getApplicationServiceLocator()
-                ->get('doctrine.odm.documentmanager.commerce');
+        self::$documentManager = $this->getApplicationServiceLocator()
+            ->get('doctrine.odm.documentmanager.commerce');
 
-            self::$noAuthDocumentManager = $this->getApplicationServiceLocator()
-                ->get('doctrine.odm.documentmanager.noauth');
+        self::$noAuthDocumentManager = $this->getApplicationServiceLocator()
+            ->get('doctrine.odm.documentmanager.noauth');
 
-            self::$dbName = $this->getApplicationServiceLocator()
-                ->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
+        self::$dbName = $this->getApplicationServiceLocator()
+            ->get('config')['doctrine']['odm']['connection']['commerce']['dbname'];
 
-            $eventManager = self::$documentManager->getEventManager();
-            $eventManager->addEventListener(Events::EXCEPTION, $this);
+        $eventManager = self::$documentManager->getEventManager();
+        $eventManager->addEventListener(Events::EXCEPTION, $this);
 
-            if (!isset(self::$manifest)) {
-                self::$manifest = $this->getApplicationServiceLocator()
-                    ->get('shard.commerce.manifest');
-            }
+        if (!isset(self::$manifest)) {
+            self::$manifest = $this->getApplicationServiceLocator()
+                ->get('shard.commerce.manifest');
+        }
 
-            if (!isset(self::$unserializer)) {
-                self::$unserializer = self::$manifest->getServiceManager()
-                    ->get('unserializer');
-            }
+        if (!isset(self::$unserializer)) {
+            self::$unserializer = self::$manifest->getServiceManager()
+                ->get('unserializer');
+        }
 
-            if (!isset(self::$serializer)) {
-                self::$serializer = self::$manifest->getServiceManager()
-                    ->get('serializer');
-            }
+        if (!isset(self::$serializer)) {
+            self::$serializer = self::$manifest->getServiceManager()
+                ->get('serializer');
         }
 
         //set the Request host so that active store works correctly.

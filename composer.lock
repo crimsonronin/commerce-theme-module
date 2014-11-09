@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "aws/aws-sdk-php",
-            "version": "2.7.2",
+            "version": "2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/aws/aws-sdk-php.git",
-                "reference": "21115c088549520a8b268557601987c12d835f4b"
+                "reference": "142116308c921e18777fb73a46e87f7f899209b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/21115c088549520a8b268557601987c12d835f4b",
-                "reference": "21115c088549520a8b268557601987c12d835f4b",
+                "url": "https://api.github.com/repos/aws/aws-sdk-php/zipball/142116308c921e18777fb73a46e87f7f899209b2",
+                "reference": "142116308c921e18777fb73a46e87f7f899209b2",
                 "shasum": ""
             },
             "require": {
@@ -71,7 +71,7 @@
                 "s3",
                 "sdk"
             ],
-            "time": "2014-10-23 20:13:09"
+            "time": "2014-11-06 22:36:17"
         },
         {
             "name": "codeguy/upload",
@@ -1764,12 +1764,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:zoopcommerce/commerce-public-apis-module.git",
-                "reference": "b9b358c1e6d1b1878c6bffe6d65b8cf2ab21eede"
+                "reference": "b01416d1bb5355acd156914b6c332636f274fff8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoopcommerce/commerce-public-apis-module/zipball/b9b358c1e6d1b1878c6bffe6d65b8cf2ab21eede",
-                "reference": "b9b358c1e6d1b1878c6bffe6d65b8cf2ab21eede",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-public-apis-module/zipball/b01416d1bb5355acd156914b6c332636f274fff8",
+                "reference": "b01416d1bb5355acd156914b6c332636f274fff8",
                 "shasum": ""
             },
             "require": {
@@ -1810,7 +1810,7 @@
                 "source": "https://github.com/zoopcommerce/commerce-public-apis-module/tree/master",
                 "issues": "https://github.com/zoopcommerce/commerce-public-apis-module/issues"
             },
-            "time": "2014-10-31 23:43:10"
+            "time": "2014-11-05 02:50:16"
         },
         {
             "name": "zoopcommerce/commerce-public-data-models-module",
@@ -1818,12 +1818,12 @@
             "source": {
                 "type": "git",
                 "url": "git@github.com:zoopcommerce/commerce-public-data-models-module.git",
-                "reference": "6bb6f62725e35f012cbc39c978105d29cec18400"
+                "reference": "b8620b4940df3926ac976165e9f0d52ee0f7ab7c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zoopcommerce/commerce-public-data-models-module/zipball/6bb6f62725e35f012cbc39c978105d29cec18400",
-                "reference": "6bb6f62725e35f012cbc39c978105d29cec18400",
+                "url": "https://api.github.com/repos/zoopcommerce/commerce-public-data-models-module/zipball/b8620b4940df3926ac976165e9f0d52ee0f7ab7c",
+                "reference": "b8620b4940df3926ac976165e9f0d52ee0f7ab7c",
                 "shasum": ""
             },
             "require": {
@@ -1871,7 +1871,7 @@
                 "source": "https://github.com/zoopcommerce/commerce-public-data-models-module/tree/master",
                 "issues": "https://github.com/zoopcommerce/commerce-public-data-models-module/issues"
             },
-            "time": "2014-10-31 23:42:47"
+            "time": "2014-11-05 00:10:33"
         },
         {
             "name": "zoopcommerce/common",

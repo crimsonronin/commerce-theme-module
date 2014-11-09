@@ -4,7 +4,7 @@ namespace Zoop\Theme\Lexer;
 
 use \Exception;
 use Doctrine\Common\Collections\ArrayCollection;
-use Zoop\Theme\Lexer\Regex\AbstractRegex;
+use Zoop\Theme\Lexer\Regex\RegexInterface;
 use Zoop\Theme\Lexer\Regex\ImageRegexInterface;
 use Zoop\Theme\Lexer\Regex\CssRegexInterface;
 use Zoop\Theme\Lexer\Regex\JavascriptRegexInterface;
@@ -23,43 +23,44 @@ use Zoop\Theme\Tokenizer\Token\Absolute;
  * content with the replaced assets.
  *
  */
-class Lexer
+class Lexer implements LexerInterface
 {
     protected $regexes;
     protected $relativeFilePath;
     protected $tempDirectory;
 
-    public function __construct()
-    {
-        $this->regexes = new ArrayCollection;
-    }
-
     /**
-     * @return ArrayCollection
+     * {@inheritdoc}
      */
     public function getRegexes()
     {
+        if (!isset($this->regexes)) {
+            $this->regexes = new ArrayCollection;
+        }
         return $this->regexes;
     }
 
     /**
-     * @param ArrayCollection $regexes
+     * {@inheritdoc}
      */
-    public function setRegexes(ArrayCollection $regexes)
+    public function setRegexes($regexes = [])
     {
+        if (!$regexes instanceof ArrayCollection) {
+            $regexes= new ArrayCollection($regexes);
+        }
         $this->regexes = $regexes;
     }
 
     /**
-     * @param AbstractRegex $regex
+     * {@inheritdoc}
      */
-    public function addRegex(AbstractRegex $regex)
+    public function addRegex(RegexInterface $regex)
     {
-        $this->regexes->add($regex);
+        $this->getRegexes()->add($regex);
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getRelativeFilePath()
     {
@@ -67,7 +68,7 @@ class Lexer
     }
 
     /**
-     * @param string $relativeFilePath
+     * {@inheritdoc}
      */
     public function setRelativeFilePath($relativeFilePath)
     {
@@ -75,7 +76,7 @@ class Lexer
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getTempDirectory()
     {
@@ -83,7 +84,7 @@ class Lexer
     }
 
     /**
-     * @param string $tempDirectory
+     * {@inheritdoc}
      */
     public function setTempDirectory($tempDirectory)
     {
@@ -91,9 +92,7 @@ class Lexer
     }
 
     /**
-     * @param string $content
-     * @return TokenStream
-     * @throws Exception
+     * {@inheritdoc}
      */
     public function tokenize($content)
     {

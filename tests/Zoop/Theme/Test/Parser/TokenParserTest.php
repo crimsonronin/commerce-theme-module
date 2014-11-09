@@ -5,28 +5,11 @@ namespace Zoop\Theme\Test\Parser;
 use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Lexer\Lexer;
 use Zoop\Theme\Lexer\Regex;
-use Zoop\Theme\Parser\Parser;
+use Zoop\Theme\Parser\TokenParser;
 
-class ParserTest extends AbstractTest
+class TokenParserTest extends AbstractTest
 {
     protected static $tempDir;
-
-    public function setUp()
-    {
-        parent::setUp();
-
-        $this->setTempDir(__DIR__ . '/../../../../../data/temp');
-    }
-
-    public static function getTempDir()
-    {
-        return self::$tempDir;
-    }
-
-    public static function setTempDir($tempDir)
-    {
-        self::$tempDir = $tempDir;
-    }
 
     public function testParseSimpleContent()
     {
@@ -41,7 +24,7 @@ class ParserTest extends AbstractTest
 
         $tokenStream = $lexer->tokenize($content);
 
-        $parser = new Parser;
+        $parser = new TokenParser;
         $nodeTree = $parser->parse($tokenStream);
 
         $nodes = $nodeTree->getNodes();
