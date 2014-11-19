@@ -6,7 +6,7 @@ use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Parser\ThemeParserInterface;
 use Zoop\Theme\DataModel\PrivateThemeInterface;
 
-class TokenParserTest extends AbstractTest
+class ThemeParserTest extends AbstractTest
 {
     public function testParseSimpleContent()
     {
