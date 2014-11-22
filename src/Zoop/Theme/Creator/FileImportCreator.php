@@ -44,16 +44,19 @@ class FileImportCreator implements CreatorInterface
             $theme = $result->getModel();
         
             $this->doCreate($file, $theme);
-            
-            return $result;
+        } else {
+            $result = $event->getResult();
+            $result->setStatusCode(400);
         }
+            
+        return $result;
     }
 
     /**
      * @param SplFileInfo $file
      * @throws Exception
      */
-    public function doCreate(SplFileInfo $file, ThemeInterface $theme)
+    protected function doCreate(SplFileInfo $file, ThemeInterface $theme)
     {
         try {
             if ($this->unzipTheme($file) === true) {
@@ -76,7 +79,6 @@ class FileImportCreator implements CreatorInterface
             }
         } catch (Exception $e) {
 //            $this->removeLocalFile($this->getTempDirectory(), $file->getFilename());
-
             throw new Exception($e->getMessage());
         }
     }
@@ -86,7 +88,7 @@ class FileImportCreator implements CreatorInterface
      * @return SplFileInfo
      * @throws Exception
      */
-    public function getUploadedFile(MvcEvent $event)
+    protected function getUploadedFile(MvcEvent $event)
     {
         $request = $event->getRequest();
         $uploadedFile = $request->getFiles()->toArray();
@@ -125,7 +127,7 @@ class FileImportCreator implements CreatorInterface
      * @return boolean
      * @throws Exception
      */
-    public function unzipTheme(SplFileInfo $uploadedFile)
+    protected function unzipTheme(SplFileInfo $uploadedFile)
     {
         try {
             if ($this->unzip(
@@ -155,6 +157,24 @@ class FileImportCreator implements CreatorInterface
     /**
      * @param string $tempDirectory
      * @return ThemeCreatorImport
+     */
+    protected function setTempThemeDirectory($tempDirectory)
+    {
+        $this->tempThemeDirectory = $tempDirectory;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    protected function getTempThemeDirectory()
+    {
+        return $this->tempThemeDirectory;
+    }
+    
+    /**
+     * @param string $tempDirectory
+     * @return ThemeCreatorImport
      * @throws Exception
      */
     public function setTempDirectory($tempDirectory)
@@ -171,24 +191,6 @@ class FileImportCreator implements CreatorInterface
             throw new Exception('The directory "' . $tempDirectory . '" does not exist');
         }
         return $this;
-    }
-
-    /**
-     * @param string $tempDirectory
-     * @return ThemeCreatorImport
-     */
-    protected function setTempThemeDirectory($tempDirectory)
-    {
-        $this->tempThemeDirectory = $tempDirectory;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getTempThemeDirectory()
-    {
-        return $this->tempThemeDirectory;
     }
 
     /**

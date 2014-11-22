@@ -17,9 +17,9 @@ class ThemeParserFactory implements FactoryInterface
     {
         $assetParser = $serviceLocator->get('zoop.commerce.theme.parser.assetparser');
         $contentParser = $serviceLocator->get('zoop.commerce.theme.parser.contentparser');
-        $themeLinter = $serviceLocator->get('zoop.commerce.theme.themelinter');
         $lexer = $serviceLocator->get('zoop.commerce.theme.lexer');
-        $tokenParser= $serviceLocator->get('zoop.commerce.theme.parser.tokenparser');
+        $themeLinter = $serviceLocator->get('zoop.commerce.theme.linter.themelinter');
+        $tokenParser = $serviceLocator->get('zoop.commerce.theme.parser.tokenparser');
          
         return new ThemeParser(
             $assetParser,

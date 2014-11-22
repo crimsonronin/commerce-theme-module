@@ -158,7 +158,7 @@ return [
             'zoop.commerce.theme.linter.themelinter' => 'Zoop\Theme\Service\Linter\ThemeLinterFactory',
             'zoop.commerce.theme.manager' => 'Zoop\Theme\Service\Manager\ThemeManagerFactory',
             'zoop.commerce.theme.parser.directoryparser' => 'Zoop\Theme\Service\Parser\DirectoryParserFactory',
-            'zoop.commerce.theme.parser.themeparser' => 'Zoop\Theme\Service\Parser\ContentParserFactory',
+            'zoop.commerce.theme.parser.themeparser' => 'Zoop\Theme\Service\Parser\ThemeParserFactory',
             'zoop.commerce.theme.serializer.asset.unserializer' => 'Zoop\Theme\Service\Serializer\AssetUnserializerFactory',
             'zoop.commerce.theme.structure' => 'Zoop\Theme\Service\ThemeStructureFactory',
             'zoop.commerce.theme.template.admin' => 'Zoop\Theme\Service\AdminTemplateFactory',

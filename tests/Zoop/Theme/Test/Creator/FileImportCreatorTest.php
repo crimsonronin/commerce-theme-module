@@ -3,51 +3,63 @@
 namespace Zoop\Theme\Test\Creator;
 
 use \SplFileInfo;
+use Zend\Stdlib\Parameters;
+use Zend\Mvc\MvcEvent;
 use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Creator\FileImportCreator;
+use Zoop\Theme\DataModel\PrivateTheme;
 
 class FileImportCreatorTest extends AbstractTest
 {
+    /**
+     * Should fail to import due to incorrect file type
+     */
     public function testInvalidFileImport()
     {
-        $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/zoop.jpg');
+        $mvcEvent = $this->getMvcEventMock(__DIR__ . '/../Assets/zoop.jpg');
 
         $this->setExpectedException('Exception');
-        $theme = $this->getFileImportCreator()
-            ->create($uploadedFile);
+        $this->getFileImportCreator()
+            ->create($mvcEvent);
     }
 
+    /**
+     * Should fail to import to large file size
+     */
     public function testInvalidFileSizeImport()
     {
         $creator = $this->getFileImportCreator();
         $creator->setMaxFileUploadSize(1024);
-
-        $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
+        
+        $mvcEvent = $this->getMvcEventMock(__DIR__ . '/../Assets/complex-theme.zip');
 
         $this->setExpectedException('Exception');
-        $theme = $creator->create($uploadedFile);
+        $creator->create($mvcEvent);
     }
 
+    /**
+     * Should import a simple theme zip file and create a PrivateTheme model
+     */
     public function testValidSimpleThemeImport()
     {
         $creator = $this->getFileImportCreator();
         $creator->setMaxFileUploadSize(1024 * 1024 * 20);
 
-        $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/simple-theme.zip');
+        $mvcEvent = $this->getMvcEventMock(__DIR__ . '/../Assets/simple-theme.zip');
 
-        $isImported = $creator->create($uploadedFile);
-        $this->assertTrue($isImported);
+        $result = $creator->create($mvcEvent);
+        $this->assertInstanceOf('Zoop\ShardModule\Controller\Result', $result);
 
-        $theme = $creator->getTheme();
+        $theme = $result->getModel();
         $assets = $theme->getAssets();
 
-        $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);
+        $this->assertInstanceOf('Zoop\Theme\DataModel\PrivateTheme', $theme);
         $this->assertEquals('simple-theme', $theme->getName());
         $this->assertCount(15, $assets);
-        $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractAsset', $assets[0]);
+        $this->assertInstanceOf('Zoop\Theme\DataModel\AssetInterface', $assets[0]);
 
         //check the index content which should be the only non-empty file
-        /* @var $asset \Zoop\Theme\DataModel\AbstractAsset */
+        /* @var $asset \Zoop\Theme\DataModel\AssetInterface */
         foreach ($assets as $asset) {
             if ($asset->getName() === 'index.html') {
                 $this->assertInstanceOf('Zoop\Theme\DataModel\Template', $asset);
@@ -56,24 +68,24 @@ class FileImportCreatorTest extends AbstractTest
         }
     }
 
+    /**
+     * Should import a complex theme zip file and create a PrivateTheme model
+     */
     public function testValidComplexThemeImport()
     {
-        $creator = $this->getApplicationServiceLocator()
-                ->get('zoop.commerce.theme.creator.create');
-        /* @var $creator \Zoop\Theme\Creator\ThemeCreatorImport */
+        $creator = $this->getFileImportCreator();
+        $mvcEvent = $this->getMvcEventMock(__DIR__ . '/../Assets/complex-theme.zip');
 
-        $uploadedFile = new SplFileInfo(__DIR__ . '/../Assets/complex-theme.zip');
+        $result = $creator->create($mvcEvent);
+        $this->assertInstanceOf('Zoop\ShardModule\Controller\Result', $result);
 
-        $isImported = $creator->create($uploadedFile);
-        $this->assertTrue($isImported);
-
-        $theme = $creator->getTheme();
+        $theme = $result->getModel();
         $assets = $theme->getAssets();
 
-        $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractTheme', $theme);
+        $this->assertInstanceOf('Zoop\Theme\DataModel\PrivateTheme', $theme);
         $this->assertEquals('complex-theme', $theme->getName());
         $this->assertCount(15, $assets);
-        $this->assertInstanceOf('Zoop\Theme\DataModel\AbstractAsset', $assets[0]);
+        $this->assertInstanceOf('Zoop\Theme\DataModel\AssetInterface', $assets[0]);
 
         //maybe need some more tests to traverse the child assets
     }
@@ -85,5 +97,39 @@ class FileImportCreatorTest extends AbstractTest
     {
         return $this->getApplicationServiceLocator()
                 ->get('zoop.commerce.theme.creator.import.file');
+    }
+    
+    /**
+     * Create a ZF2 MVC mock object
+     * 
+     * @param string $file
+     * @return MvcEvent
+     */
+    protected function getMvcEventMock($file)
+    {
+        $theme = new PrivateTheme();
+        
+        $request = $this->getMock('Zend\Http\Request');
+        $request->method('getFiles')
+            ->willReturn(new Parameters([
+                'theme' => [
+                    'tmp_name' => $file
+                ]
+            ]));
+        
+        
+        $result = $this->getMock('Zoop\ShardModule\Controller\Result');
+        $result->expects($this->any())
+            ->method('setStatusCode');
+        $result->method('getModel')
+            ->willReturn($theme);
+        
+        $mvcEvent = $this->getMock('Zend\Mvc\MvcEvent');
+        $mvcEvent->method('getRequest')
+            ->willReturn($request);
+        $mvcEvent->method('getResult')
+            ->willReturn($result);
+        
+        return $mvcEvent;
     }
 }

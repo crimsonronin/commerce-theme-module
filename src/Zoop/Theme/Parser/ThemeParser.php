@@ -23,7 +23,7 @@ class ThemeParser implements ThemeParserInterface
         $assetParser,
         $contentParser,
         LexerInterface $lexer,
-        TokenParserInterface $themeLinter,
+        ThemeLinterInterface $themeLinter,
         TokenParserInterface $tokenParser
     )
     {
