@@ -158,7 +158,7 @@ class FileImportCreator implements CreatorInterface
      * @param string $tempDirectory
      * @return ThemeCreatorImport
      */
-    protected function setTempThemeDirectory($tempDirectory)
+    public function setTempThemeDirectory($tempDirectory)
     {
         $this->tempThemeDirectory = $tempDirectory;
         return $this;
@@ -167,7 +167,7 @@ class FileImportCreator implements CreatorInterface
     /**
      * @return string
      */
-    protected function getTempThemeDirectory()
+    public function getTempThemeDirectory()
     {
         return $this->tempThemeDirectory;
     }

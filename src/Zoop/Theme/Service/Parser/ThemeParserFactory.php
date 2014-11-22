@@ -21,12 +21,20 @@ class ThemeParserFactory implements FactoryInterface
         $themeLinter = $serviceLocator->get('zoop.commerce.theme.linter.themelinter');
         $tokenParser = $serviceLocator->get('zoop.commerce.theme.parser.tokenparser');
          
-        return new ThemeParser(
+        $themeParser = new ThemeParser(
             $assetParser,
             $contentParser,
             $lexer,
             $themeLinter,
             $tokenParser
         );
+        
+        $config = $serviceLocator->get('config')['zoop']['theme']['creator'];
+        
+        $themeParser->setCanLint($config['lint']);
+        $themeParser->canParseContent($config['parse']['content']);
+        $themeParser->canParseAssets($config['parse']['assets']);
+        
+        return $themeParser;
     }
 }

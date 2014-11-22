@@ -101,6 +101,14 @@ return [
             ],
         ],
         'theme' => [
+            'creator' => [
+                'lint' => true,
+                'parse' => [
+                    'theme' => true,
+                    'content' => false,
+                    'assets' => false,
+                ]
+            ],
             'temp_dir' => __DIR__ . '/../data/temp',
             'template_dir' => __DIR__ . '/../src/view/zoop-legacy',
             'max_file_upload_size' => (1024 * 1024 * 20), // 20MB

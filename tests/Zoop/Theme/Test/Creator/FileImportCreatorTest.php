@@ -55,7 +55,7 @@ class FileImportCreatorTest extends AbstractTest
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\PrivateTheme', $theme);
         $this->assertEquals('simple-theme', $theme->getName());
-        $this->assertCount(15, $assets);
+        $this->assertCount(1, $assets);
         $this->assertInstanceOf('Zoop\Theme\DataModel\AssetInterface', $assets[0]);
 
         //check the index content which should be the only non-empty file
@@ -84,7 +84,7 @@ class FileImportCreatorTest extends AbstractTest
 
         $this->assertInstanceOf('Zoop\Theme\DataModel\PrivateTheme', $theme);
         $this->assertEquals('complex-theme', $theme->getName());
-        $this->assertCount(15, $assets);
+        $this->assertCount(4, $assets);
         $this->assertInstanceOf('Zoop\Theme\DataModel\AssetInterface', $assets[0]);
 
         //maybe need some more tests to traverse the child assets
@@ -93,10 +93,10 @@ class FileImportCreatorTest extends AbstractTest
     /**
      * @return FileImportCreator
      */
-    public function getFileImportCreator()
+    protected function getFileImportCreator()
     {
         return $this->getApplicationServiceLocator()
-                ->get('zoop.commerce.theme.creator.import.file');
+            ->get('zoop.commerce.theme.creator.import.file');
     }
     
     /**

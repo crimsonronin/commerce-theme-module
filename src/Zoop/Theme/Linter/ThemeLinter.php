@@ -29,7 +29,7 @@ class ThemeLinter implements ThemeLinterInterface, ServiceLocatorAwareInterface
     /**
      * 
      * @param ThemeInterface $theme
-     * @return type
+     * @return ArrayCollection
      */
     public function lint(ThemeInterface $theme)
     {

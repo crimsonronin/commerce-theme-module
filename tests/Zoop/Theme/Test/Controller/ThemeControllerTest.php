@@ -16,7 +16,6 @@ class ThemeControllerTest extends AbstractTest
 {
     const DOCUMENT_PRIVATE_THEME = 'Zoop\Theme\DataModel\PrivateTheme';
 
-
     private static $zoopUserKey = 'joshstuart';
     private static $zoopUserSecret = 'password1';
     private static $testDataCreated = false;
@@ -92,8 +91,9 @@ class ThemeControllerTest extends AbstractTest
         $this->assertEquals('Test', $theme->getName());
 
         //prime all assets
+        $assets =  $theme->getAssets();
         /* @var $asset Template */
-        $asset = $theme->getAssets()[13];
+        $asset = $assets[10];
 
         $this->assertEquals('index.html', $asset->getName());
         $this->assertEmpty($asset->getContent());
@@ -292,7 +292,7 @@ class ThemeControllerTest extends AbstractTest
         $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
         $result = json_decode($this->getResponse()->getContent(), true);
 
-        $newAsset = $result['assets'][13];
+        $newAsset = $result['assets'][10];
 
         $this->assertEquals('index.html', $newAsset['name']);
         $this->assertEquals($content, $newAsset['content']);

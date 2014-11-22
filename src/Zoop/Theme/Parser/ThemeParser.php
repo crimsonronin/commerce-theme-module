@@ -18,6 +18,9 @@ class ThemeParser implements ThemeParserInterface
     protected $lexer;
     protected $themeLinter;
     protected $tokenParser;
+    protected $canLint = true;
+    protected $canParseContent = false;
+    protected $canParseAssets = false;
     
     public function __construct(
         $assetParser,
@@ -40,8 +43,22 @@ class ThemeParser implements ThemeParserInterface
     public function parse(ThemeInterface $theme)
     {
         // lint theme
+        if ($this->canLint()) {
+            $assets = $this->getThemeLinter()
+                ->lint($theme);
+            $theme->setAssets($assets);
+        }
+        
         // parse content
+        if ($this->canParseContent()) {
+            
+        }
+        
         // parse assets
+        if ($this->canParseAssets()) {
+            
+        }
+        
         // compile
     }
 
@@ -129,5 +146,53 @@ class ThemeParser implements ThemeParserInterface
     public function setTokenParser(TokenParserInterface $tokenParser)
     {
         $this->tokenParser = $tokenParser;
+    }
+    
+    /**
+     * @return boolean
+     */
+    public function canLint()
+    {
+        return (boolean) $this->canLint;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function canParseContent()
+    {
+        return (boolean) $this->canParseContent;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function canParseAssets()
+    {
+        return (boolean) $this->canParseAssets;
+    }
+    
+    /**
+     * @param boolean $canLint
+     */
+    public function setCanLint($canLint)
+    {
+        $this->canLint = $canLint;
+    }
+
+    /**
+     * @param boolean $canParseContent
+     */
+    public function setCanParseContent($canParseContent)
+    {
+        $this->canParseContent = (boolean) $canParseContent;
+    }
+
+    /**
+     * @param boolean $canParseAssets
+     */
+    public function setCanParseAssets($canParseAssets)
+    {
+        $this->canParseAssets = (boolean) $canParseAssets;
     }
 }

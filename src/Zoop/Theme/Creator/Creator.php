@@ -7,6 +7,8 @@ use Zend\Mvc\MvcEvent;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zoop\ShardModule\Exception;
+use Zoop\Theme\Creator\CreatorInterface;
+use Zoop\Theme\Parser\ThemeParserInterface;
 
 /**
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
@@ -29,16 +31,42 @@ class Creator implements CreatorInterface, ServiceLocatorAwareInterface
 
         // test to see if this is a file import or single create
         if (isset($uploadedFile['theme']) || $xFileName) {
-            $importer = $this->getServiceLocator()
-                ->get('zoop.commerce.theme.creator.import.file');
-
-            return $importer->create($event);
+            $result = $this->getFileImportCreator()
+                ->create($event);
         } else {
-            // create using default
-            $creator = $this->getServiceLocator()
-                ->get('zoop.commerce.theme.creator.simple');
-
-            return $creator->create($event);
+            $result = $this->getSimpleCreator()
+                ->create($event);
         }
+        
+        $theme = $result->getModel();
+        
+        //parse theme
+        $this->getThemeParser()->parse($theme);
+        
+        return $result;
+    }
+    
+    /**
+     * @return CreatorInterface
+     */
+    private function getSimpleCreator() {
+        return $this->getServiceLocator()
+            ->get('zoop.commerce.theme.creator.simple');
+    }
+    
+    /**
+     * @return CreatorInterface
+     */
+    private function getFileImportCreator() {
+        return $this->getServiceLocator()
+            ->get('zoop.commerce.theme.creator.import.file');
+    }
+    
+    /**
+     * @return ThemeParserInterface
+     */
+    private function getThemeParser() {
+        return $this->getServiceLocator()
+            ->get('zoop.commerce.theme.parser.themeparser');
     }
 }
