@@ -257,7 +257,7 @@ class ThemeControllerTest extends AbstractTest
         $content = '<html><body><h1>This is some content</h1></body></html>';
 
         /* @var $asset Template */
-        $asset = $theme->getAssets()[13];
+        $asset = $theme->getAssets()[10];
         $asset->setContent($content);
 
         $jsonData = self::getSerializer()->toJson($theme);
