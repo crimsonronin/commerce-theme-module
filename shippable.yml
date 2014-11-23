@@ -3,16 +3,18 @@ language: php
 php: 
   - 5.4
   - 5.5
+  - 5.6
 
 matrix:
   allow_failures:
     - php: 5.5
+    - php: 5.6
 
 services:
   - mongodb
 
 env:
-    secure: Ytpw40dRY27KtXFBy306UzmuYwZ/PlII1h8VZc/E0IVjwx/gCKDta0tSlNUA+0dmkpVwoPnpQ9sCmDhuatkSbuSK9xI1Kr0QMD9A+lU9WH3nXiagdydSqLB/GafxSyrht3zTIXsSbm0cDzXRbrQ0dEd10/F59ZAXh0/BrVS6B3N5xiz3Uqy1w/ArhDiiGS0gGyZJ6yEWZlcwR2uiQleXDvzEXc0n0h5FufGxUiiVLdKQQ/+SaRhu3Q1UoewGbGkGVLxZ0YzyyZsVrM61DSlvCscv9XCo5xvI46r6pCmEoiWD1D8CNCr9mpKriDg2P4LolEAG407lYG1qmnQMomsqIQ==
+  - secure: j6HrKTI0NnVQLwjG/Nhtd7+hVhHXFqfdYLleez8CIGPKHJ2RQGAoAqv1ftDCbGmLjcPpz9+RH32wE5xr8kgB9zws8wK2LP6UAjlA1O58gUJU9KDX4aPLJN2jtsasqzIoG5yITNbd46+uo6Ewj9BNt+yg69ZIe+vborXmnLZSnvC58LDE2TIT7XCns+onqcA0iQU5WO5Un7PV+hPVtWfAzyvcYkdhOxEMkFS5B7T+BeJwkDzZF4KU+cJm2nKGgaQYqJ+lcZHxB0krYmappzVMNrn6p+dBRcxx8CK5JrZCsvwfyPjoO+hlpgcMouh7PmZVvKYSVUtKaWjrbmi53RPWhQ==
 
 before_script: 
   - mkdir -p shippable/testresults
@@ -24,7 +26,7 @@ before_script:
   - composer install
 
 script:
-  - phpunit --log-junit shippable/testresults/junit.xml --coverage-clover shippable/codecoverage/clover.xml tests/
+  - vendor/bin/phpunit --configuration phpunit.xml --log-junit shippable/testresults/junit.xml
   - vendor/bin/phpcs --standard=PSR2 src/ tests/Zoop/
   - vendor/bin/phpmd src/ text ruleset.xml
 
