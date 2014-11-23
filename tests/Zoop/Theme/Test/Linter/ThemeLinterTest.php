@@ -16,14 +16,14 @@ class ThemeLinterTest extends AbstractTest
     {
         $theme = $this->getTheme();
         $linter = $this->getThemeLinter();
-        
+
         $assets = $linter->lint($theme);
-        
+
         $this->assertCount(15, $assets);
-        
+
         //assert asset types
     }
-    
+
     /**
      * Should add missing theme assets, but retain the ones that
      * already exist within the theme
@@ -33,14 +33,14 @@ class ThemeLinterTest extends AbstractTest
         //TODO create a theme with existing assets
         $theme = $this->getTheme();
         $linter = $this->getThemeLinter();
-        
+
         $assets = $linter->lint($theme);
-        
+
         $this->assertCount(15, $assets);
-        
+
         //assert asset types
     }
-    
+
     /**
      * @return PrivateThemeInterface
      */
@@ -48,7 +48,7 @@ class ThemeLinterTest extends AbstractTest
     {
         return new PrivateTheme();
     }
-    
+
     /**
      * @return ThemeLinterInterface
      */

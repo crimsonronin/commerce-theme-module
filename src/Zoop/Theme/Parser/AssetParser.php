@@ -9,5 +9,5 @@ use Zoop\Theme\Parser\AssetParserInterface;
  */
 class AssetParser implements AssetParserInterface
 {
-    
+
 }

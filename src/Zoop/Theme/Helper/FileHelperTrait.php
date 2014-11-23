@@ -83,7 +83,7 @@ trait FileHelperTrait
         if (!is_dir($dir)) {
             return;
         }
-        
+
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($dir),
             RecursiveIteratorIterator::CHILD_FIRST

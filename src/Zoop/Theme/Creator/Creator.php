@@ -37,35 +37,38 @@ class Creator implements CreatorInterface, ServiceLocatorAwareInterface
             $result = $this->getSimpleCreator()
                 ->create($event);
         }
-        
+
         $theme = $result->getModel();
-        
+
         //parse theme
         $this->getThemeParser()->parse($theme);
-        
+
         return $result;
     }
-    
+
     /**
      * @return CreatorInterface
      */
-    private function getSimpleCreator() {
+    private function getSimpleCreator()
+    {
         return $this->getServiceLocator()
             ->get('zoop.commerce.theme.creator.simple');
     }
-    
+
     /**
      * @return CreatorInterface
      */
-    private function getFileImportCreator() {
+    private function getFileImportCreator()
+    {
         return $this->getServiceLocator()
             ->get('zoop.commerce.theme.creator.import.file');
     }
-    
+
     /**
      * @return ThemeParserInterface
      */
-    private function getThemeParser() {
+    private function getThemeParser()
+    {
         return $this->getServiceLocator()
             ->get('zoop.commerce.theme.parser.themeparser');
     }

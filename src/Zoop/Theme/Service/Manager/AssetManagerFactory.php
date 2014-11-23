@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme\Service;
+namespace Zoop\Theme\Service\Manager;
 
 use Zoop\Theme\AssetManager;
 use Zend\ServiceManager\FactoryInterface;

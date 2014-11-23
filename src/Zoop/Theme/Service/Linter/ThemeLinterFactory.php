@@ -17,7 +17,7 @@ class ThemeLinterFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $themeStructure = $serviceLocator->get('zoop.commerce.theme.structure');
-         
+
         return new ThemeLinter($themeStructure);
     }
 }

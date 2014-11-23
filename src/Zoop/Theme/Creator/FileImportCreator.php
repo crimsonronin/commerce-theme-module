@@ -21,7 +21,7 @@ class FileImportCreator implements CreatorInterface
     protected $tempThemeDirectory;
     protected $directoryParser;
     protected $maxFileUploadSize;
-    
+
     public function __construct(DirectoryParser $directoryParser, $tempDirectory, $maxFileUploadSize = null)
     {
         $this->setDirectoryParser($directoryParser);
@@ -42,13 +42,13 @@ class FileImportCreator implements CreatorInterface
             $result = $event->getResult();
             $result->setStatusCode(201);
             $theme = $result->getModel();
-        
+
             $this->doCreate($file, $theme);
         } else {
             $result = $event->getResult();
             $result->setStatusCode(400);
         }
-            
+
         return $result;
     }
 
@@ -62,11 +62,11 @@ class FileImportCreator implements CreatorInterface
             if ($this->unzipTheme($file) === true) {
                 //set theme name
                 $theme->setName(str_replace('.zip', '', $file->getFilename()));
-                    
+
                 // use directory creator to parse and get assets
                 $assets = $this->getDirectoryParser()
                     ->parse($this->getTempThemeDirectory());
-                
+
                 $theme->setAssets($assets);
             } else {
                 throw new Exception(
@@ -171,7 +171,7 @@ class FileImportCreator implements CreatorInterface
     {
         return $this->tempThemeDirectory;
     }
-    
+
     /**
      * @param string $tempDirectory
      * @return ThemeCreatorImport

@@ -27,7 +27,7 @@ class ThemeLinter implements ThemeLinterInterface, ServiceLocatorAwareInterface
     }
 
     /**
-     * 
+     *
      * @param ThemeInterface $theme
      * @return ArrayCollection
      */

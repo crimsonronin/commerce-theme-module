@@ -30,7 +30,7 @@ class FileImportCreatorTest extends AbstractTest
     {
         $creator = $this->getFileImportCreator();
         $creator->setMaxFileUploadSize(1024);
-        
+
         $mvcEvent = $this->getMvcEventMock(__DIR__ . '/../Assets/complex-theme.zip');
 
         $this->setExpectedException('Exception');
@@ -89,7 +89,7 @@ class FileImportCreatorTest extends AbstractTest
 
         //maybe need some more tests to traverse the child assets
     }
-    
+
     /**
      * @return FileImportCreator
      */
@@ -98,17 +98,17 @@ class FileImportCreatorTest extends AbstractTest
         return $this->getApplicationServiceLocator()
             ->get('zoop.commerce.theme.creator.import.file');
     }
-    
+
     /**
      * Create a ZF2 MVC mock object
-     * 
+     *
      * @param string $file
      * @return MvcEvent
      */
     protected function getMvcEventMock($file)
     {
         $theme = new PrivateTheme();
-        
+
         $request = $this->getMock('Zend\Http\Request');
         $request->method('getFiles')
             ->willReturn(new Parameters([
@@ -116,20 +116,20 @@ class FileImportCreatorTest extends AbstractTest
                     'tmp_name' => $file
                 ]
             ]));
-        
-        
+
+
         $result = $this->getMock('Zoop\ShardModule\Controller\Result');
         $result->expects($this->any())
             ->method('setStatusCode');
         $result->method('getModel')
             ->willReturn($theme);
-        
+
         $mvcEvent = $this->getMock('Zend\Mvc\MvcEvent');
         $mvcEvent->method('getRequest')
             ->willReturn($request);
         $mvcEvent->method('getResult')
             ->willReturn($result);
-        
+
         return $mvcEvent;
     }
 }

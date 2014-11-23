@@ -17,7 +17,7 @@ class DirectoryParserFactory implements FactoryInterface
     {
         $assetUnserializer = $serviceLocator
             ->get('zoop.commerce.theme.serializer.asset.unserializer');
-         
+
         return new DirectoryParser($assetUnserializer);
     }
 }

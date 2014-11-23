@@ -9,5 +9,5 @@ use Zoop\Theme\Parser\ContentParserInterface;
  */
 class ContentParser implements ContentParserInterface
 {
-    
+
 }

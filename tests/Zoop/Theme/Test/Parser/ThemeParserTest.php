@@ -13,16 +13,16 @@ class ThemeParserTest extends AbstractTest
     {
         $theme = $this->getTheme();
         $themeParser = $this->getThemeParser();
-        
+
         //parse the theme
         $themeParser->parse($theme);
         $assets = $theme->getAssets();
-        
+
         $this->assertCount(15, $assets);
-        
+
         //assert asset types
     }
-    
+
     /**
      * @return PrivateThemeInterface
      */
@@ -30,7 +30,7 @@ class ThemeParserTest extends AbstractTest
     {
         return new PrivateTheme();
     }
-    
+
     /**
      * @return ThemeParserInterface
      */

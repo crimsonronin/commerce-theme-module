@@ -17,7 +17,7 @@ class LexerFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $themeStructure = $serviceLocator->get('zoop.commerce.theme.structure');
-         
+
         return new Lexer($themeStructure);
     }
 }

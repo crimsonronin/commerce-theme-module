@@ -16,7 +16,7 @@ class FileImportCreatorFactory implements FactoryInterface
     {
         $config = $serviceLocator->get('config')['zoop']['theme'];
         $directoryParser = $serviceLocator->get('zoop.commerce.theme.parser.directoryparser');
-        
+
         $creator = new FileImportCreator(
             $directoryParser,
             $config['temp_dir'],

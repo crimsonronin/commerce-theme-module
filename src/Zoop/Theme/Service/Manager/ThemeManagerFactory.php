@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoop\Theme\Service;
+namespace Zoop\Theme\Service\Manager;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;

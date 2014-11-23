@@ -8,9 +8,9 @@ use Zoop\Theme\Helper\FileHelperTrait;
 class DirectoryParserTest extends AbstractTest
 {
     use FileHelperTrait;
-    
+
     protected $tempDir;
-    
+
     public function setUp()
     {
         parent::setUp();
@@ -22,15 +22,15 @@ class DirectoryParserTest extends AbstractTest
         $tempDirName = 'simple-temp';
         $simpleTheme = __DIR__ . '/../Assets/simple-theme.zip';
         $tempDir =  $this->createDirectory($this->getTempDir(), $tempDirName);
-        
+
         $assets = [];
-        
+
         //unzip
         if($this->unzip($simpleTheme, $tempDir)) {
             $parser = $this->getDirectoryParser();
             $assets = $parser->parse($tempDir);
         }
-        
+
         $this->assertCount(1, $assets);
         $this->assertInstanceOf('Zoop\Theme\DataModel\ContentAssetInterface', $assets[0]);
         $this->deleteTempDirectory($tempDir);
@@ -43,13 +43,13 @@ class DirectoryParserTest extends AbstractTest
         $tempDir =  $this->createDirectory($this->getTempDir(), $tempDirName);
 
         $assets = [];
-        
+
         //unzip
         if($this->unzip($complexTheme, $tempDir)) {
             $parser = $this->getDirectoryParser();
             $assets = $parser->parse($tempDir);
         }
-        
+
         $this->assertCount(4, $assets);
         $this->assertInstanceOf('Zoop\Theme\DataModel\FolderAssetInterface', $assets[0]);
         $this->assertInstanceOf('Zoop\Theme\DataModel\ContentAssetInterface', $assets[1]);
@@ -57,7 +57,7 @@ class DirectoryParserTest extends AbstractTest
         $this->assertInstanceOf('Zoop\Theme\DataModel\FolderAssetInterface', $assets[3]);
         $this->deleteTempDirectory($tempDir);
     }
-    
+
     /**
      * @return DirectoryParser
      */

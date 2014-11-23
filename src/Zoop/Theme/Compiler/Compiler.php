@@ -1,28 +1,44 @@
 <?php
 
-namespace Zoop\Theme\Service;
+namespace Zoop\Theme\Compiler;
 
 use \Exception;
 use Zoop\Theme\DataModel\ThemeInterface;
 
 class Compiler
 {
-
     protected function saveAssetsToS3($assets)
     {
         if (is_array($assets) && !empty($assets)) {
             foreach ($assets as $asset) {
-                if ($asset instanceof ImageModel || $asset instanceof JavascriptModel || $asset instanceof CssModel) {
-                    $url = $this->saveAssetToS3($asset->getContent(), $asset->getMime(), $asset->getPath(), $asset->getName());
+                if ($asset instanceof ImageModel ||
+                    $asset instanceof JavascriptModel ||
+                    $asset instanceof CssModel
+                ) {
+                    $url = $this->saveAssetToS3(
+                        $asset->getContent(),
+                        $asset->getMime(),
+                        $asset->getPath(),
+                        $asset->getName()
+                    );
 
-                    if ($asset instanceof ImageModel || $asset instanceof JavascriptModel) {
+                    if ($asset instanceof ImageModel ||
+                        $asset instanceof JavascriptModel
+                    ) {
                         $asset->setSrc($url);
                     } else {
                         $asset->setHref($url);
                     }
-                } elseif ($asset instanceof GzippedJavascriptModel || $asset instanceof GzippedCssModel) {
+                } elseif ($asset instanceof GzippedJavascriptModel ||
+                    $asset instanceof GzippedCssModel
+                ) {
                     //add content encoding header to gzip
-                    $url = $this->saveAssetToS3($asset->getContent(), $asset->getMime(), $asset->getPath(), $asset->getName());
+                    $url = $this->saveAssetToS3(
+                        $asset->getContent(),
+                        $asset->getMime(),
+                        $asset->getPath(),
+                        $asset->getName()
+                    );
 
                     if ($asset instanceof GzippedJavascriptModel) {
                         $asset->setSrc($url);
