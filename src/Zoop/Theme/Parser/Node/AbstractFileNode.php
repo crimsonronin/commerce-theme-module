@@ -143,20 +143,4 @@ abstract class AbstractFileNode extends AbstractNode
     {
         return strtolower(pathinfo($pathname, PATHINFO_EXTENSION));
     }
-
-    /**
-     * @return AbstractFileToken
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * @param AbstractFileToken $token
-     */
-    public function setToken(AbstractFileToken $token)
-    {
-        $this->token = $token;
-    }
 }

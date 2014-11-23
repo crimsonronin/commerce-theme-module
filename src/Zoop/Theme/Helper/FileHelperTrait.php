@@ -80,6 +80,10 @@ trait FileHelperTrait
      */
     protected function deleteTempDirectory($dir)
     {
+        if (!is_dir($dir)) {
+            return;
+        }
+        
         $files = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($dir),
             RecursiveIteratorIterator::CHILD_FIRST
