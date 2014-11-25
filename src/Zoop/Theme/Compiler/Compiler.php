@@ -5,6 +5,12 @@ namespace Zoop\Theme\Compiler;
 use \Exception;
 use Zoop\Theme\DataModel\ThemeInterface;
 
+/**
+ * Compiles assets into theme
+ *
+ * TODO: Remove supression as this class isn't compelete
+ * @SuppressWarnings(PHPMD)
+ */
 class Compiler
 {
     protected function saveAssetsToS3($assets)
@@ -96,9 +102,26 @@ class Compiler
                     $htmlParser->setContent($asset->getContent());
                     $htmlParser->parse();
 
-                    $cssAssets = $this->getAdditionalAssets($htmlParser->getParsedCssAssets(), 'assets/css', '/text\/(plain|html|css)/', 'css');
-                    $jsAssets = $this->getAdditionalAssets($htmlParser->getParsedJavascriptAssets(), 'assets/javascript', '/text\/(plain|html|js)/', 'javascript');
-                    $imageAssets = $this->getAdditionalAssets($htmlParser->getParsedImageAssets(), 'assets/images', '/image\/(.*)/', 'image');
+                    $cssAssets = $this->getAdditionalAssets(
+                        $htmlParser->getParsedCssAssets(),
+                        'assets/css',
+                        '/text\/(plain|html|css)/',
+                        'css'
+                    );
+
+                    $jsAssets = $this->getAdditionalAssets(
+                        $htmlParser->getParsedJavascriptAssets(),
+                        'assets/javascript',
+                        '/text\/(plain|html|js)/',
+                        'javascript'
+                    );
+
+                    $imageAssets = $this->getAdditionalAssets(
+                        $htmlParser->getParsedImageAssets(),
+                        'assets/images',
+                        '/image\/(.*)/',
+                        'image'
+                    );
 
                     $parsedAssets = array_merge($cssAssets, $jsAssets, $imageAssets);
 
@@ -138,7 +161,13 @@ class Compiler
                         $this->createAssetsFromDirectory($file->getTempDirectory());
 
                         //save to S3
-                        $newAssetUrl = $this->saveAssetToS3(file_get_contents($file->get()), $file->getMime(), $assetPath . $file->getPath(), $file->getName());
+                        $newAssetUrl = $this->saveAssetToS3(
+                            file_get_contents($file->get()),
+                            $file->getMime(),
+                            $assetPath . $file->getPath(),
+                            $file->getName()
+                        );
+
                         //replace url to s3
                         if (!empty($newAssetUrl)) {
                             $parsedAssets[$key] = $newAssetUrl;
@@ -175,7 +204,7 @@ class Compiler
                 } else {
                     //doesn't exist so create it
                     //create new folder recursively if doesn't exist
-                    $folderPath = $this->createFolderRecursively($relativePath);
+//                    $folderPath = $this->createFolderRecursively($relativePath);
 
                     //create image
 //                    $image = $this->createImage($file, $parent);
@@ -321,7 +350,10 @@ class Compiler
             for ($i = 0; $i < count($asset); $i++) {
                 if (!empty($config)) {
                     if (array_key_exists(strtolower($asset[$i]), $config)) {
-                        if (isset($config[$asset[$i]]['children']) && count($config[$asset[$i]]['children']) > 0 && (count($asset) - 1) > $i) {
+                        if (isset($config[$asset[$i]]['children']) &&
+                            count($config[$asset[$i]]['children']) > 0 &&
+                            (count($asset) - 1) > $i
+                        ) {
                             $config = $config[$asset[$i]]['children'];
                         } else {
                             $config = $config[$asset[$i]];

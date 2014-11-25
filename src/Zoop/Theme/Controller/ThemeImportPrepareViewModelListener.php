@@ -21,6 +21,13 @@ class ThemeImportPrepareViewModelListener
         return $this->prepareViewModel($args[0], $name);
     }
 
+    /**
+     * @param MvcEvent $event
+     * @param mixed $action
+     * @return JsonModel
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function prepareViewModel(MvcEvent $event, $action)
     {
         if ($event->getTarget()->forward()->getNumNestedForwards() > 0) {

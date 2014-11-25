@@ -2,34 +2,34 @@
 
 namespace Zoop\Theme\Manager;
 
-use \Exception;
-use \DateTime;
-use \RecursiveDirectoryIterator;
-use \RecursiveIteratorIterator;
 use \DirectoryIterator;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Zoop\Theme\AssetManager;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\PrivateThemeInterface;
-use Zoop\Theme\DataModel\SharedThemeInterface;
-use Zoop\Theme\DataModel\ZoopThemeInterface;
 use Zoop\Theme\DataModel\AssetInterface;
 use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\Template as TemplateModel;
 use Zoop\Theme\Validator;
 
+/**
+ * Handles the creation of themes
+ *
+ * TODO: Remove supression when this class is complete
+ * @SuppressWarnings(PHPMD)
+ */
 class ThemeManager
 {
     const S3_TEMPLATE_ROOT = 'storefront/%s/templates/%s';
 
-    protected $cloudfrontEndpoint;
-    protected $s3Bucket;
-    protected $s3Folder;
-    protected $tempDirectory;
-    protected $validator;
-    protected $dm;
-    protected $theme;
-    protected $assetManager;
+    private $cloudfrontEndpoint;
+    private $s3Bucket;
+    private $s3Folder;
+    private $tempDirectory;
+    private $validator;
+    private $dm;
+    private $theme;
+    private $assetManager;
 
     /**
      * @return Validator
@@ -234,7 +234,7 @@ class ThemeManager
      * @param ThemeInterface $theme
      * @param array $assets
      */
-    protected function saveRecursively(ThemeInterface $theme, $assets)
+    private function saveRecursively(ThemeInterface $theme, $assets)
     {
         if (!empty($assets)) {
             /* @var $asset AssetInterface */
@@ -325,7 +325,7 @@ class ThemeManager
      * @param FolderModel $parent
      * @return array
      */
-    protected function createAssetsFromDirectory($directory, FolderModel $parent = null)
+    private function createAssetsFromDirectory($directory, FolderModel $parent = null)
     {
         $assets = [];
 
@@ -384,7 +384,7 @@ class ThemeManager
      *
      * @param array $assets
      */
-    protected function createAdditionalAssets($assets)
+    private function createAdditionalAssets($assets)
     {
         $additionalAssets = $this->createAssetsFromHtml($assets);
         //add additional js and css assets to the asset pool so we can check them for assets too
@@ -394,7 +394,7 @@ class ThemeManager
      *
      * @param array $assets
      */
-    protected function createAssetsFromHtml($assets)
+    private function createAssetsFromHtml($assets)
     {
         if (!empty($assets) && is_array($assets)) {
             foreach ($assets as $asset) {
@@ -415,7 +415,7 @@ class ThemeManager
      * @param string $type
      * @return array
      */
-    protected function getAssetFromContent($additionalAssets, $assetPath, $mimeRegex, $type)
+    private function getAssetFromContent($additionalAssets, $assetPath, $mimeRegex, $type)
     {
         $parsedAssets = [];
 

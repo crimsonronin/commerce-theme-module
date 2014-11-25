@@ -130,11 +130,7 @@ class FileImportCreator implements CreatorInterface
     protected function unzipTheme(SplFileInfo $uploadedFile)
     {
         try {
-            if ($this->unzip(
-                    $uploadedFile->getPathname(),
-                    $this->getTempThemeDirectory()
-                ) === true
-            ) {
+            if ($this->unzip($uploadedFile->getPathname(), $this->getTempThemeDirectory()) === true) {
                 return true;
             } else {
                 throw new Exception(

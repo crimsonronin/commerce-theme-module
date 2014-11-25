@@ -2,30 +2,33 @@
 
 namespace Zoop\Theme\Serializer\Asset;
 
-use \Exception;
-use \SplFileInfo;
+use Exception;
+use SplFileInfo;
 use Zend\Validator\File;
 use Zoop\Theme\DataModel\AssetInterface;
 use Zoop\Theme\DataModel\Css as CssModel;
-use Zoop\Theme\DataModel\GzippedCss as GzippedCssModel;
 use Zoop\Theme\DataModel\Folder as FolderModel;
+use Zoop\Theme\DataModel\GzippedCss as GzippedCssModel;
+use Zoop\Theme\DataModel\GzippedJavascript as GzippedJavascriptModel;
 use Zoop\Theme\DataModel\Image as ImageModel;
 use Zoop\Theme\DataModel\Javascript as JavascriptModel;
-use Zoop\Theme\DataModel\GzippedJavascript as GzippedJavascriptModel;
 use Zoop\Theme\DataModel\Less as LessModel;
 use Zoop\Theme\DataModel\Template as TemplateModel;
-use Zoop\Theme\Serializer\Asset\UnserializerInterface;
 
 /**
- *
  * @author Josh Stuart <josh.stuart@zoopcommerce.com>
+ *
+ * TODO: Create asset unserializers to reduce the complexity of this class
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class Unserializer implements UnserializerInterface
 {
     protected $tempDirectory;
 
     /**
-     * @return AssetUnserializer
+     * {@inheritdoc}
      */
     public function fromFile(SplFileInfo $file)
     {
@@ -43,7 +46,8 @@ class Unserializer implements UnserializerInterface
     }
 
     /**
-     * @return AssetUnserializer
+     * @return AssetInterface
+     * @throws Exception
      */
     protected function unserializeModel(SplFileInfo $file)
     {
@@ -252,7 +256,7 @@ class Unserializer implements UnserializerInterface
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getTempDirectory()
     {
@@ -260,7 +264,7 @@ class Unserializer implements UnserializerInterface
     }
 
     /**
-     * @param string $tempDirectory
+     * {@inheritdoc}
      */
     public function setTempDirectory($tempDirectory)
     {

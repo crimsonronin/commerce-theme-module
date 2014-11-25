@@ -64,8 +64,10 @@ class DirectoryParser implements
 
                     if ($file->isDir()) {
                         $childAssets = $this->parseDirectory(
-                            $file->getPathname(), $asset
+                            $file->getPathname(),
+                            $asset
                         );
+
                         $asset->setAssets($childAssets);
                     }
                 }

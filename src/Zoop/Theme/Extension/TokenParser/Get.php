@@ -8,6 +8,14 @@ use Zoop\Theme\Extension\Node\Collection\Get as CollectionGetNode;
 
 class Get extends Twig_TokenParser
 {
+    /**
+     * TODO: Finish extension
+     *
+     * @param Twig_Token $token
+     * @return CollectionGetNode
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function parse(Twig_Token $token)
     {
         $parser = $this->parser;

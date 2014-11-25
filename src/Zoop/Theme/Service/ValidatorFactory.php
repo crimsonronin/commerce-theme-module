@@ -10,14 +10,14 @@ use Zoop\Theme\Validator;
 class ValidatorFactory implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface $serviceLocator
      * @return Validator
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $twig = new Twig_Environment;
-
         return new Validator($twig);
     }
 }

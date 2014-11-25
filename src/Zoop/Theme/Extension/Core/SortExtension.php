@@ -19,6 +19,15 @@ class SortExtension extends Twig_Extension
         return 'sort_by';
     }
 
+    /**
+     *
+     * @param array $collections
+     * @param string $varName
+     * @param type $orderBy
+     * @return array
+     *
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     public function sortBy($collections, $varName, $orderBy = 'asc')
     {
         if (is_array($collections)) {

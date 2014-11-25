@@ -19,6 +19,10 @@ use Zoop\Theme\Bridge\Paginate as PaginateBridge;
 use Zoop\Theme\Bridge\Product as ProductBridge;
 use Zoop\Theme\Bridge\Order as OrderBridge;
 
+/**
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class LegacyTemplateManager extends TemplateManager implements TemplateManagerInterface
 {
     private $bridgeManager;

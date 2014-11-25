@@ -111,7 +111,7 @@ trait FileHelperTrait
     protected function saveFile($tempDir, $filename, $content)
     {
         if (!is_dir($tempDir)) {
-            $createdDir = mkdir($tempDir);
+            @mkdir($tempDir);
         }
 
         $filePathname = $tempDir . '/' . $filename;

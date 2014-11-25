@@ -104,6 +104,6 @@ class Validator
 
     public function setHasErrors($hasErrors)
     {
-        $this->hasErrors = (bool) $hasErrors;
+        $this->hasErrors = (bool)$hasErrors;
     }
 }

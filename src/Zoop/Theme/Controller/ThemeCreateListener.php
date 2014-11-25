@@ -17,6 +17,8 @@ class ThemeCreateListener extends CreateListener
      * @param type $metadata
      * @param type $documentManager
      * @return Response
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function doAction(MvcEvent $event, $metadata, $documentManager)
     {

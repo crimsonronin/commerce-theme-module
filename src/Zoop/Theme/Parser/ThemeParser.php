@@ -28,8 +28,7 @@ class ThemeParser implements ThemeParserInterface
         LexerInterface $lexer,
         ThemeLinterInterface $themeLinter,
         TokenParserInterface $tokenParser
-    )
-    {
+    ) {
         $this->setAssetParser($assetParser);
         $this->setContentParser($contentParser);
         $this->setLexer($lexer);
@@ -62,6 +61,10 @@ class ThemeParser implements ThemeParserInterface
         // compile
     }
 
+    /**
+     * @param array $assets
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
     protected function parseEmbeddedAssets(array $assets)
     {
         $lexer = $this->getLexer();

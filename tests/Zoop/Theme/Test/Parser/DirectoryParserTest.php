@@ -5,6 +5,7 @@ namespace Zoop\Theme\Test\Parser;
 use Zoop\Theme\Test\AbstractTest;
 use Zoop\Theme\Parser\DirectoryParser;
 use Zoop\Theme\Helper\FileHelperTrait;
+
 class DirectoryParserTest extends AbstractTest
 {
     use FileHelperTrait;
@@ -26,7 +27,7 @@ class DirectoryParserTest extends AbstractTest
         $assets = [];
 
         //unzip
-        if($this->unzip($simpleTheme, $tempDir)) {
+        if ($this->unzip($simpleTheme, $tempDir)) {
             $parser = $this->getDirectoryParser();
             $assets = $parser->parse($tempDir);
         }
@@ -45,7 +46,7 @@ class DirectoryParserTest extends AbstractTest
         $assets = [];
 
         //unzip
-        if($this->unzip($complexTheme, $tempDir)) {
+        if ($this->unzip($complexTheme, $tempDir)) {
             $parser = $this->getDirectoryParser();
             $assets = $parser->parse($tempDir);
         }
