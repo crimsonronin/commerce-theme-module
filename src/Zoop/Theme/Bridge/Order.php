@@ -2,7 +2,7 @@
 
 namespace Zoop\Theme\Bridge;
 
-use Zoop\Utils\Currency;
+use Zoop\Common\Utils\Currency;
 use Zoop\Theme\Bridge\Product as ProductBridge;
 use \DateTime;
 
