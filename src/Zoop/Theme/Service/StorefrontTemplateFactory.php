@@ -4,6 +4,7 @@ namespace Zoop\Theme\Service;
 
 use \Exception;
 use \Twig_Loader_Chain;
+use \Twig_Loader_Filesystem;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Zoop\Theme\MongoDbTwigLoader;
@@ -17,7 +18,6 @@ use Zoop\Theme\TwigEnvironment;
 class StorefrontTemplateFactory implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface $serviceLocator
      * @return TemplateManager
      */
@@ -41,14 +41,15 @@ class StorefrontTemplateFactory implements FactoryInterface
             $dm = $serviceLocator->get('shard.commerce.modelmanager');
 
             $dbLoader = new MongoDbTwigLoader($dm, $theme);
-            $loader = new Twig_Loader_Chain([$dbLoader, $loader]);
+            $fsLoader = new Twig_Loader_Filesystem($templates);
+            $chainLoader = new Twig_Loader_Chain([$dbLoader, $fsLoader]);
         } catch (Exception $e) {
             throw new Exception('We cannot find the template for ' . $store->getId());
         }
-        
-        $twig = new TwigEnvironment($loader, array(
+
+        $twig = new TwigEnvironment($chainLoader, [
             'cache' => $isDev ? false : $config['cache']['directory'] . '/',
-        ));
+        ]);
         $twig->addExtension(new CeilExtension());
         $twig->addExtension(new SortExtension());
         $twig->addExtension(new Nl2pExtension());
