@@ -4,7 +4,7 @@ namespace Zoop\Theme\Manager;
 
 use \DirectoryIterator;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Zoop\Theme\AssetManager;
+use Zoop\Theme\Manager\AssetManager;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\PrivateThemeInterface;
 use Zoop\Theme\DataModel\AssetInterface;

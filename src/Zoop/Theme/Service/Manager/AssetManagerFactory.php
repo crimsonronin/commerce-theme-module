@@ -2,7 +2,7 @@
 
 namespace Zoop\Theme\Service\Manager;
 
-use Zoop\Theme\AssetManager;
+use Zoop\Theme\Manager\AssetManager;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
