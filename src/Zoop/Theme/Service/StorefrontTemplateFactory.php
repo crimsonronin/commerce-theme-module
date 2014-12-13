@@ -12,14 +12,12 @@ use Zoop\Theme\Extension\Core\CeilExtension;
 use Zoop\Theme\Extension\Core\SortExtension;
 use Zoop\Theme\Extension\Core\Nl2pExtension;
 use Zoop\Theme\Extension\TokenParser\Get as GetTokenParser;
-//use Zoop\Theme\TemplateManager;
-use Zoop\Theme\LegacyTemplateManager as TemplateManager;
+use Zoop\Theme\Manager\LegacyTemplateManager as TemplateManager;
 use Zoop\Theme\TwigEnvironment;
 
 class StorefrontTemplateFactory implements FactoryInterface
 {
     /**
-     *
      * @param  ServiceLocatorInterface $serviceLocator
      * @return TemplateManager
      */
@@ -38,23 +36,20 @@ class StorefrontTemplateFactory implements FactoryInterface
 
         $isDev = (bool) (isset($config['dev']) ? $config['dev'] : false);
 
-        $loader = new Twig_Loader_Filesystem($templates);
+        try {
+            $theme = $serviceLocator->get('zoop.commerce.theme.active');
+            $dm = $serviceLocator->get('shard.commerce.modelmanager');
 
-        if ($isDev !== true) {
-            try {
-                $theme = $serviceLocator->get('zoop.commerce.theme.active');
-                $dm = $serviceLocator->get('shard.commerce.modelmanager');
-
-                $dbLoader = new MongoDbTwigLoader($dm, $theme);
-
-                $loader = new Twig_Loader_Chain([$dbLoader, $loader]);
-            } catch (Exception $e) {
-                throw new Exception('We cannot find the template for ' . $store->getId());
-            }
+            $dbLoader = new MongoDbTwigLoader($dm, $theme);
+            $fsLoader = new Twig_Loader_Filesystem($templates);
+            $chainLoader = new Twig_Loader_Chain([$dbLoader, $fsLoader]);
+        } catch (Exception $e) {
+            throw new Exception('We cannot find the template for ' . $store->getId());
         }
-        $twig = new TwigEnvironment($loader, array(
+
+        $twig = new TwigEnvironment($chainLoader, [
             'cache' => $isDev ? false : $config['cache']['directory'] . '/',
-        ));
+        ]);
         $twig->addExtension(new CeilExtension());
         $twig->addExtension(new SortExtension());
         $twig->addExtension(new Nl2pExtension());

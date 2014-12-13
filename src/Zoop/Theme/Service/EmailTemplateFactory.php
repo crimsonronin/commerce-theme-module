@@ -9,7 +9,7 @@ use Zoop\Theme\Extension\Core\CeilExtension;
 use Zoop\Theme\Extension\Core\SortExtension;
 use Zoop\Theme\Extension\Core\Nl2pExtension;
 use Zoop\Theme\Extension\TokenParser\Get as GetTokenParser;
-use Zoop\Theme\LegacyTemplateManager as TemplateManager;
+use Zoop\Theme\Manager\LegacyTemplateManager as TemplateManager;
 use Zoop\Theme\TwigEnvironment;
 
 class EmailTemplateFactory implements FactoryInterface

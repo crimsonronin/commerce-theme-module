@@ -4,7 +4,7 @@ namespace Zoop\Theme\Service\Manager;
 
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zoop\Theme\ThemeManager;
+use Zoop\Theme\Manager\ThemeManager;
 
 class ThemeManagerFactory implements FactoryInterface
 {

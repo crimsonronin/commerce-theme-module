@@ -9,7 +9,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 use Zoop\Theme\Extension\Core\CeilExtension;
 use Zoop\Theme\Extension\Core\SortExtension;
 use Zoop\Theme\Extension\Core\Nl2pExtension;
-use Zoop\Theme\TemplateManager;
+use Zoop\Theme\Manager\TemplateManager;
 
 class AdminTemplateFactory implements FactoryInterface
 {
