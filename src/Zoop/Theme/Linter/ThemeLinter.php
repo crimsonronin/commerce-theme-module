@@ -64,7 +64,7 @@ class ThemeLinter implements ThemeLinterInterface, ServiceLocatorAwareInterface
     }
 
     /**
-     * 
+     *
      * @param FolderModel $structureAssets
      * @param type $assets
      * @param FolderModel $parent
