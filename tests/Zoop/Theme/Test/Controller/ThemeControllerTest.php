@@ -40,8 +40,8 @@ class ThemeControllerTest extends AbstractTest
         $this->getRequest()
             ->setMethod('OPTIONS')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch('http://api.zoopcommerce.local/themes');
@@ -68,8 +68,8 @@ class ThemeControllerTest extends AbstractTest
 
         $request->setMethod('POST')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch('http://api.zoopcommerce.local/themes');
@@ -207,8 +207,8 @@ class ThemeControllerTest extends AbstractTest
         $this->getRequest()
             ->setMethod('GET')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch('http://api.zoopcommerce.local/themes');
@@ -232,8 +232,8 @@ class ThemeControllerTest extends AbstractTest
         $this->getRequest()
             ->setMethod('GET')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
@@ -269,8 +269,8 @@ class ThemeControllerTest extends AbstractTest
         $request->setMethod('PATCH')
             ->setContent($jsonData)
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
@@ -285,8 +285,8 @@ class ThemeControllerTest extends AbstractTest
 
         $request->setMethod('GET')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
@@ -311,8 +311,8 @@ class ThemeControllerTest extends AbstractTest
 
         $request->setMethod('DELETE')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
@@ -327,8 +327,8 @@ class ThemeControllerTest extends AbstractTest
 
         $request->setMethod('GET')
             ->getHeaders()->addHeaders([
-                Origin::fromString('Origin: http://api.zoopcommerce.local'),
-                Host::fromString('Host: api.zoopcommerce.local')
+                Origin::fromString('Origin: http://apple.zoopcommerce.local'),
+                Host::fromString('Host: apple.zoopcommerce.local')
             ]);
 
         $this->dispatch(sprintf('http://api.zoopcommerce.local/themes/%s', $id));
