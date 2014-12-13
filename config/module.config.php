@@ -176,5 +176,8 @@ return [
             'zoop.commerce.theme.template.legacy' => 'Zoop\Theme\Service\LegacyTemplateFactory',
             'zoop.commerce.theme.validator' => 'Zoop\Theme\Service\ValidatorFactory',
         ],
+        'shared' => [
+            'zoop.commerce.theme.structure' => false,
+        ]
     ],
 ];

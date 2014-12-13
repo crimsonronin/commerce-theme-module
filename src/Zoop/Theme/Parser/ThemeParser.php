@@ -36,7 +36,7 @@ class ThemeParser implements ThemeParserInterface
         $this->setTokenParser($tokenParser);
     }
 
-        /**
+    /**
      * {@inheritdoc}
      */
     public function parse(ThemeInterface $theme)

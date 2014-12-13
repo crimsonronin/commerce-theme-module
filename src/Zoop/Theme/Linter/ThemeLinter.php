@@ -2,8 +2,10 @@
 
 namespace Zoop\Theme\Linter;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zoop\Theme\DataModel\Folder as FolderModel;
 use Zoop\Theme\DataModel\ThemeInterface;
 use Zoop\Theme\DataModel\PrivateThemeInterface;
 use Zoop\Theme\Helper\FileHelperTrait;
@@ -36,13 +38,13 @@ class ThemeLinter implements ThemeLinterInterface, ServiceLocatorAwareInterface
         $themeStructure = $this->getThemeStructure();
 
         //get the valid assets as compared with the default theme structure
-        $structureAsset = $themeStructure->getAssets()->toArray();
+        $structureAssets = $themeStructure->getAssets()->toArray();
 
         //get all valid assets
-        $validatedAssets = $this->getValidAssets($structureAsset, $theme->getAssets());
+        $validatedAssets = $this->getValidAssets($structureAssets, $theme->getAssets());
 
         //merge the valid assets with the default theme
-        return $this->addMissingAssets($structureAsset, $validatedAssets);
+        return $this->addMissingAssets($structureAssets, $validatedAssets);
     }
 
     /**
@@ -59,5 +61,54 @@ class ThemeLinter implements ThemeLinterInterface, ServiceLocatorAwareInterface
     public function setThemeStructure(PrivateThemeInterface $themeStructure)
     {
         $this->themeStructure = $themeStructure;
+    }
+
+    /**
+     * 
+     * @param FolderModel $structureAssets
+     * @param type $assets
+     * @param FolderModel $parent
+     * @return ArrayCollection
+     */
+    private function addMissingAssets($structureAssets, $assets, FolderModel $parent = null)
+    {
+        $completedAssets = [];
+        for ($i = 0; $i < count($structureAssets); $i++) {
+            if (!is_null($parent)) {
+                $pathname = substr($structureAssets[$i]->getPathname(), strlen($parent->getPathname() . '/'));
+            } else {
+                $pathname = $structureAssets[$i]->getPathname();
+            }
+
+            $foundAsset = $this->findAsset($assets, $pathname);
+
+            if (!$foundAsset) {
+                $foundAsset = $structureAssets[$i];
+            }
+
+            if ($structureAssets[$i] instanceof FolderModel && $foundAsset instanceof FolderModel) {
+                $childStructureAssets = $structureAssets[$i]->getAssets()->toArray();
+                $childAssets = $foundAsset->getAssets();
+
+                if (is_object($childAssets)) {
+                    $childAssets = $childAssets->toArray();
+                }
+
+                //get children
+                if (!empty($childStructureAssets)) {
+                    $completedChildAssets = $this->addMissingAssets($childStructureAssets, $childAssets, $foundAsset);
+                    $foundAsset->setAssets($completedChildAssets);
+                } else {
+                    $foundAsset->setAssets($childAssets);
+                }
+            }
+
+            if (!is_null($parent)) {
+                $foundAsset->setParent($parent);
+            }
+
+            $completedAssets[] = $foundAsset;
+        }
+        return new ArrayCollection($completedAssets);
     }
 }
