@@ -4,9 +4,17 @@ return [
     'zoop' => [
         'api' => [
             'endpoints' => [
-                'asset',
+                'assets',
                 'themes',
                 'themes/import',
+            ],
+            'filters' => [
+                'themes' => [
+                    'route' => '/themes/:theme',
+                    'constraints' => [
+                        'theme' => '[a-zA-Z0-9_\-]+'
+                    ]
+                ]
             ]
         ],
         'shard' => [
@@ -23,6 +31,36 @@ return [
                     'no_cache' => true
                 ],
                 'rest' => [
+                    'assets' => [
+                        'property' => 'id',
+                        'class' => 'Zoop\Theme\DataModel\AbstractAsset',
+                        'listeners' => [
+                            'create' => [],
+                            'delete' => [],
+                            'deleteList' => [],
+                            'get' => [
+                                'zoop.shardmodule.listener.get',
+                                'zoop.api.listener.cors',
+                                'zoop.shardmodule.listener.serialize',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'getList' => [
+                                'zoop.shardmodule.listener.getlist',
+                                'zoop.api.listener.cors',
+                                'zoop.shardmodule.listener.serialize',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'options' => [
+                                'zoop.api.listener.options',
+                                'zoop.shardmodule.listener.prepareviewmodel'
+                            ],
+                            'patch' => [
+                            ],
+                            'patchList' => [],
+                            'replaceList' => [],
+                            'update' => [],
+                        ],
+                    ],
                     'themes' => [
                         'property' => 'id',
                         'class' => 'Zoop\Theme\DataModel\AbstractTheme',
