@@ -26,7 +26,7 @@ class ThemeControllerTest extends AbstractTest
 
         if (self::$testDataCreated === false) {
             DataHelper::createZoopUser(self::getNoAuthDocumentManager(), self::getDbName());
-            DataHelper::createStores(self::getNoAuthDocumentManager(), self::getDbName());
+            DataHelper::createEntities(self::getNoAuthDocumentManager(), self::getDbName());
             self::$testDataCreated = true;
         }
     }

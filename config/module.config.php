@@ -18,13 +18,6 @@ return [
             ]
         ],
         'shard' => [
-            'manifest' => [
-                'commerce' => [
-                    'models' => [
-                        'Zoop\Theme\DataModel' => __DIR__ . '/../src/Zoop/Theme/DataModel',
-                    ],
-                ],
-            ],
             'rest' => [
                 'manifest' => 'commerce',
                 'cache_control' => [

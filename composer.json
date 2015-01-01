@@ -37,15 +37,15 @@
         },
         {
             "type": "vcs",
+            "url":  "git@github.com:zoopcommerce/commerce-entity-module.git"
+        },
+        {
+            "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-public-apis-module.git"
         },
         {
             "type": "vcs",
             "url":  "git@github.com:zoopcommerce/commerce-public-data-models-module.git"
-        },
-        {
-            "type": "vcs",
-            "url":  "git@github.com:zoopcommerce/commerce-store-module.git"
         },
         {
             "type": "vcs",
@@ -80,7 +80,8 @@
         "zoopcommerce/commerce-public-apis-module"          : "dev-master",
         "zoopcommerce/commerce-public-data-models-module"   : "dev-master",
         "zoopcommerce/gateway-module"                       : "~2.0",
-        "zoopcommerce/shard-module"                         : "~4.0"
+        "zoopcommerce/shard-module"                         : "~4.0",
+        "zoopcommerce/maggott-module"                       : "dev-master#b3d3aa8dfca28f580f4cdaa7312a4e3261b243ab as 1.1.1"
     },
     "require-dev": {
         "phpunit/phpunit"                           : ">=3.7",
@@ -89,7 +90,7 @@
         "zoopcommerce/commerce-test-data-module"    : "dev-master",
         "zoopcommerce/commerce-api-module"          : "dev-master",
         "zoopcommerce/commerce-common-module"       : "dev-master",
-        "zoopcommerce/commerce-store-module"        : "dev-master",
+        "zoopcommerce/commerce-entity-module"        : "dev-master",
         "zoopcommerce/commerce-user-module"         : "dev-master"
     },
     "autoload": {

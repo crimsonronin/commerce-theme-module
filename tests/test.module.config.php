@@ -73,14 +73,8 @@ return [
             'manifest' => [
                 'noauth' => [
                     'models' => [
-                        'Zoop\Theme\DataModel' => __DIR__ .
-                            '/../src/Zoop/Theme/DataModel',
-                        'Zoop\Common\DataModel' => __DIR__ .
-                            '/../vendor/zoopcommerce/commerce-common-module/src/Zoop/Common/DataModel',
-                        'Zoop\Store\DataModel' => __DIR__ .
-                            '/../vendor/zoopcommerce/commerce-store-module/src/Zoop/Store/DataModel',
-                        'Zoop\User\DataModel' => __DIR__ .
-                            '/../vendor/zoopcommerce/commerce-user-module/src/Zoop/User/DataModel',
+                        'Zoop\DataModel' => __DIR__ .
+                            '/../vendor/zoopcommerce/commerce-public-data-models-module/src/Zoop',
                     ]
                 ]
             ],
