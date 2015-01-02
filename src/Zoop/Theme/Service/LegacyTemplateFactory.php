@@ -22,7 +22,7 @@ class LegacyTemplateFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $config = $serviceLocator->get('config')['zoop'];
-        $store = $serviceLocator->get('zoop.commerce.store.active');
+        $store = $serviceLocator->get('zoop.commerce.entity.active');
 
         $templates = $config['theme']['storefront']['templates'];
         $customTemplate = $config['theme']['template_dir'] . '/storefront/' . $store->getId();

@@ -90,7 +90,7 @@
         "zoopcommerce/commerce-test-data-module"    : "dev-master",
         "zoopcommerce/commerce-api-module"          : "dev-master",
         "zoopcommerce/commerce-common-module"       : "dev-master",
-        "zoopcommerce/commerce-entity-module"        : "dev-master",
+        "zoopcommerce/commerce-entity-module"       : "dev-master",
         "zoopcommerce/commerce-user-module"         : "dev-master"
     },
     "autoload": {
