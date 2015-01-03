@@ -17,11 +17,11 @@ class ActiveThemeFactory implements FactoryInterface
     public function createService(ServiceLocatorInterface $serviceLocator)
     {
         $dm = $serviceLocator->get('shard.commerce.modelmanager');
-        $store = $serviceLocator->get('zoop.commerce.entity.active');
+        $entity = $serviceLocator->get('zoop.commerce.entity.active');
         /* @var $store Store */
 
         $theme = $dm->createQueryBuilder('Zoop\Theme\DataModel\AbstractTheme')
-            ->field('stores')->in([$store->getId()])
+            ->field('entities')->in([$entity->getSlug()])
             ->field('isActive')->equals(true)
             ->getQuery()
             ->getSingleResult();

@@ -2,8 +2,17 @@
 
 namespace Zoop\Theme\Manager;
 
-class TemplateManager extends AbstractTemplateManager implements TemplateManagerInterface
+use Zend\EventManager\EventManagerInterface;
+use Zend\ServiceManager\ServiceLocatorAwareInterface;
+use Zend\ServiceManager\ServiceLocatorAwareTrait;
+use Zoop\Theme\Events;
+
+class TemplateManager extends AbstractTemplateManager implements
+    ServiceLocatorAwareInterface,
+    TemplateManagerInterface
 {
+    use ServiceLocatorAwareTrait;
+
     public function render()
     {
         return $this->load($this->getFile(), $this->getVariables());
@@ -16,6 +25,27 @@ class TemplateManager extends AbstractTemplateManager implements TemplateManager
         }
 
         $template = $this->getTwig()->loadTemplate($file);
-        return $template->render($data);
+        $this->getEventManager()->trigger(Events::TEMPLATE_PRE_RENDER, null, $data);
+        
+        //render the template
+        $renderedTemplate = $template->render($data);
+        
+        $this->getEventManager()->trigger(Events::TEMPLATE_POST_RENDER, null, [
+                'data' => $data,
+                'render' => $renderedTemplate
+            ]);
+
+        return $renderedTemplate;
+    }
+    
+    /**
+     * 
+     * @return EventManagerInterface
+     */
+    protected function getEventManager()
+    {
+        return $this->getServiceLocator()
+            ->get('Application')
+            ->getEventManager();
     }
 }

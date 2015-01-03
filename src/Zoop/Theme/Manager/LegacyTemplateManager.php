@@ -2,7 +2,6 @@
 
 namespace Zoop\Theme\Manager;
 
-use \Twig_Environment;
 use Zoop\Theme\Bridge\BridgeManager;
 use Zoop\Theme\Bridge\Checkout as CheckoutBridge;
 use Zoop\Theme\Bridge\Collection as CollectionBridge;
@@ -27,9 +26,8 @@ class LegacyTemplateManager extends TemplateManager implements TemplateManagerIn
 {
     private $bridgeManager;
 
-    public function __construct(Twig_Environment $twig)
+    public function __construct()
     {
-        parent::__construct($twig);
         $this->setBridgeManager(new BridgeManager());
     }
 

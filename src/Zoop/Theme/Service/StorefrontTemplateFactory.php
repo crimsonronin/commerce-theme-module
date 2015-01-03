@@ -7,7 +7,6 @@ use \Twig_Loader_Chain;
 use \Twig_Loader_Filesystem;
 use Zend\ServiceManager\FactoryInterface;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Zoop\Theme\MongoDbTwigLoader;
 use Zoop\Theme\Extension\Core\CeilExtension;
 use Zoop\Theme\Extension\Core\SortExtension;
 use Zoop\Theme\Extension\Core\Nl2pExtension;
@@ -37,10 +36,8 @@ class StorefrontTemplateFactory implements FactoryInterface
         $isDev = (bool) (isset($config['dev']) ? $config['dev'] : false);
 
         try {
-            $theme = $serviceLocator->get('zoop.commerce.theme.active');
-            $dm = $serviceLocator->get('shard.commerce.modelmanager');
-
-            $dbLoader = new MongoDbTwigLoader($dm, $theme);
+            $dbLoader = $serviceLocator->get('zoop.commerce.theme.loader.mongodb');
+            
             $fsLoader = new Twig_Loader_Filesystem($templates);
             $chainLoader = new Twig_Loader_Chain([$dbLoader, $fsLoader]);
         } catch (Exception $e) {
@@ -55,6 +52,8 @@ class StorefrontTemplateFactory implements FactoryInterface
         $twig->addExtension(new Nl2pExtension());
         $twig->addTokenParser(new GetTokenParser());
 
-        return new TemplateManager($twig);
+        $templateManager = $serviceLocator->get('zoop.commerce.theme.template.manager');
+        $templateManager->setTwig($twig);
+        return $templateManager;
     }
 }

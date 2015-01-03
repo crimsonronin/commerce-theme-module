@@ -188,6 +188,9 @@ return [
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',
             'zoop.commerce.theme.zoop' => 'Zoop\Theme\DataModel\ZoopTheme',
+//            'zoop.commerce.theme.template.manager' => 'Zoop\Theme\Manager\TemplateManager',
+            'zoop.commerce.theme.template.manager' => 'Zoop\Theme\Manager\LegacyTemplateManager',
+            'zoop.commerce.theme.template.renderlistener' => 'Zoop\Theme\Manager\TemplateRenderListener',
         ],
         'factories' => [
             //controllers
@@ -206,6 +209,7 @@ return [
             'zoop.commerce.theme.template.facebook' => 'Zoop\Theme\Service\FacebookTemplateFactory',
             'zoop.commerce.theme.template.legacy' => 'Zoop\Theme\Service\LegacyTemplateFactory',
             'zoop.commerce.theme.validator' => 'Zoop\Theme\Service\ValidatorFactory',
+            'zoop.commerce.theme.loader.mongodb' => 'Zoop\Theme\Service\MongoDbTwigLoaderFactory',
         ],
         'shared' => [
             'zoop.commerce.theme.structure' => false,

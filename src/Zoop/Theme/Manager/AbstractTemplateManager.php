@@ -14,14 +14,6 @@ abstract class AbstractTemplateManager
     private $variables = [];
 
     /**
-     * @param Twig_Environment $twig
-     */
-    public function __construct(Twig_Environment $twig)
-    {
-        $this->setTwig($twig);
-    }
-
-    /**
      * @return Twig_Environment
      */
     public function getTwig()
