@@ -13,21 +13,33 @@ class TemplateManager extends AbstractTemplateManager implements
 {
     use ServiceLocatorAwareTrait;
 
+    /**
+     * Render the twig template
+     * 
+     * @return string
+     */
     public function render()
     {
         return $this->load($this->getFile(), $this->getVariables());
     }
 
-    public function load($file, $data = [])
+    /**
+     * Load and render the twig template provided
+     * 
+     * @param string $file
+     * @param array $data
+     * @return string
+     */
+    protected function load($file, $data = [])
     {
         if (!is_array($data)) {
             $data = [$data];
         }
 
-        $template = $this->getTwig()->loadTemplate($file);
         $this->getEventManager()->trigger(Events::TEMPLATE_PRE_RENDER, null, $data);
         
         //render the template
+        $template = $this->getTwig()->loadTemplate($file);
         $renderedTemplate = $template->render($data);
         
         $this->getEventManager()->trigger(Events::TEMPLATE_POST_RENDER, null, [
@@ -39,7 +51,6 @@ class TemplateManager extends AbstractTemplateManager implements
     }
     
     /**
-     * 
      * @return EventManagerInterface
      */
     protected function getEventManager()

@@ -98,7 +98,7 @@ class MongoDbTwigLoader implements Twig_LoaderInterface, Twig_ExistsLoaderInterf
 
     protected function getThemeAssetFromCache($pathName)
     {
-        if (isset($this->cache[$pathName]) && !empty($this->cache[$pathName])) {
+        if (isset($this->cache[$pathName])) {
             return $this->cache[$pathName];
         }
         return false;

@@ -32,6 +32,8 @@ class FileSystemTemplateFactory implements FactoryInterface
         $twig->addExtension(new Nl2pExtension());
         $twig->addTokenParser(new GetTokenParser());
 
-        return new TemplateManager($twig);
+        $templateManager = $serviceLocator->get('zoop.commerce.theme.template.legacymanager');
+        $templateManager->setTwig($twig);
+        return $templateManager;
     }
 }

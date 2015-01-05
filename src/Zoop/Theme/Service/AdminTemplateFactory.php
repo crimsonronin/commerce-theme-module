@@ -30,6 +30,8 @@ class AdminTemplateFactory implements FactoryInterface
         $twig->addExtension(new SortExtension());
         $twig->addExtension(new Nl2pExtension());
 
-        return new TemplateManager($twig);
+        $templateManager = $serviceLocator->get('zoop.commerce.theme.template.manager');
+        $templateManager->setTwig($twig);
+        return $templateManager;
     }
 }

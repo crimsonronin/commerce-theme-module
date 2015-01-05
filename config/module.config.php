@@ -48,6 +48,12 @@ return [
                                 'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'patch' => [
+                                'zoop.shardmodule.listener.unserialize',
+                                'zoop.api.listener.cors',
+                                'zoop.shardmodule.listener.idchange',
+                                'zoop.shardmodule.listener.patch',
+                                'zoop.shardmodule.listener.flush',
+                                'zoop.shardmodule.listener.prepareviewmodel'
                             ],
                             'patchList' => [],
                             'replaceList' => [],
@@ -188,8 +194,8 @@ return [
             'zoop.commerce.theme.private' => 'Zoop\Theme\DataModel\PrivateTheme',
             'zoop.commerce.theme.shared' => 'Zoop\Theme\DataModel\SharedTheme',
             'zoop.commerce.theme.zoop' => 'Zoop\Theme\DataModel\ZoopTheme',
-//            'zoop.commerce.theme.template.manager' => 'Zoop\Theme\Manager\TemplateManager',
-            'zoop.commerce.theme.template.manager' => 'Zoop\Theme\Manager\LegacyTemplateManager',
+            'zoop.commerce.theme.template.manager' => 'Zoop\Theme\Manager\TemplateManager',
+            'zoop.commerce.theme.template.legacymanager' => 'Zoop\Theme\Manager\LegacyTemplateManager',
             'zoop.commerce.theme.template.renderlistener' => 'Zoop\Theme\Manager\TemplateRenderListener',
         ],
         'factories' => [
